@@ -1,0 +1,43 @@
+{
+  "name": "js-pilosa",
+  "version": "0.1.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "NODE_ENV=test mocha --recursive --compilers ts:ts-node/register --bail",
+    "cover": "NODE_ENV=test nyc npm t"
+  },
+  "keywords": [],
+  "author": "Yüce Tekol <yucetekol@gmail.com> (http://yuce.me)",
+  "license": "MIT",
+  "devDependencies": {
+    "@types/chai": "^3.4.35",
+    "@types/mocha": "^2.2.39",
+    "@types/node": "^7.0.8",
+    "chai": "^3.5.0",
+    "mocha": "^3.2.0",
+    "nyc": "^10.1.2",
+    "ts-node": "^2.1.0",
+    "typescript": "^2.2.1"
+  },
+  "nyc": {
+    "include": [
+      "lib/*.ts",
+      "lib/**/*.ts"
+    ],
+    "exclude": [
+      "typings"
+    ],
+    "extension": [
+      ".ts"
+    ],
+    "require": [
+      "ts-node/register"
+    ],
+    "reporter": [
+      "json",
+      "html"
+    ],
+    "all": true
+  }
+}
