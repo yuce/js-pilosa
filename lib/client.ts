@@ -1,7 +1,6 @@
 
 import {internal} from '../internal/internal';
 import * as http from 'http';
-
 import {QueryResponse, QueryResult} from './response';
 import {PilosaError} from './error';
 import {Validator} from "./validator";

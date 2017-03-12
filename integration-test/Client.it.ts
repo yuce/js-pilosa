@@ -1,6 +1,7 @@
 
 import {expect} from 'chai';
 import {Client} from '../lib/index';
+import * as nock from 'nock';
 
 const SERVER_ADDRESS = "http://localhost:15000";
 
@@ -36,6 +37,7 @@ describe('Client', () => {
     });
 
     afterEach(done => {
+        nock.cleanAll();
         const client = Util.getClient();
         client.deleteDatabase(dbname).
             then(done).
@@ -220,5 +222,17 @@ describe('Client', () => {
                 done();
             }).catch(done);
         }).catch(done);
+    });
+
+    it('should throw an expection if the response was not decoded', done => {
+        let mockServer = nock(SERVER_ADDRESS).
+            post("/query").
+            reply(200, () => {
+                return "bad-reply";
+            });
+        const client = Util.getClient();
+        client.query(dbname, "Bitmap(id=1, frame='foo')").
+            then(_ => done(new Error("should have failed"))).
+            catch(err => done());
     });
 });
