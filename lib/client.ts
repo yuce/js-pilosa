@@ -1,7 +1,13 @@
 
-import {QueryResponse, QueryResult} from './response';
-import {PilosaError, PilosaURIError} from './error';
+import {internal} from '../internal/internal';
+import * as http from 'http';
 
+import {QueryResponse, QueryResult} from './response';
+import {PilosaError} from './error';
+import {Validator} from "./validator";
+import {DatabaseOptions, FrameOptions} from "./options";
+
+type HttpMethod = "POST" | "DELETE" | "GET";
 
 export class Client {
     private _currentAddress: URI;
@@ -21,8 +27,172 @@ export class Client {
         return new Client(cluster);
     }
 
-    query(database: string, query: string): QueryResponse {
-        return new QueryResponse();
+    query(database: string, query: string): Promise<QueryResponse> {
+        const request = QueryRequest.withDatabase(database);
+        request.query = query;
+        return this.queryPath(request);
+    }
+
+    createDatabase(name: string, options?: DatabaseOptions): Promise<void> {
+        Validator.ensureValidDatabaseName(name);
+        options = options || DatabaseOptions.withDefaults();
+        const data = this.encodeRequestData({
+            db: name,
+            options: {
+                columnLabel: options.columnLabel
+            }
+        });
+        return new Promise<void>((resolve, reject) => {
+            this.httpRequest("POST", "/db", data).
+                then(res => resolve()).
+                catch(err => reject(err));
+        });
+    }
+
+    createFrame(databaseName: string, name: string, options?: FrameOptions): Promise<void> {
+        Validator.ensureValidFrameName(name);
+        options = options || FrameOptions.withDefaults();
+        const data = this.encodeRequestData({
+            db: databaseName,
+            frame: name,
+            options: {
+                rowLabel: options.rowLabel
+            }
+        });
+        return new Promise<void>((resolve, reject) => {
+            this.httpRequest("POST", "/frame", data).
+                then(res => resolve()).
+                catch(err => reject(err));
+        });
+    }
+
+    ensureDatabaseExists(name: string, options?: DatabaseOptions): Promise<void> {
+        return new Promise<void>((resolve, reject) => {
+            // TODO: check for DatabaseExistsError
+            this.createDatabase(name, options).
+                then(() => resolve()).
+                catch(err => {
+                    console.log("ERR: ", err);
+                    if (PilosaError.equals(err, PilosaError.DATABASE_EXISTS)) {
+                        resolve();
+                    }
+                    else {
+                        reject(err);
+                    }
+                });
+        });
+    }
+
+    ensureFrameExists(databaseName: string, name: string, options?: FrameOptions): Promise<void> {
+        return new Promise<void>((resolve, reject) => {
+            // TODO: check for FrameExistsError
+            this.createFrame(databaseName, name, options).
+                then(() => resolve()).
+                catch(err => resolve());
+        });
+    }
+
+    deleteDatabase(name: string): Promise<void> {
+        Validator.ensureValidDatabaseName(name);
+        const data = this.encodeRequestData({db: name});
+        return new Promise<void>((resolve, reject) => {
+            this.httpRequest("DELETE", "/db", data).
+                then(res => resolve()).
+                catch(err => reject(err));
+        });
+    }
+
+    private queryPath(request: QueryRequest): Promise<QueryResponse> {
+        const data = request.toProtoBuf();
+        return new Promise<QueryResponse>((resolve, reject) => {
+            const headers = {
+                "Content-Type": "application/x-protobuf",
+                "Accept": "application/x-protobuf"
+            }
+            this.httpRequest("POST", "/query", data, headers, true).
+                then(response => {
+                    let qr: QueryResponse = null;
+                    try {
+                        qr = QueryResponse.fromProtobuf(response);
+                    }
+                    catch (err) {
+                        reject(err);
+                    }
+                    resolve(qr);                
+                }).
+                catch(err => reject(err));
+        });
+    }
+
+    private encodeRequestData(data: any): Buffer {
+        return new Buffer(JSON.stringify(data));
+    }
+
+    private httpRequest(method: HttpMethod, path: string, data?: Uint8Array,
+            headers?: any, needsResult?: boolean): Promise<Buffer> {
+        const address = this.getAddress();
+        const options: http.RequestOptions = {
+            host: address.host,
+            port: address.port,
+            path: path,
+            method: method
+        }
+        headers = headers || {};
+        headers["Content-Length"] = data? data.length : 0;
+        options.headers = headers;
+
+        const chunks = new Array<Buffer>();
+        let dataSize = 0;
+        return new Promise<Buffer>((resolve, reject) => {
+            const req = http.request(options, res => {
+                if (res.statusCode < 200 || res.statusCode >= 300) {
+                    res.on('data', chunk => {
+                        chunks.push(chunk as Buffer);
+                        dataSize += chunk.length;
+                    });
+                    res.on('end', () => {
+                        let msg = Buffer.concat(chunks, dataSize);
+                        console.log("MSG:", msg.toString());
+                        switch (res.statusMessage) {
+                            case "database already exists\n":
+                                return reject(PilosaError.DATABASE_EXISTS);
+                            case "frame already exists\n":
+                                return reject(PilosaError.FRAME_EXISTS);
+                            default:
+                                return reject(PilosaError.generic(`Server error (${res.statusCode}) ${res.statusMessage}: ${msg}`));
+                        }
+                    });
+                }
+                else {
+                    if (needsResult) {
+                        res.on('data', chunk => {
+                            chunks.push(chunk as Buffer);
+                            dataSize += chunk.length;
+                        });
+                        res.on('end', () => resolve(Buffer.concat(chunks, dataSize)));  
+                    }
+                    else {
+                        return resolve(null);
+                    }                
+                }
+            });
+
+            req.on('error', err => reject(err));
+
+            if (data) {
+                req.write(data);
+            }
+            req.end();
+        });
+    }
+
+    private getAddress(): URI {
+        this._currentAddress = this._cluster.getAddress();
+        const scheme = this._currentAddress.scheme;
+        if (scheme != "http") {
+            throw PilosaError.generic("Unknown scheme: " + scheme);
+        }
+        return this._currentAddress;
     }
 }
 
@@ -51,7 +221,7 @@ export class Cluster implements ICluster {
 
     getAddress(): URI {        
         if (this._nextIndex >= this._addresses.length) {
-            throw new PilosaError("There are no available addresses");
+            throw PilosaError.generic("There are no available addresses");
         }
         const nextAddress = this._addresses[this._nextIndex];
         this._nextIndex = (this._nextIndex + 1) % this._addresses.length;
@@ -69,8 +239,32 @@ export class Cluster implements ICluster {
     }
 
     getAddresses(): Array<URI> {
-        // console.log("A: ", this._addresses);
         return this._addresses;
+    }
+}
+
+class QueryRequest {
+    private _databaseName: string;
+    private _query: string;
+    
+    private constructor(databaseName: string) {
+        this._databaseName = databaseName;
+    }
+
+    static withDatabase(databaseName: string) {
+        Validator.ensureValidDatabaseName(databaseName);
+        return new QueryRequest(databaseName);
+    }
+
+    set query(q: string) {
+        this._query = q;
+    }
+
+    toProtoBuf() {
+        const request = new internal.QueryRequest();
+        request.DB = this._databaseName;
+        request.Query = this._query;
+        return internal.QueryRequest.encode(request).finish();
     }
 }
 
@@ -141,7 +335,7 @@ export class URI {
 
     private static parseAddress(address: string): URI {
         if (address == "") {
-            throw new PilosaURIError("Not a Pilosa URI");    
+            throw PilosaError.uri("Not a Pilosa URI");    
         }
         let m = URI._uriPattern.exec(address);
         if (m) {
@@ -150,6 +344,6 @@ export class URI {
             const port = (m[5] !== undefined)? parseInt(m[5]) : undefined;
             return new URI(scheme, host, port);
         }
-        throw new PilosaURIError("Not a Pilosa URI");
+        throw PilosaError.uri("Not a Pilosa URI");
     }
 }

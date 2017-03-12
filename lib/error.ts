@@ -1,27 +1,39 @@
 
-interface ErrorBase extends Error {
-    readonly name: string;
-    readonly message: string;
-    readonly stack: string;
-};
+type ErrorType = "GENERIC" | "URI" | "VALIDATION" | "DATABASE_EXISTS" | "FRAME_EXISTS";
 
-interface ErrorBaseConstructor {
-    new (message: string): ErrorBase;
-    readonly prototype: ErrorBase;
-}
-
-export const PilosaError: ErrorBaseConstructor = <any>class ErrorBase {
-    public constructor(message: string) {
-        Object.defineProperty(this, 'name', {
-            get: () => (this.constructor as any).name,
-        });
-        Object.defineProperty(this, 'message', {
-            get: () => message,
-        });
-        Error.captureStackTrace(this, this.constructor);
+export class PilosaError {
+    private static error(e: ErrorType, msg: string): Error {
+        const err = new Error(msg);
+        err.name = e;
+        return err;
     }
-};
-(PilosaError as any).prototype = Object.create(Error.prototype);
-PilosaError.prototype.constructor = PilosaError;
 
-export class PilosaURIError extends PilosaError {}
+    static generic(msg?: string) {
+        return PilosaError.error("GENERIC", msg);
+    }
+
+    static uri(msg?: string) {
+        return PilosaError.error("URI", msg);
+    }
+
+    static validation(msg?: string) {
+        return PilosaError.error("VALIDATION", msg);
+    }
+
+    static databaseExists(msg?: string) {
+        return PilosaError.error("DATABASE_EXISTS", msg);
+    }
+
+    static frameExists(msg?: string) {
+        return PilosaError.error("FRAME_EXISTS", msg);
+    }
+    static equals(e1: Error, e2: Error) {
+        return e1.name == e2.name;
+    }
+
+    static GENERIC = PilosaError.generic();
+    static URI = PilosaError.uri();
+    static VALIDATION = PilosaError.validation();
+    static DATABASE_EXISTS = PilosaError.databaseExists();
+    static FRAME_EXISTS = PilosaError.frameExists();
+}

@@ -1,67 +1,11 @@
-
 import {expect} from 'chai';
-import {Client, Cluster, URI, PilosaError, PilosaURIError} from '../lib/index';
+import {URI} from '../lib/index';
 
 function compare(uri: URI, scheme: string, host: string, port: number) {
     expect(uri.scheme).equal(scheme);
     expect(uri.host).equal(host);
     expect(uri.port).equal(port);
 }
-
-describe('Client', () => {
-    it ('can be created with a string address', () => {
-        let client = Client.withAddress(":9999");        
-    });
-
-    it ('can be created with a URI', () => {
-        let client = Client.withAddress(URI.defaultURI());
-    });
-
-    it ('can be created with a cluster', () => {
-        let client = Client.withCluster(new Cluster());
-    });
-
-    it('should return a response', () => {
-        let client = Client.defaultClient();
-        let response = client.query("some-db", "Bitmap(id=1, frame='foo')");
-        expect(response).not.equal(null);
-        expect(response.results).not.equal(null);
-    });    
-});
-
-describe('Cluster', () => {
-    it('can be created with a URI', () => {
-        let cluster = Cluster.withAddress(URI.defaultURI());
-        let target: Array<URI> = [URI.defaultURI()];
-        let addresses = cluster.getAddresses();
-        expect(cluster.getAddresses()).eql([URI.defaultURI()]);
-    });
-
-    it('can be added addresses', () => {
-        let cluster = new Cluster();
-        cluster.addAddress(URI.fromAddress(":10101"));
-        expect(cluster.getAddresses()).eql([URI.fromAddress("http://localhost:10101")]);
-    });
-
-    it ('can be removed addresses', () => {
-        let cluster = Cluster.withAddress(URI.defaultURI());
-        cluster.removeAddress(URI.defaultURI());
-        expect(cluster.getAddresses()).eql([]);
-    });
-
-    it('should return next address', () => {
-        let cluster = new Cluster();
-        cluster.addAddress(URI.fromAddress("db1.pilosa.com"));
-        cluster.addAddress(URI.fromAddress("db2.pilosa.com"));
-        expect(cluster.getAddress()).eql(URI.fromAddress("db1.pilosa.com"));
-        expect(cluster.getAddress()).eql(URI.fromAddress("db2.pilosa.com"));
-    });
-
-    it('should raise PilosaError for getAddress with empty list', () => {
-        let cluster = new Cluster();
-        expect(() => cluster.getAddress()).throw(PilosaError);
-    })
-});
 
 describe('URI', () => {
     it('should have default URI', () => {
@@ -123,11 +67,11 @@ describe('URI', () => {
     });
 
     it('should throw PilosaURIError for invalid address', () => {
-        expect(() => URI.fromAddress("")).throw(PilosaURIError);
-        expect(() => URI.fromAddress("foo:bar")).throw(PilosaURIError);
-        expect(() => URI.fromAddress("http://foo:")).throw(PilosaURIError);
-        expect(() => URI.fromAddress("foo:")).throw(PilosaURIError);
-        expect(() => URI.fromAddress(":bar")).throw(PilosaURIError);
+        expect(() => URI.fromAddress("")).throws();
+        expect(() => URI.fromAddress("foo:bar")).throws();
+        expect(() => URI.fromAddress("http://foo:")).throws();
+        expect(() => URI.fromAddress("foo:")).throws();
+        expect(() => URI.fromAddress(":bar")).throws();
     });
 
     it('can be converted to string', () => {
