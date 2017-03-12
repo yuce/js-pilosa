@@ -151,4 +151,64 @@ describe('Client', () => {
             }).catch(done);
         }).catch(done);
     });
+
+    it('can query bitmap', done => {
+        const client = Util.getClient();
+        client.query(dbname, `
+                SetBit(id=5, frame='test', profileID=10)
+                SetBit(id=5, frame='test', profileID=15)
+                SetBit(id=10, frame='test', profileID=20)
+            `).then(_ => {
+            client.query(dbname,`
+                    Bitmap(id=5, frame='test')
+                    Bitmap(id=10, frame='test')
+                `).then(r => {
+                expect(r.results.length).equal(2);
+                expect(r.result.bitmap.attributes).eql({});
+                expect(r.result.bitmap.bits).eql([10, 15]);
+                expect(r.results[0].bitmap.bits).eql([10, 15]);
+                expect(r.results[1].bitmap.bits).eql([20]);
+                done();
+            }).catch(done);
+        }).catch(done);
+    });
+
+    it('can query topn', done => {
+        const client = Util.getClient();
+        client.query(dbname, `
+            SetBit(id=10, frame='test', profileID=5)
+            SetBit(id=10, frame='test', profileID=10)
+            SetBit(id=10, frame='test', profileID=15)
+            SetBit(id=20, frame='test', profileID=5)
+            SetBit(id=30, frame='test', profileID=5)
+        `).then(_ => {
+            client.query(dbname, "TopN(frame='test', n=2)").then(r => {
+                expect(r.result.countItems.length).equal(2);
+                expect(r.result.countItems[0]).eql({_key: 10, _count: 3});
+                done();
+            }).catch(done);
+        }).catch(done);
+    });
+
+    it('can retrieve bitmap attributes', done => {
+        const client = Util.getClient();
+        client.query(dbname, `
+            SetBit(id=10, frame='test', profileID=44)
+            SetBitmapAttrs(id=10, frame='test', name="some string", age=95, height=1.83, registered=true)
+        `).then(_ => {
+            client.query(dbname, "Bitmap(id=10, frame='test')").then(r => {
+                expect(r.result.bitmap.attributes).eql({
+                    name: "some string",
+                    age: 95,
+                    height: 1.83,
+                    registered: true
+                });
+                done();
+            }).catch(done);
+        }).catch(done);
+    });
+    // it('returns error messages on query failures', done => {
+    //     const client = Util.getClient();
+    //     client.query(dbname, "SetB(id=5, frame='test)").then()
+    // })
 });

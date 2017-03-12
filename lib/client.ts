@@ -122,6 +122,9 @@ export class Client {
                     catch (err) {
                         reject(err);
                     }
+                    if (!qr.isSuccess) {
+                        return reject(PilosaError.generic(qr.errorMessage));
+                    }
                     resolve(qr);                
                 }).
                 catch(reject);

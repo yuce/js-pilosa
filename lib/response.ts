@@ -7,6 +7,8 @@ export class QueryResponse {
     private _errorMessage: string = null;
     private _isSuccess: boolean = false;
 
+    protected constructor() {}
+
     get results(): Array<QueryResult> {
         return this._results;
     }
@@ -127,18 +129,19 @@ namespace Util {
     export function internalAttrsToObject(attrs: Array<internal.Attr>): any {
         const r: any = new Object();
         for (let attr of attrs) {
-            switch (attr.Type) {
+            switch ((attr.Type as Long).toInt()) {
                 case PROTOBUF_STRING_TYPE:
                     r[attr.Key] = attr.StringValue;
                     break;
                 case PROTOBUF_UINT_TYPE:
-                    r[attr.Key] = attr.UintValue;
+                    r[attr.Key] = (attr.UintValue as Long).toNumber();
                     break;
                 case PROTOBUF_BOOL_TYPE:
                     r[attr.Key] = attr.BoolValue;
                     break;
                 case PROTOBUF_DOUBLE_TYPE:
                     r[attr.Key] = attr.FloatValue;
+                    break;
                 default:
                     throw PilosaError.generic("Unknown attribute field type: " + attr.Type);
             }
