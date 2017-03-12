@@ -31,17 +31,15 @@ describe('Client', () => {
                 ensureFramesList.push(client.ensureFrameExists(dbname, name));
             }
             Promise.all(ensureFramesList).
-                then(value => done(),
-                    err => done(err));
-            // client.ensureFrameExists(dbname, "foo").then(done).catch(done);
-        }).catch(err => done(err));
+                then(value => done(), done);
+        }).catch(done);
     });
 
     afterEach(done => {
         const client = Util.getClient();
         client.deleteDatabase(dbname).
-            then(done)
-            .catch(err => done(err));
+            then(done).
+            catch(done);
     });
 
     it('should return a response', done => {
@@ -49,9 +47,7 @@ describe('Client', () => {
         client.query(dbname, "SetBit(id=555, frame='query-test', profileID=10)").then(response => {
             expect(response).not.equal(null);
             done();
-        }).catch(e => {
-            done(e);
-        });
+        }).catch(done);
     });
 
     it('should create and delete a database', done => {
@@ -61,14 +57,14 @@ describe('Client', () => {
             client.createFrame(db, "delframe").then(() => {
                 client.query(db, "SetBit(id=1, frame='delframe', profileID=2)").then(r => {
                     client.deleteDatabase(db).
-                        then(done)
-                        .catch(e => done(e));
+                        then(done).
+                        catch(done);
                 }).
-                catch(e => done(e));
+                catch(done);
             }).
-            catch(e => done(e));
+            catch(done);
         }).
-        catch(e => done(e));
+        catch(done);
     });
 
     it('should throw an error on connection failure', done => {
@@ -104,8 +100,55 @@ describe('Client', () => {
                     expect(r.result.count).equal(2);
                     done();
                 }).
-                catch(err => done(err));
+                catch(done);
         }).
         catch(err => done(err));
+    });
+
+    it('should fail when creating existing database', done => {
+        const client = Util.getClient();
+        client.createDatabase(dbname).
+            then(() => done(new Error("should have failed"))).
+            catch(e => done());        
+    });
+
+    it('should fail when creating existing frame', done => {
+        const client = Util.getClient();
+        client.createFrame(dbname, "test").
+            then(() => done(new Error("should have failed"))).
+            catch(e => done());                
+    });
+
+    it('should fail if it cannot delete a database', done => {
+        const client = Client.withAddress("http://non-existent-sub.pilosa.com:22222");
+        client.deleteDatabase("non-existent").
+            then(() => done(new Error("should have failed"))).
+            catch(e => done());
+    });
+
+    it('can ensure database exists', done => {
+        const client = Util.getClient();
+        const db = dbname + "-ensure";
+        client.ensureDatabaseExists(db).then(() => {
+            client.ensureFrameExists(db, "frm").then(() => {
+                client.ensureDatabaseExists(db).then(() => {
+                    client.deleteDatabase(db).
+                        then(done).
+                        catch(done);
+                }).catch(done);
+            }).catch(done);
+        }).catch(done);
+    });
+
+    it('can ensure frame exists', done => {
+        const client = Util.getClient();
+        const frameName = "ensure-frame"
+        client.ensureFrameExists(dbname, frameName).then(() => {
+            client.query(dbname, `Bitmap(id=1, frame='${frameName}')`).then(r => {
+                client.ensureFrameExists(dbname, frameName).
+                    then(done).
+                    catch(done);
+            }).catch(done);
+        }).catch(done);
     });
 });
