@@ -126,6 +126,20 @@ describe('Client', () => {
             catch(e => done());
     });
 
+    it('should fail if it cannot ensure database existence', done => {
+        const client = Client.withAddress("http://non-existent-sub.pilosa.com:22222");
+        client.ensureDatabaseExists(dbname).
+            then(() => done(new Error("should have failed"))).
+            catch(e => done());        
+    });
+
+    it('should fail if it cannot ensure frame existence', done => {
+        const client = Client.withAddress("http://non-existent-sub.pilosa.com:22222");
+        client.ensureFrameExists(dbname, "foo").
+            then(() => done(new Error("should have failed"))).
+            catch(e => done());        
+    });
+
     it('can ensure database exists', done => {
         const client = Util.getClient();
         const db = dbname + "-ensure";
@@ -207,8 +221,4 @@ describe('Client', () => {
             }).catch(done);
         }).catch(done);
     });
-    // it('returns error messages on query failures', done => {
-    //     const client = Util.getClient();
-    //     client.query(dbname, "SetB(id=5, frame='test)").then()
-    // })
 });

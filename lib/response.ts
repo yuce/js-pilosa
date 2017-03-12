@@ -28,13 +28,13 @@ export class QueryResponse {
         return this._isSuccess;
     }
 
-    static fromProtobuf(data: Buffer): QueryResponse {
+    static fromProtobuf(data: Uint8Array): QueryResponse {
         const response = new QueryResponse();
         response.parseProtobuf(data);
         return response;
     }
 
-    private parseProtobuf(data: Buffer): void {
+    private parseProtobuf(data: Uint8Array): void {
         const response = internal.QueryResponse.decode(data);
         const errorMessage = response.Err;
         if (errorMessage != "") {
@@ -121,11 +121,22 @@ export class CountResultItem {
     }
 }
 
+export function __testing_triggerUnknownType() {
+    return Util.internalAttrsToObject([new internal.Attr()]);
+}
+
+export function __testing_QueryResponseWithError(errorMessage: string) {
+    let iqr = new internal.QueryResponse({Err: errorMessage});
+    let data = internal.QueryResponse.encode(iqr).finish();
+    return QueryResponse.fromProtobuf(data);
+}
+
 namespace Util {
     const PROTOBUF_STRING_TYPE = 1;
     const PROTOBUF_UINT_TYPE = 2;
     const PROTOBUF_BOOL_TYPE = 3;
     const PROTOBUF_DOUBLE_TYPE = 4;
+    
     export function internalAttrsToObject(attrs: Array<internal.Attr>): any {
         const r: any = new Object();
         for (let attr of attrs) {

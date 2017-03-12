@@ -1,5 +1,6 @@
 import {expect} from 'chai';
 import {QueryResponse} from '../lib/index';
+import {__testing_triggerUnknownType, __testing_QueryResponseWithError} from '../lib/response';
 
 class TestableQueryResponse extends QueryResponse {
     static withDefaults(): QueryResponse {
@@ -14,5 +15,17 @@ describe('QueryResponse', () => {
         expect(qr.result).equal(null);
         expect(qr.errorMessage).equal(null);
         expect(qr.isSuccess).equal(false);
+    });
+
+    it('should return error message', () => {
+        let qr = __testing_QueryResponseWithError("some error");
+        expect(qr.errorMessage).equal("some error");
+        expect(qr.isSuccess).equal(false);
+    })
+});
+
+describe('BitmapResult', () => {
+    it('should fail if it recieves an attribute with an unknown type', () => {
+        expect(() => __testing_triggerUnknownType()).throws();
     });
 });
