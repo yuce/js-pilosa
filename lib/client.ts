@@ -68,11 +68,9 @@ export class Client {
 
     ensureDatabaseExists(name: string, options?: DatabaseOptions): Promise<void> {
         return new Promise<void>((resolve, reject) => {
-            // TODO: check for DatabaseExistsError
             this.createDatabase(name, options).
-                then(() => resolve()).
+                then(resolve).
                 catch(err => {
-                    console.log("ERR: ", err);
                     if (PilosaError.equals(err, PilosaError.DATABASE_EXISTS)) {
                         resolve();
                     }
@@ -85,10 +83,16 @@ export class Client {
 
     ensureFrameExists(databaseName: string, name: string, options?: FrameOptions): Promise<void> {
         return new Promise<void>((resolve, reject) => {
-            // TODO: check for FrameExistsError
             this.createFrame(databaseName, name, options).
-                then(() => resolve()).
-                catch(err => resolve());
+                then(resolve).
+                catch(err => {
+                    if (PilosaError.equals(err, PilosaError.FRAME_EXISTS)) {
+                        resolve();
+                    }
+                    else {
+                        reject(err);
+                    }
+                });
         });
     }
 
@@ -151,9 +155,8 @@ export class Client {
                         dataSize += chunk.length;
                     });
                     res.on('end', () => {
-                        let msg = Buffer.concat(chunks, dataSize);
-                        console.log("MSG:", msg.toString());
-                        switch (res.statusMessage) {
+                        let msg = Buffer.concat(chunks, dataSize).toString();
+                        switch (msg) {
                             case "database already exists\n":
                                 return reject(PilosaError.DATABASE_EXISTS);
                             case "frame already exists\n":

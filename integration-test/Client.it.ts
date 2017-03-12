@@ -22,7 +22,7 @@ describe('Client', () => {
         "count-test", "importframe", "topn_test"
     ];
 
-    beforeEach((done) => {
+    beforeEach(done => {
         const client = Util.getClient();
         dbname = Util.getRandomDatabaseName();
         client.ensureDatabaseExists(dbname).then(() => {
@@ -37,7 +37,7 @@ describe('Client', () => {
         }).catch(err => done(err));
     });
 
-    afterEach((done) => {
+    afterEach(done => {
         const client = Util.getClient();
         client.deleteDatabase(dbname).
             then(done)
@@ -109,19 +109,3 @@ describe('Client', () => {
         catch(err => done(err));
     });
 });
-
-/* 
-        final String dbname = "to-be-deleted-" + this.db ;
-        PilosaClient client = getClient();
-        client.createDatabase(dbname);
-        client.createFrame(dbname, "delframe");
-        client.query(dbname, Pql.setBit(1, "delframe", 2));
-        client.deleteDatabase(dbname);
-*/
-/*
-
-            expect(response.isSuccess).true;
-            expect(response.results).not.equal(null);
-            expect(response.results.length).equal(1);
-            expect(response.results[0].bitmap).not.equal(null);
-*/
