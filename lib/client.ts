@@ -45,7 +45,7 @@ export class Client {
         return new Promise<void>((resolve, reject) => {
             this.httpRequest("POST", "/db", data).
                 then(res => resolve()).
-                catch(err => reject(err));
+                catch(reject);
         });
     }
 
@@ -62,7 +62,7 @@ export class Client {
         return new Promise<void>((resolve, reject) => {
             this.httpRequest("POST", "/frame", data).
                 then(res => resolve()).
-                catch(err => reject(err));
+                catch(reject);
         });
     }
 
@@ -102,7 +102,7 @@ export class Client {
         return new Promise<void>((resolve, reject) => {
             this.httpRequest("DELETE", "/db", data).
                 then(res => resolve()).
-                catch(err => reject(err));
+                catch(reject);
         });
     }
 
@@ -124,7 +124,7 @@ export class Client {
                     }
                     resolve(qr);                
                 }).
-                catch(err => reject(err));
+                catch(reject);
         });
     }
 
