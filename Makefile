@@ -1,8 +1,21 @@
+PROTO_SOURCES = src/internal.js src/internal.d.ts
+PROTO_OUT = $(patsubst src/%,lib/%,$(PROTO_SOURCES))
 
-#IDIR = src
-#ODIR = lib
-#DEPS = $(patsubst %,$(IDIR)/)
+.PHONY: all build clean test
 
-build:
-	tsc
+all: build
+
+$(PROTO_SOURCES): internal/internal.proto
+	npm run generate-proto
+
+$(PROTO_OUT): $(PROTO_SOURCES)
 	cp src/internal.* lib
+
+build: $(PROTO_OUT)
+	tsc
+
+clean:
+	rm -r lib/*
+
+test:
+	npm run test-all

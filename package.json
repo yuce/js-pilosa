@@ -8,7 +8,7 @@
     "integration-test": "NODE_ENV=test mocha --recursive --compilers ts:ts-node/register --bail integration-test/*.it.ts",
     "test-all": "NODE_ENV=test mocha --recursive --compilers ts:ts-node/register --bail test/*.spec.ts integration-test/*.it.ts",
     "cover": "NODE_ENV=test nyc npm run test-all",
-    "protobuf": "pbjs -t static-module -w commonjs -o src/internal.js src/internal.proto && pbts -o src/internal.d.ts src/internal.js"
+    "generate-proto": "pbjs -t static-module -w commonjs -o src/internal.js internal/internal.proto && pbts -o src/internal.d.ts src/internal.js"
   },
   "keywords": [],
   "author": "Yüce Tekol <yucetekol@gmail.com> (http://yuce.me)",
