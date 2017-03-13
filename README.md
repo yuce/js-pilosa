@@ -39,7 +39,7 @@ $ npm run coverage
 ### Generating Protobuf Classes
 
 ```
-$ npm run protobuf
+$ npm run generate-proto
 ```
 
 ### Creating a Distribution
