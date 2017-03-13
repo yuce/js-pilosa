@@ -1,17 +1,17 @@
-PROTO_SOURCES = src/internal.js src/internal.d.ts
-PROTO_OUT = $(patsubst src/%,lib/%,$(PROTO_SOURCES))
+INTERNAL_SOURCES = src/internal.js src/internal.d.ts
+INTERNAL_OUT = $(patsubst src/%,lib/%,$(INTERNAL_SOURCES))
 
 .PHONY: all build clean test
 
 all: build
 
-$(PROTO_SOURCES): internal/internal.proto
+$(INTERNAL_SOURCES): internal/internal.proto
 	npm run generate-proto
 
-$(PROTO_OUT): $(PROTO_SOURCES)
+$(INTERNAL_OUT): $(INTERNAL_SOURCES)
 	cp src/internal.* lib
 
-build: $(PROTO_OUT)
+build: $(INTERNAL_OUT)
 	tsc
 
 clean:
