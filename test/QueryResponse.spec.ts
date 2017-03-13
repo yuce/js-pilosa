@@ -1,6 +1,6 @@
 import {expect} from 'chai';
-import {QueryResponse} from '../lib/index';
-import {__testing_triggerUnknownType, __testing_QueryResponseWithError} from '../lib/response';
+import {QueryResponse} from '../src/index';
+import {__testing_triggerUnknownType, __testing_QueryResponseWithError} from '../src/response';
 
 class TestableQueryResponse extends QueryResponse {
     static withDefaults(): QueryResponse {

@@ -1,5 +1,5 @@
 
-import {internal} from "../internal/internal";
+import {internal} from "./internal";
 import {PilosaError} from "./error";
 
 export class QueryResponse {

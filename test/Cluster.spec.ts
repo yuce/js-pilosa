@@ -1,5 +1,5 @@
 import {expect} from 'chai';
-import {Cluster, URI, PilosaError} from '../lib/index';
+import {Cluster, URI, PilosaError} from '../src/index';
 
 describe('Cluster', () => {
     it('can be created with a URI', () => {

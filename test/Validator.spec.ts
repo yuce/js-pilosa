@@ -1,5 +1,5 @@
 import {expect} from 'chai';
-import {Validator} from '../lib/index';
+import {Validator} from '../src/index';
 
 describe('Validator', () => {
     it('should validate database names', () => {

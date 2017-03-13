@@ -1,5 +1,5 @@
 import {expect} from 'chai';
-import {DatabaseOptions, FrameOptions} from '../lib/index';
+import {DatabaseOptions, FrameOptions} from '../src/index';
 
 describe('DatabaseOptions', () => {
     it('can be created with defaults', () => {

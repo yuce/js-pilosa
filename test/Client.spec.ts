@@ -1,5 +1,5 @@
 import {expect} from 'chai';
-import {Client, Cluster, URI} from '../lib/index';
+import {Client, Cluster, URI} from '../src/index';
 
 describe('Client', () => {
     it ('should have default parameters', () => {

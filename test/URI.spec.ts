@@ -1,5 +1,5 @@
 import {expect} from 'chai';
-import {URI} from '../lib/index';
+import {URI} from '../src/index';
 
 function compare(uri: URI, scheme: string, host: string, port: number) {
     expect(uri.scheme).equal(scheme);

@@ -1,6 +1,6 @@
 
 import {expect} from 'chai';
-import {Client} from '../lib/index';
+import {Client} from '../src/index';
 import * as nock from 'nock';
 
 const SERVER_ADDRESS = "http://localhost:15000";

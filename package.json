@@ -2,13 +2,13 @@
   "name": "js-pilosa",
   "version": "0.1.0",
   "description": "",
-  "main": "dist/lib/index.js",
+  "main": "lib/index.js",
   "scripts": {
     "test": "NODE_ENV=test mocha --recursive --compilers ts:ts-node/register --bail test/*.spec.ts",
     "integration-test": "NODE_ENV=test mocha --recursive --compilers ts:ts-node/register --bail integration-test/*.it.ts",
     "test-all": "NODE_ENV=test mocha --recursive --compilers ts:ts-node/register --bail test/*.spec.ts integration-test/*.it.ts",
     "cover": "NODE_ENV=test nyc npm run test-all",
-    "generate": "pbjs -t static-module -w commonjs -o internal/internal.js internal/internal.proto && pbts -o internal/internal.d.ts internal/internal.js"
+    "protobuf": "pbjs -t static-module -w commonjs -o src/internal.js src/internal.proto && pbts -o src/internal.d.ts src/internal.js"
   },
   "keywords": [],
   "author": "Yüce Tekol <yucetekol@gmail.com> (http://yuce.me)",
@@ -26,12 +26,12 @@
     "nyc": "^10.1.2",
     "protobufjs": "^6.6.5",
     "ts-node": "^2.1.0",
+    "typedoc": "^0.5.7",
     "typescript": "^2.2.1"
   },
   "nyc": {
     "include": [
-      "lib/*.ts",
-      "lib/**/*.ts"
+      "src/**/*.ts"
     ],
     "exclude": [
       "typings",

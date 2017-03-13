@@ -4,6 +4,10 @@
         "target": "es5",
         "noImplicitAny": true,
         "sourceMap": true,
-        "outDir": "dist"
-    }
+        "outDir": "lib",
+        "declaration": true
+    },
+    "include": [
+        "src/*.ts"
+    ]
 }

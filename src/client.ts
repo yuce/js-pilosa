@@ -1,5 +1,5 @@
 
-import {internal} from '../internal/internal';
+import {internal} from './internal';
 import * as http from 'http';
 import {QueryResponse, QueryResult} from './response';
 import {PilosaError} from './error';
