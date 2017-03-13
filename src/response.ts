@@ -1,5 +1,5 @@
 
-import {internal} from "./internal";
+import {internal} from "../internal/internal";
 import {PilosaError} from "./error";
 
 export class QueryResponse {
@@ -114,10 +114,18 @@ export class BitmapResult {
 }
 
 export class CountResultItem {
-    private constructor(private _key: number, private _count: number) {}
+    private constructor(private _id: number, private _count: number) {}
 
     static fromInternal(obj: internal.Pair) {
         return new CountResultItem((obj.Key as Long).toNumber(), (obj.Count as Long).toNumber());
+    }
+
+    get id(): number {
+        return this._id;
+    }
+
+    get count(): number {
+        return this._count;
     }
 }
 

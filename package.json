@@ -1,14 +1,14 @@
 {
-  "name": "js-pilosa",
+  "name": "pilosa",
   "version": "0.1.0",
   "description": "",
   "main": "lib/index.js",
   "scripts": {
     "test": "NODE_ENV=test mocha --recursive --compilers ts:ts-node/register --bail test/*.spec.ts",
-    "integration-test": "NODE_ENV=test mocha --recursive --compilers ts:ts-node/register --bail integration-test/*.it.ts",
-    "test-all": "NODE_ENV=test mocha --recursive --compilers ts:ts-node/register --bail test/*.spec.ts integration-test/*.it.ts",
+    "integration-test": "NODE_ENV=test mocha --recursive --compilers ts:ts-node/register --bail --timeout 4000 integration-test/*.it.ts",
+    "test-all": "NODE_ENV=test mocha --recursive --compilers ts:ts-node/register --bail --timeout 4000 test/*.spec.ts integration-test/*.it.ts",
     "cover": "NODE_ENV=test nyc npm run test-all",
-    "generate-proto": "pbjs -t static-module -w commonjs -o src/internal.js internal/internal.proto && pbts -o src/internal.d.ts src/internal.js"
+    "generate-proto": "pbjs -t static-module -w commonjs -o internal/internal.js internal/internal.proto && pbts -o internal/internal.d.ts internal/internal.js"
   },
   "keywords": [],
   "author": "Yüce Tekol <yucetekol@gmail.com> (http://yuce.me)",
@@ -30,11 +30,12 @@
   },
   "nyc": {
     "include": [
-      "src/**/*.ts"
+      "src/*.ts"
     ],
     "exclude": [
       "typings",
-      "internal"
+      "internal",
+      "lib"
     ],
     "extension": [
       ".ts"
@@ -43,6 +44,7 @@
       "ts-node/register"
     ],
     "reporter": [
+      "text",
       "json",
       "html"
     ],

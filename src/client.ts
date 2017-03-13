@@ -1,17 +1,17 @@
 
-import {internal} from './internal';
+import {internal} from "../internal/internal";
 import * as http from 'http';
 import {QueryResponse, QueryResult} from './response';
 import {PilosaError} from './error';
 import {Validator} from "./validator";
 import {DatabaseOptions, FrameOptions} from "./options";
 
-type HttpMethod = "POST" | "DELETE" | "GET";
+export type HttpMethod = "POST" | "DELETE" | "GET";
 
 export class Client {
     private _currentAddress: URI;
 
-    private constructor(private _cluster: ICluster) {}
+    protected constructor(private _cluster: ICluster) {}
 
     static defaultClient(): Client {
         return Client.withAddress(":15000");
@@ -60,7 +60,7 @@ export class Client {
         });
         return new Promise<void>((resolve, reject) => {
             this.httpRequest("POST", "/frame", data).
-                then(res => resolve()).
+                then(_ => resolve()).
                 catch(reject);
         });
     }
@@ -100,7 +100,7 @@ export class Client {
         const data = this.encodeRequestData({db: name});
         return new Promise<void>((resolve, reject) => {
             this.httpRequest("DELETE", "/db", data).
-                then(res => resolve()).
+                then(_ => resolve()).
                 catch(reject);
         });
     }
@@ -112,18 +112,16 @@ export class Client {
                 "Content-Type": "application/x-protobuf",
                 "Accept": "application/x-protobuf"
             }
-            this.httpRequest("POST", "/query", data, headers, true).
-                then(response => {
-                    let qr: QueryResponse = null;
-                    try {
-                        qr = QueryResponse.fromProtobuf(response);
-                    }
-                    catch (err) {
-                        reject(err);
-                    }
-                    resolve(qr);                
-                }).
-                catch(reject);
+            this.httpRequest("POST", "/query", data, headers, true).then(r => {
+                let qr: QueryResponse = null;
+                try {
+                    qr = QueryResponse.fromProtobuf(r);
+                }
+                catch (err) {
+                    reject(err);
+                }
+                resolve(qr);                
+            }).catch(reject);
         });
     }
 
@@ -131,7 +129,7 @@ export class Client {
         return new Buffer(JSON.stringify(data));
     }
 
-    private httpRequest(method: HttpMethod, path: string, data?: Uint8Array,
+    protected httpRequest(method: HttpMethod, path: string, data?: Uint8Array,
             headers?: any, needsResult?: boolean): Promise<Buffer> {
         const address = this.getAddress();
         const options: http.RequestOptions = {

@@ -9,8 +9,6 @@ $(INTERNAL_SOURCES): internal/internal.proto
 	npm run generate-proto
 
 $(INTERNAL_OUT): $(INTERNAL_SOURCES)		
-	mkdir -p lib
-	cp src/internal.* lib
 
 build: $(INTERNAL_OUT)
 	tsc

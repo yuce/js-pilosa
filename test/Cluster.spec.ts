@@ -16,9 +16,11 @@ describe('Cluster', () => {
     });
 
     it ('can be removed addresses', () => {
-        let cluster = Cluster.withAddress(URI.defaultURI());
+        let cluster = new Cluster();
+        cluster.addAddress(URI.fromAddress("test.to:5600"));
+        cluster.addAddress(URI.defaultURI());        
         cluster.removeAddress(URI.defaultURI());
-        expect(cluster.getAddresses()).eql([]);
+        expect(cluster.getAddresses()).eql([URI.fromAddress("test.to:5600")]);
     });
 
     it('should return next address', () => {
