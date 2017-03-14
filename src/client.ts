@@ -220,10 +220,10 @@ export class Cluster implements ICluster {
     }
 
     getAddress(): URI {        
-        if (this._nextIndex >= this._addresses.length) {
+        if (this._addresses.length == 0) {
             throw PilosaError.generic("There are no available addresses");
         }
-        const nextAddress = this._addresses[this._nextIndex];
+        const nextAddress = this._addresses[this._nextIndex % this._addresses.length];
         this._nextIndex = (this._nextIndex + 1) % this._addresses.length;
         return nextAddress;
     }

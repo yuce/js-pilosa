@@ -53,9 +53,9 @@ describe('URI', () => {
         compare(uri, "https", "db1.big-data.com", 15000);
     });
 
-    it('can parse scheme and host', () => {
-        let uri = URI.fromAddress("https://db1.big-data.com");
-        compare(uri, "https", "db1.big-data.com", 15000);
+    it('can parse scheme and port', () => {
+        let uri = URI.fromAddress("https://:15000");
+        compare(uri, "https", "localhost", 15000);
     });
 
     it('can get normalized address', () => {
