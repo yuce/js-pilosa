@@ -3,7 +3,7 @@ import {expect} from 'chai';
 import {Client, Cluster, URI} from '../src/index';
 import * as nock from 'nock';
 
-const SERVER_ADDRESS = "http://localhost:15000";
+const SERVER_ADDRESS = "http://localhost:10101";
 
 class Util {
     private static counter = 0;

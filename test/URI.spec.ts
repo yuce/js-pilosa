@@ -10,7 +10,7 @@ function compare(uri: URI, scheme: string, host: string, port: number) {
 describe('URI', () => {
     it('should have default URI', () => {
         let uri = URI.defaultURI();
-        compare(uri, "http", "localhost", 15000);
+        compare(uri, "http", "localhost", 10101);
     });
 
     it('can parse full URI', () => {
@@ -35,7 +35,7 @@ describe('URI', () => {
 
     it('can parse host only', () => {
         let uri = URI.fromAddress("db1.pilosa.com");
-        compare(uri, "http", "db1.pilosa.com", 15000);
+        compare(uri, "http", "db1.pilosa.com", 10101);
     });
 
     it('can parse port only', () => {
@@ -50,12 +50,12 @@ describe('URI', () => {
 
     it('can parse scheme and host', () => {
         let uri = URI.fromAddress("https://db1.big-data.com");
-        compare(uri, "https", "db1.big-data.com", 15000);
+        compare(uri, "https", "db1.big-data.com", 10101);
     });
 
     it('can parse scheme and port', () => {
-        let uri = URI.fromAddress("https://:15000");
-        compare(uri, "https", "localhost", 15000);
+        let uri = URI.fromAddress("https://:10101");
+        compare(uri, "https", "localhost", 10101);
     });
 
     it('can get normalized address', () => {
@@ -63,7 +63,7 @@ describe('URI', () => {
         expect(uri1.normalizedAddress).equal("http://big-data.pilosa.com:6888");
 
         let uri2 = URI.defaultURI();
-        expect(uri2.normalizedAddress).equal("http://localhost:15000");
+        expect(uri2.normalizedAddress).equal("http://localhost:10101");
     });
 
     it('should throw PilosaURIError for invalid address', () => {

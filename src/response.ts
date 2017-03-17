@@ -162,7 +162,7 @@ namespace Util {
                     r[attr.Key] = attr.FloatValue;
                     break;
                 default:
-                    throw PilosaError.generic("Unknown attribute field type: " + attr.Type);
+                    throw PilosaError.generic("Unknown attribute type: " + attr.Type);
             }
         }
         return r;   

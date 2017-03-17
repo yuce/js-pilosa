@@ -14,7 +14,7 @@ export class Client {
     protected constructor(private _cluster: ICluster) {}
 
     static defaultClient(): Client {
-        return Client.withAddress(":15000");
+        return Client.withAddress(":10101");
     }
 
     static withAddress(address: string | URI): Client {
@@ -120,7 +120,7 @@ export class Client {
                 catch (err) {
                     reject(err);
                 }
-                resolve(qr);                
+                resolve(qr);
             }).catch(reject);
         });
     }
@@ -173,7 +173,7 @@ export class Client {
                     }
                     else {
                         return resolve(null);
-                    }                
+                    }
                 }
             });
 
@@ -271,7 +271,7 @@ class QueryRequest {
 export class URI {
     private _scheme: string = "http";
     private _host: string = "localhost";
-    private _port: number = 15000;
+    private _port: number = 10101;
     private static _uriPattern: RegExp = /^(([+a-z]+):\/\/)?([0-9a-z.-]+)?(:([0-9]+))?$/;
 
     private constructor(scheme?: string, host?: string, port?: number) {

@@ -27,6 +27,8 @@ describe('Cluster', () => {
         c.getAddress();
         c.removeAddress(target1);
         expect(c.getAddress()).eql(target2);
+        c.addAddress(URI.fromAddress("db2.pilosa.com"));
+        c.removeAddress(target1);
     });
 
     it('should return next address', () => {
