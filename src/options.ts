@@ -2,43 +2,27 @@
 import {Validator} from './validator';
 
 export class DatabaseOptions {
-    private _columnLabel = "profileID";
-
-    private constructor() {}
+    protected constructor(readonly columnLabel: string) {}
 
     static withDefaults() {
-        return new DatabaseOptions();
+        return new DatabaseOptions("profileID");
     }
 
     static withColumnLabel(label: string) {
         Validator.ensureValidLabel(label);
-        let options = new DatabaseOptions();
-        options._columnLabel = label;
-        return options;
-    }
-
-    get columnLabel() {
-        return this._columnLabel;
+        return new DatabaseOptions(label);
     }
 }
 
 export class FrameOptions {
-    private _rowLabel = "id";
-
-    private constructor() {}
+    private constructor(readonly rowLabel: string) {}
 
     static withDefaults() {
-        return new FrameOptions();
+        return new FrameOptions("id");
     }
 
     static withRowLabel(label: string) {
         Validator.ensureValidLabel(label);
-        let options = new FrameOptions();
-        options._rowLabel = label;
-        return options;
-    }
-
-    get rowLabel() {
-        return this._rowLabel;
+        return new FrameOptions(label);
     }
 }

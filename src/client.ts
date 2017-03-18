@@ -26,19 +26,17 @@ export class Client {
         return new Client(cluster);
     }
 
-    query(database: string, query: string): Promise<QueryResponse> {
+    query(database: Database, query: string): Promise<QueryResponse> {
         const request = QueryRequest.withDatabase(database);
         request.query = query;
         return this.queryPath(request);
     }
 
-    createDatabase(name: string, options?: DatabaseOptions): Promise<void> {
-        Validator.ensureValidDatabaseName(name);
-        options = options || DatabaseOptions.withDefaults();
+    createDatabase(database: Database): Promise<void> {
         const data = this.encodeRequestData({
-            db: name,
+            db: database.name,
             options: {
-                columnLabel: options.columnLabel
+                columnLabel: database.options.columnLabel
             }
         });
         return new Promise<void>((resolve, reject) => {
@@ -48,14 +46,12 @@ export class Client {
         });
     }
 
-    createFrame(databaseName: string, name: string, options?: FrameOptions): Promise<void> {
-        Validator.ensureValidFrameName(name);
-        options = options || FrameOptions.withDefaults();
+    createFrame(frame: Frame): Promise<void> {
         const data = this.encodeRequestData({
-            db: databaseName,
-            frame: name,
+            db: frame.database.name,
+            frame: frame.name,
             options: {
-                rowLabel: options.rowLabel
+                rowLabel: frame.options.rowLabel
             }
         });
         return new Promise<void>((resolve, reject) => {
@@ -65,9 +61,9 @@ export class Client {
         });
     }
 
-    ensureDatabaseExists(name: string, options?: DatabaseOptions): Promise<void> {
+    ensureDatabaseExists(database: Database): Promise<void> {
         return new Promise<void>((resolve, reject) => {
-            this.createDatabase(name, options).
+            this.createDatabase(database).
                 then(resolve).
                 catch(err => {
                     if (PilosaError.equals(err, PilosaError.DATABASE_EXISTS)) {
@@ -80,9 +76,9 @@ export class Client {
         });
     }
 
-    ensureFrameExists(databaseName: string, name: string, options?: FrameOptions): Promise<void> {
+    ensureFrameExists(frame: Frame): Promise<void> {
         return new Promise<void>((resolve, reject) => {
-            this.createFrame(databaseName, name, options).
+            this.createFrame(frame).
                 then(resolve).
                 catch(err => {
                     if (PilosaError.equals(err, PilosaError.FRAME_EXISTS)) {
@@ -95,9 +91,8 @@ export class Client {
         });
     }
 
-    deleteDatabase(name: string): Promise<void> {
-        Validator.ensureValidDatabaseName(name);
-        const data = this.encodeRequestData({db: name});
+    deleteDatabase(database: Database): Promise<void> {
+        const data = this.encodeRequestData({db: database.name});
         return new Promise<void>((resolve, reject) => {
             this.httpRequest("DELETE", "/db", data).
                 then(_ => resolve()).
@@ -244,16 +239,10 @@ export class Cluster implements ICluster {
 }
 
 class QueryRequest {
-    private _databaseName: string;
-    private _query: string;
-    
-    private constructor(databaseName: string) {
-        this._databaseName = databaseName;
-    }
+    private constructor(private _database: Database, private _query?: string) {}
 
-    static withDatabase(databaseName: string) {
-        Validator.ensureValidDatabaseName(databaseName);
-        return new QueryRequest(databaseName);
+    static withDatabase(database: Database) {
+        return new QueryRequest(database);
     }
 
     set query(q: string) {
@@ -262,7 +251,7 @@ class QueryRequest {
 
     toProtoBuf() {
         const request = new internal.QueryRequest();
-        request.DB = this._databaseName;
+        request.DB = this._database.name;
         request.Query = this._query;
         return internal.QueryRequest.encode(request).finish();
     }
@@ -345,5 +334,30 @@ export class URI {
             return new URI(scheme, host, port);
         }
         throw PilosaError.uri("Not a Pilosa URI");
+    }
+}
+
+export class Database {
+    protected constructor(readonly name: string, readonly options?: DatabaseOptions) {}
+
+    static named(name: string, options=DatabaseOptions.withDefaults()) {
+        Validator.ensureValidDatabaseName(name);
+        return new Database(name, options);
+    }
+
+    frame(name: string, options=FrameOptions.withDefaults()) {
+        return _Frame.create(this, name, options);
+    }
+}
+
+export class Frame {
+    protected constructor(readonly database: Database, readonly name: string, readonly options: FrameOptions) {}
+}
+
+// simulates module private Frame creation
+class _Frame extends Frame {
+    static create(database: Database, name: string, options: FrameOptions) {
+        Validator.ensureValidFrameName(name);
+        return new Frame(database, name, options);
     }
 }
