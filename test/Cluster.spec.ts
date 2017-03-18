@@ -15,7 +15,7 @@ describe('Cluster', () => {
         expect(c.getHosts()).eql([URI.fromAddress("http://localhost:10101")]);
     });
 
-    it ('can remove addresses', () => {
+    it ('can remove hosts', () => {
         const target1 = URI.fromAddress("db1.pilosa.com");
         const target2 = URI.fromAddress("db2.pilosa.com");
 
@@ -39,7 +39,7 @@ describe('Cluster', () => {
         expect(c.getHost()).eql(URI.fromAddress("db2.pilosa.com"));
     });
 
-    it('should raise PilosaError for getAddress with empty list', () => {
+    it('should raise PilosaError for getHost with empty list', () => {
         let cluster = new Cluster();
         expect(() => cluster.getHost()).throw();
     })
