@@ -3,16 +3,16 @@ import {Cluster, URI, PilosaError} from '../src/index';
 
 describe('Cluster', () => {
     it('can be created with a URI', () => {
-        let c = Cluster.withAddress(URI.defaultURI());
+        let c = Cluster.withHost(URI.defaultURI());
         let target: Array<URI> = [URI.defaultURI()];
-        let addresses = c.getAddresses();
-        expect(c.getAddresses()).eql([URI.defaultURI()]);
+        let hosts = c.getHosts();
+        expect(c.getHosts()).eql([URI.defaultURI()]);
     });
 
-    it('can add addresses', () => {
+    it('can add hosts', () => {
         let c = new Cluster();
-        c.addAddress(URI.fromAddress(":10101"));
-        expect(c.getAddresses()).eql([URI.fromAddress("http://localhost:10101")]);
+        c.addHost(URI.fromAddress(":10101"));
+        expect(c.getHosts()).eql([URI.fromAddress("http://localhost:10101")]);
     });
 
     it ('can remove addresses', () => {
@@ -20,27 +20,27 @@ describe('Cluster', () => {
         const target2 = URI.fromAddress("db2.pilosa.com");
 
         let c = new Cluster();
-        c.addAddress(URI.fromAddress("db1.pilosa.com"));
-        c.addAddress(URI.fromAddress("db2.pilosa.com"));
-        expect(c.getAddress()).eql(target1);
-        expect(c.getAddress()).eql(target2);
-        c.getAddress();
-        c.removeAddress(target1);
-        expect(c.getAddress()).eql(target2);
-        c.addAddress(URI.fromAddress("db2.pilosa.com"));
-        c.removeAddress(target1);
+        c.addHost(URI.fromAddress("db1.pilosa.com"));
+        c.addHost(URI.fromAddress("db2.pilosa.com"));
+        expect(c.getHost()).eql(target1);
+        expect(c.getHost()).eql(target2);
+        c.getHost();
+        c.removeHost(target1);
+        expect(c.getHost()).eql(target2);
+        c.addHost(URI.fromAddress("db2.pilosa.com"));
+        c.removeHost(target1);
     });
 
-    it('should return next address', () => {
+    it('should return next host', () => {
         let c = new Cluster();
-        c.addAddress(URI.fromAddress("db1.pilosa.com"));
-        c.addAddress(URI.fromAddress("db2.pilosa.com"));
-        expect(c.getAddress()).eql(URI.fromAddress("db1.pilosa.com"));
-        expect(c.getAddress()).eql(URI.fromAddress("db2.pilosa.com"));
+        c.addHost(URI.fromAddress("db1.pilosa.com"));
+        c.addHost(URI.fromAddress("db2.pilosa.com"));
+        expect(c.getHost()).eql(URI.fromAddress("db1.pilosa.com"));
+        expect(c.getHost()).eql(URI.fromAddress("db2.pilosa.com"));
     });
 
     it('should raise PilosaError for getAddress with empty list', () => {
         let cluster = new Cluster();
-        expect(() => cluster.getAddress()).throw();
+        expect(() => cluster.getHost()).throw();
     })
 });

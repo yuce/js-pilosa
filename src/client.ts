@@ -19,7 +19,7 @@ export class Client {
 
     static withAddress(address: string | URI): Client {
         let uri: URI = (typeof address === "string")? URI.fromAddress(address) : address;
-        return new Client(Cluster.withAddress(uri));
+        return new Client(Cluster.withHost(uri));
     }
 
     static withCluster(cluster: ICluster): Client {
@@ -187,7 +187,7 @@ export class Client {
     }
 
     private getAddress(): URI {
-        this._currentAddress = this._cluster.getAddress();
+        this._currentAddress = this._cluster.getHost();
         const scheme = this._currentAddress.scheme;
         if (scheme != "http") {
             throw PilosaError.generic("Unknown scheme: " + scheme);
@@ -197,49 +197,49 @@ export class Client {
 }
 
 export interface ICluster {
-    getAddress(): URI;
-    removeAddress(address: URI): void;
+    getHost(): URI;
+    removeHost(address: URI): void;
 }
 
 export class Cluster implements ICluster {
-    private _addresses: Array<URI>;
+    private _hosts: Array<URI>;
     private _nextIndex = 0;
     
     constructor() {
-        this._addresses = new Array<URI>();
+        this._hosts = new Array<URI>();
     }
 
-    static withAddress(address: URI): Cluster {
+    static withHost(host: URI): Cluster {
         const cluster = new Cluster();
-        cluster.addAddress(address);
+        cluster.addHost(host);
         return cluster;
     }
 
-    addAddress(address: URI): void {
-        this._addresses.push(address);
+    addHost(host: URI): void {
+        this._hosts.push(host);
     }
 
-    getAddress(): URI {        
-        if (this._addresses.length == 0) {
-            throw PilosaError.generic("There are no available addresses");
+    getHost(): URI {        
+        if (this._hosts.length == 0) {
+            throw PilosaError.generic("There are no available hosts");
         }
-        const nextAddress = this._addresses[this._nextIndex % this._addresses.length];
-        this._nextIndex = (this._nextIndex + 1) % this._addresses.length;
-        return nextAddress;
+        const nextHost = this._hosts[this._nextIndex % this._hosts.length];
+        this._nextIndex = (this._nextIndex + 1) % this._hosts.length;
+        return nextHost;
     }
 
-    removeAddress(address: URI): void {
-        const count = this._addresses.length; 
+    removeHost(host: URI): void {
+        const count = this._hosts.length; 
         for (let i = 0; i < count; i++) {
-            if (this._addresses[i].equals(address)) {
-                this._addresses.splice(i, 1);
+            if (this._hosts[i].equals(host)) {
+                this._hosts.splice(i, 1);
                 break;
             }
         }
     }
 
-    getAddresses(): Array<URI> {
-        return this._addresses;
+    getHosts(): Array<URI> {
+        return this._hosts;
     }
 }
 
