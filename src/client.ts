@@ -1,7 +1,7 @@
 
 import {internal} from "../internal/internal";
 import * as http from 'http';
-import {QueryResponse, QueryResult} from './response';
+import {QueryResponse} from './response';
 import {PilosaError} from './error';
 import {Validator} from "./validator";
 import {DatabaseOptions, FrameOptions} from "./options";
@@ -41,7 +41,7 @@ export class Client {
         });
         return new Promise<void>((resolve, reject) => {
             this.httpRequest("POST", "/db", data).
-                then(res => resolve()).
+                then(_res => resolve()).
                 catch(reject);
         });
     }
@@ -108,14 +108,12 @@ export class Client {
                 "Accept": "application/x-protobuf"
             }
             this.httpRequest("POST", "/query", data, headers, true).then(r => {
-                let qr: QueryResponse = null;
                 try {
-                    qr = QueryResponse.fromProtobuf(r);
+                    resolve(QueryResponse.fromProtobuf(r))
                 }
                 catch (err) {
                     reject(err);
                 }
-                resolve(qr);
             }).catch(reject);
         });
     }
@@ -139,9 +137,22 @@ export class Client {
 
         const chunks = new Array<Buffer>();
         let dataSize = 0;
-        return new Promise<Buffer>((resolve, reject) => {
+        return new Promise<Buffer|null>((resolve, reject) => {
             const req = http.request(options, res => {
-                if (res.statusCode < 200 || res.statusCode >= 300) {
+                if (res && res.statusCode && res.statusCode >= 200 && res.statusCode < 300) {
+                    if (needsResult) {
+                        res.on('data', chunk => {
+                            chunks.push(chunk as Buffer);
+                            dataSize += chunk.length;
+                        });
+                        res.on('end', () => resolve(Buffer.concat(chunks, dataSize)));  
+                    }
+                    else {
+                        return resolve(null);
+                    }
+
+                }
+                else {
                     res.on('data', chunk => {
                         chunks.push(chunk as Buffer);
                         dataSize += chunk.length;
@@ -157,18 +168,6 @@ export class Client {
                                 return reject(PilosaError.generic(`Server error (${res.statusCode}) ${res.statusMessage}: ${msg}`));
                         }
                     });
-                }
-                else {
-                    if (needsResult) {
-                        res.on('data', chunk => {
-                            chunks.push(chunk as Buffer);
-                            dataSize += chunk.length;
-                        });
-                        res.on('end', () => resolve(Buffer.concat(chunks, dataSize)));  
-                    }
-                    else {
-                        return resolve(null);
-                    }
                 }
             });
 
@@ -258,22 +257,9 @@ class QueryRequest {
 }
 
 export class URI {
-    private _scheme: string = "http";
-    private _host: string = "localhost";
-    private _port: number = 10101;
     private static _uriPattern: RegExp = /^(([+a-z]+):\/\/)?([0-9a-z.-]+)?(:([0-9]+))?$/;
 
-    private constructor(scheme?: string, host?: string, port?: number) {
-        if (scheme != null) {
-            this._scheme = scheme;
-        }
-        if (host != null) {
-            this._host = host;
-        }
-        if (port != null) {
-            this._port = port;
-        }        
-    }
+    private constructor(readonly scheme="http", readonly host="localhost", readonly port=10101) {}
 
     static defaultURI(): URI {
         return new URI();
@@ -284,42 +270,30 @@ export class URI {
     }
 
     static withPort(port: number): URI {
-        return new URI(null, null, port);
+        return new URI(undefined, undefined, port);
     }
 
     static withHostPort(host: string, port: number): URI {
-        return new URI(null, host, port);
-    }
-
-    get scheme() {
-        return this._scheme;
-    }
-
-    get host() {
-        return this._host;
-    }
-
-    get port() {
-        return this._port;
+        return new URI(undefined, host, port);
     }
 
     get normalizedAddress(): string {
-        let scheme = this._scheme;
+        let scheme = this.scheme;
         const index = scheme.indexOf("+");
         if (index > 0) {
             scheme = scheme.substring(0, index);
         }
-        return `${scheme}://${this._host}:${this._port}`;
+        return `${scheme}://${this.host}:${this.port}`;
     }
 
     toString(): string {
-        return `${this._scheme}://${this._host}:${this._port}`;
+        return `${this.scheme}://${this.host}:${this.port}`;
     }
 
     equals(other: URI): boolean {
-        return this._scheme == other._scheme &&
-            this._host == other._host &&
-            this._port == other._port;        
+        return this.scheme == other.scheme &&
+            this.host == other.host &&
+            this.port == other.port;        
     }
 
     private static parseAddress(address: string): URI {
@@ -338,7 +312,7 @@ export class URI {
 }
 
 export class Database {
-    protected constructor(readonly name: string, readonly options?: DatabaseOptions) {}
+    protected constructor(readonly name: string, readonly options: DatabaseOptions) {}
 
     static named(name: string, options=DatabaseOptions.withDefaults()) {
         Validator.ensureValidDatabaseName(name);

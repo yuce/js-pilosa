@@ -1,11 +1,9 @@
 import {expect} from 'chai';
-import {Cluster, URI, PilosaError} from '../src/index';
+import {Cluster, URI} from '../src/index';
 
 describe('Cluster', () => {
     it('can be created with a URI', () => {
         let c = Cluster.withHost(URI.defaultURI());
-        let target: Array<URI> = [URI.defaultURI()];
-        let hosts = c.getHosts();
         expect(c.getHosts()).eql([URI.defaultURI()]);
     });
 

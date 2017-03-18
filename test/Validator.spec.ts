@@ -14,7 +14,7 @@ describe('Validator', () => {
 
         const invalidDatabaseNames = [
             "", "'", "^", "/", "\\", "A", "*", "a:b", "valid?no", "yüce",
-            null, "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa1"            
+            "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa1"
         ];
         for (let name of invalidDatabaseNames) {
             expect(Validator.validateDatabaseName(name)).false;
@@ -33,8 +33,8 @@ describe('Validator', () => {
         }
 
         const invalidFrameNames = [
-            null, "", "'", "^", "/", "\\", "A", "*", "a:b", "valid?no", "yüce", "_", "-", ".data",
-            "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa1"            
+            "", "'", "^", "/", "\\", "A", "*", "a:b", "valid?no", "yüce", "_", "-", ".data",
+            "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa1"
         ];
         for (let name of invalidFrameNames) {
             expect(Validator.validateFrameName(name)).false;
@@ -46,7 +46,7 @@ describe('Validator', () => {
     it ('should validate labels', () => {
         const validLabels = [
             "a", "ab", "ab1", "d_e", "A", "Bc", "B1", "aB",
-            "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"            
+            "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
         ];
         for (let label of validLabels) {
             expect(Validator.validateLabel(label)).true;
@@ -55,9 +55,9 @@ describe('Validator', () => {
 
         const invalidLabels = [
             "", "1", "_", "-", "b-c", "'", "^", "/", "\\", "*", "a:b", "valid?no", "yüce",
-            null, "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa1"            
+            "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa1"
         ];
-        for (let label of invalidLabels) {            
+        for (let label of invalidLabels) {
             expect(Validator.validateLabel(label)).false;
             expect(() => Validator.ensureValidLabel(label)).throws();
         }

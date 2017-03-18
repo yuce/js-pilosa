@@ -3,8 +3,8 @@ import {internal} from "../internal/internal";
 import {PilosaError} from "./error";
 
 export class QueryResponse {
-    private _results: Array<QueryResult> = null;
-    private _errorMessage: string = null;
+    private _results: Array<QueryResult> = new Array<QueryResult>();
+    private _errorMessage: string = "";
     private _isSuccess: boolean = false;
 
     protected constructor() {}
@@ -13,11 +13,11 @@ export class QueryResponse {
         return this._results;
     }
 
-    get result(): QueryResult {
-        if (this._results === null) {
-            return null;
+    get result(): QueryResult | null {
+        if (this._results.length > 0) {
+            return this._results[0];
         }
-        return this._results[0];
+        return null;
     }
 
     get errorMessage() {
@@ -37,36 +37,37 @@ export class QueryResponse {
     private parseProtobuf(data: Uint8Array): void {
         const response = internal.QueryResponse.decode(data);
         const errorMessage = response.Err;
-        if (errorMessage != "") {
+        if (errorMessage) {
             this._errorMessage = errorMessage;
             this._isSuccess = false;
             return;
         }
-        
+
         this._isSuccess = true;
-        
-        const results = new Array<QueryResult>();
-        for (let result of response.Results) {
+
+        const results = this._results;
+        for (let result of response.Results || []) {
             results.push(QueryResult.fromInternal(result));
         }
-        this._results = results;
 
         // TODO: profiles
     }
 }
 
 export class QueryResult {
-    private _bitmapResult: BitmapResult = null;
-    private _countItems: Array<CountResultItem> = null;
+    private _bitmapResult: BitmapResult;
+    private _countItems: Array<CountResultItem>;
     private _count: number = 0;
-    
+
     private constructor() {}
 
     static fromInternal(obj: internal.QueryResult): QueryResult {
         const result = new QueryResult();
-        result._bitmapResult = BitmapResult.fromInternal(obj.Bitmap);
+        if (obj.Bitmap) {
+            result._bitmapResult = BitmapResult.fromInternal(obj.Bitmap);
+        }
         const countItems = new Array<CountResultItem>();
-        for (let item of obj.Pairs) {
+        for (let item of obj.Pairs || []) {
             countItems.push(CountResultItem.fromInternal(item));
         }
         result._countItems = countItems;
@@ -89,7 +90,7 @@ export class QueryResult {
 
 export class BitmapResult {
     private _attributes: any = null;
-    private _bits: Array<number> = null;
+    private _bits: Array<number>;
 
     private constructor(attributes: any, bits: Array<number>) {
         this._attributes = attributes;
@@ -97,11 +98,11 @@ export class BitmapResult {
     }
 
     static fromInternal(b: internal.Bitmap): BitmapResult {
-        if (b !== null) {
+        if (b && b.Bits && b.Attrs) {
             let bits = b.Bits.map((bit: Long) => bit.toNumber());
             return new BitmapResult(Util.internalAttrsToObject(b.Attrs), bits);
         }
-        return new BitmapResult({}, []);        
+        return new BitmapResult({}, []);
     }
 
     get attributes() {
@@ -130,7 +131,9 @@ export class CountResultItem {
 }
 
 export function __testing_triggerUnknownType() {
-    return Util.internalAttrsToObject([new internal.Attr()]);
+    const attr = new internal.Attr();
+    attr.Key = "foo";
+    return Util.internalAttrsToObject([attr]);
 }
 
 export function __testing_QueryResponseWithError(errorMessage: string) {
@@ -144,27 +147,29 @@ namespace Util {
     const PROTOBUF_UINT_TYPE = 2;
     const PROTOBUF_BOOL_TYPE = 3;
     const PROTOBUF_DOUBLE_TYPE = 4;
-    
+
     export function internalAttrsToObject(attrs: Array<internal.Attr>): any {
         const r: any = new Object();
         for (let attr of attrs) {
-            switch ((attr.Type as Long).toInt()) {
-                case PROTOBUF_STRING_TYPE:
-                    r[attr.Key] = attr.StringValue;
-                    break;
-                case PROTOBUF_UINT_TYPE:
-                    r[attr.Key] = (attr.UintValue as Long).toNumber();
-                    break;
-                case PROTOBUF_BOOL_TYPE:
-                    r[attr.Key] = attr.BoolValue;
-                    break;
-                case PROTOBUF_DOUBLE_TYPE:
-                    r[attr.Key] = attr.FloatValue;
-                    break;
-                default:
-                    throw PilosaError.generic("Unknown attribute type: " + attr.Type);
+            if (attr.Key) {
+                switch ((attr.Type as Long).toInt()) {
+                    case PROTOBUF_STRING_TYPE:
+                        r[attr.Key] = attr.StringValue;
+                        break;
+                    case PROTOBUF_UINT_TYPE:
+                        r[attr.Key] = (attr.UintValue as Long).toNumber();
+                        break;
+                    case PROTOBUF_BOOL_TYPE:
+                        r[attr.Key] = attr.BoolValue;
+                        break;
+                    case PROTOBUF_DOUBLE_TYPE:
+                        r[attr.Key] = attr.FloatValue;
+                        break;
+                    default:
+                        throw PilosaError.generic("Unknown attribute type: " + attr.Type);
+                }
             }
         }
-        return r;   
-    }    
+        return r;
+    }
 }

@@ -2,7 +2,7 @@
 type ErrorType = "GENERIC" | "URI" | "VALIDATION" | "DATABASE_EXISTS" | "FRAME_EXISTS";
 
 export class PilosaError {
-    private static error(e: ErrorType, msg: string): Error {
+    private static error(e: ErrorType, msg?: string): Error {
         const err = new Error(msg);
         err.name = e;
         return err;

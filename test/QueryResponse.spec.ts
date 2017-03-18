@@ -11,9 +11,9 @@ class TestableQueryResponse extends QueryResponse {
 describe('QueryResponse', () => {
     it('can be created with defaults', () => {
         let qr = TestableQueryResponse.withDefaults();
-        expect(qr.results).equal(null);
+        expect(qr.results).eql([]);
         expect(qr.result).equal(null);
-        expect(qr.errorMessage).equal(null);
+        expect(qr.errorMessage).equal('');
         expect(qr.isSuccess).equal(false);
     });
 
