@@ -98,7 +98,7 @@ export class BitmapResult {
     }
 
     static fromInternal(b: internal.Bitmap): BitmapResult {
-        if (b && b.Bits && b.Attrs) {
+        if (b.Bits && b.Attrs) {
             let bits = b.Bits.map((bit: Long) => bit.toNumber());
             return new BitmapResult(Util.internalAttrsToObject(b.Attrs), bits);
         }
@@ -136,10 +136,16 @@ export function __testing_triggerUnknownType() {
     return Util.internalAttrsToObject([attr]);
 }
 
+/** @internal */
 export function __testing_QueryResponseWithError(errorMessage: string) {
     let iqr = new internal.QueryResponse({Err: errorMessage});
     let data = internal.QueryResponse.encode(iqr).finish();
     return QueryResponse.fromProtobuf(data);
+}
+
+/** @internal */
+export function __testing_empty_Bitmap() {
+    return new internal.Bitmap();
 }
 
 namespace Util {
