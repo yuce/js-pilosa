@@ -3,8 +3,7 @@ import {internal} from "../internal/internal";
 import * as http from 'http';
 import {QueryResponse} from './response';
 import {PilosaError} from './error';
-import {Validator} from "./validator";
-import {DatabaseOptions, FrameOptions} from "./options";
+import {Database, Frame} from './orm';
 
 export type HttpMethod = "POST" | "DELETE" | "GET";
 
@@ -145,7 +144,7 @@ export class Client {
                             chunks.push(chunk as Buffer);
                             dataSize += chunk.length;
                         });
-                        res.on('end', () => resolve(Buffer.concat(chunks, dataSize)));  
+                        res.on('end', () => resolve(Buffer.concat(chunks, dataSize)));
                     }
                     else {
                         return resolve(null);
@@ -198,7 +197,7 @@ export interface ICluster {
 export class Cluster implements ICluster {
     private _hosts: Array<URI>;
     private _nextIndex = 0;
-    
+
     constructor() {
         this._hosts = new Array<URI>();
     }
@@ -213,7 +212,7 @@ export class Cluster implements ICluster {
         this._hosts.push(host);
     }
 
-    getHost(): URI {        
+    getHost(): URI {
         if (this._hosts.length == 0) {
             throw PilosaError.generic("There are no available hosts");
         }
@@ -223,7 +222,7 @@ export class Cluster implements ICluster {
     }
 
     removeHost(host: URI): void {
-        const count = this._hosts.length; 
+        const count = this._hosts.length;
         for (let i = 0; i < count; i++) {
             if (this._hosts[i].equals(host)) {
                 this._hosts.splice(i, 1);
@@ -293,12 +292,12 @@ export class URI {
     equals(other: URI): boolean {
         return this.scheme == other.scheme &&
             this.host == other.host &&
-            this.port == other.port;        
+            this.port == other.port;
     }
 
     private static parseAddress(address: string): URI {
         if (address == "") {
-            throw PilosaError.uri("Not a Pilosa URI");    
+            throw PilosaError.uri("Not a Pilosa URI");
         }
         let m = URI._uriPattern.exec(address);
         if (m) {
@@ -308,30 +307,5 @@ export class URI {
             return new URI(scheme, host, port);
         }
         throw PilosaError.uri("Not a Pilosa URI");
-    }
-}
-
-export class Database {
-    protected constructor(readonly name: string, readonly options: DatabaseOptions) {}
-
-    static named(name: string, options=DatabaseOptions.withDefaults()) {
-        Validator.ensureValidDatabaseName(name);
-        return new Database(name, options);
-    }
-
-    frame(name: string, options=FrameOptions.withDefaults()) {
-        return _Frame.create(this, name, options);
-    }
-}
-
-export class Frame {
-    protected constructor(readonly database: Database, readonly name: string, readonly options: FrameOptions) {}
-}
-
-// simulates module private Frame creation
-class _Frame extends Frame {
-    static create(database: Database, name: string, options: FrameOptions) {
-        Validator.ensureValidFrameName(name);
-        return new Frame(database, name, options);
     }
 }
