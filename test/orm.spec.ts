@@ -7,13 +7,13 @@ const sampleFrame = sampleDb.frame("sample-frame");
 const projectDb = Database.named("project-db", DatabaseOptions.withColumnLabel("user"));
 const collabFrame = projectDb.frame("collaboration", FrameOptions.withRowLabel("project"));
 
+const b1 = sampleFrame.bitmap(10);
+const b2 = sampleFrame.bitmap(20);
+const b3 = sampleFrame.bitmap(42);
+const b4 = collabFrame.bitmap(2);
+
 describe('Database', () => {
     it('can create Union queries', () => {
-        const b1 = sampleFrame.bitmap(10);
-        const b2 = sampleFrame.bitmap(20);
-        const b3 = sampleFrame.bitmap(42);
-        const b4 = collabFrame.bitmap(2);
-
         const qry1 = sampleDb.union(b1, b2);
         expect(qry1.toString()).equal("Union(Bitmap(id=10, frame='sample-frame'), Bitmap(id=20, frame='sample-frame'))");
 
@@ -25,11 +25,6 @@ describe('Database', () => {
     });
 
     it('can create Intersect queries', () => {
-        const b1 = sampleFrame.bitmap(10);
-        const b2 = sampleFrame.bitmap(20);
-        const b3 = sampleFrame.bitmap(42);
-        const b4 = collabFrame.bitmap(2);
-
         const qry1 = sampleDb.intersect(b1, b2);
         expect(qry1.toString()).equal("Intersect(Bitmap(id=10, frame='sample-frame'), Bitmap(id=20, frame='sample-frame'))");
 
@@ -41,11 +36,6 @@ describe('Database', () => {
     });
 
     it('can create Difference queries', () => {
-        const b1 = sampleFrame.bitmap(10);
-        const b2 = sampleFrame.bitmap(20);
-        const b3 = sampleFrame.bitmap(42);
-        const b4 = collabFrame.bitmap(2);
-
         const qry1 = sampleDb.difference(b1, b2);
         expect(qry1.toString()).equal("Difference(Bitmap(id=10, frame='sample-frame'), Bitmap(id=20, frame='sample-frame'))");
 

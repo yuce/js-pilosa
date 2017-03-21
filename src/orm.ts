@@ -25,7 +25,7 @@ export class Database {
         return this.bitmapOperation("Difference", [bitmap1, bitmap2, ...bitmaps]);
     }
 
-    count(bitmap: PqlBitmapQuery): PqlQuery {
+    count(bitmap: PqlBitmapQuery): IPqlQuery {
         return new PqlQuery(`Count(${bitmap.toString()})`, this);
     }
 
@@ -60,7 +60,7 @@ export class Frame {
      * @param columnID profile ID
      * @return a PQL query
      */
-    setBit(rowID: number, columnID: number): PqlQuery {
+    setBit(rowID: number, columnID: number): IPqlQuery {
         return new PqlQuery(`SetBit(${this.rowLabel}=${rowID}, frame='${this.name}', ${this.columnLabel}=${columnID})`, this.database);
     }
 
@@ -71,7 +71,7 @@ export class Frame {
      * @param columnID profile ID
      * @return a PQL query
      */
-    clearBit(rowID: number, columnID: number): PqlQuery {
+    clearBit(rowID: number, columnID: number): IPqlQuery {
         return new PqlQuery(`ClearBit(${this.rowLabel}=${rowID}, frame='${this.name}', ${this.columnLabel}=${columnID})`, this.database);
     }
 
