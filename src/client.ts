@@ -33,21 +33,6 @@ export class Client {
         this.cluster = cluster;
     }
 
-    /*
-    static defaultClient(): Client {
-        return Client.withAddress(":10101");
-    }
-
-    static withAddress(address: string | URI): Client {
-        let uri: URI = (typeof address === "string")? URI.address(address) : address;
-        return new Client(new Cluster(uri));
-    }
-
-    static withCluster(cluster: Cluster): Client {
-        return new Client(cluster);
-    }
-    */
-
     query(query: PqlQuery): Promise<QueryResponse> {
         const request = QueryRequest.withDatabase(query.database);
         request.query = query.serialize();
