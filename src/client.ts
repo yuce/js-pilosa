@@ -12,30 +12,21 @@ export class Client {
     private cluster: Cluster;
 
     constructor(clusterUriString?: Cluster | URI | string) {
-        let cluster: Cluster;
         if (clusterUriString) {
             if (clusterUriString instanceof Cluster) {
-                cluster = clusterUriString
+                this.cluster = clusterUriString
             }
             else if (clusterUriString instanceof URI) {
-                cluster = new Cluster(clusterUriString);
+                this.cluster = new Cluster(clusterUriString);
             }
             else if (typeof clusterUriString === "string") {
-                cluster = new Cluster(URI.address(clusterUriString));
-            }
-            else {
-                throw PilosaError.generic("Cluster, URI or string address is required");
+                this.cluster = new Cluster(URI.address(clusterUriString));
             }
         }
-        else {
-            cluster = new Cluster(new URI());
-        }
-        this.cluster = cluster;
     }
 
-    query(query: PqlQuery): Promise<QueryResponse> {
-        const request = QueryRequest.withDatabase(query.database);
-        request.query = query.serialize();
+    query(query: PqlQuery, queryOptions?: QueryOptions): Promise<QueryResponse> {
+        const request = new QueryRequest(query.database, query.serialize(), queryOptions);
         return this.queryPath(request);
     }
 
@@ -246,20 +237,14 @@ export class Cluster {
 }
 
 class QueryRequest {
-    private constructor(private _database: Database, private _query?: string) {}
-
-    static withDatabase(database: Database) {
-        return new QueryRequest(database);
-    }
-
-    set query(q: string) {
-        this._query = q;
-    }
+    constructor(private database: Database, private query?: string,
+            private options?: QueryOptions) {}
 
     toProtoBuf() {
         const request = new internal.QueryRequest();
-        request.DB = this._database.name;
-        request.Query = this._query;
+        request.DB = this.database.name;
+        request.Query = this.query;
+        request.Profiles = (this.options && this.options.profiles === true)? true : false;
         return internal.QueryRequest.encode(request).finish();
     }
 }
@@ -304,4 +289,8 @@ export class URI {
     }
 
     private static _uriPattern: RegExp = /^(([+a-z]+):\/\/)?([0-9a-z.-]+)?(:([0-9]+))?$/;
+}
+
+export interface QueryOptions {
+    profiles: boolean;
 }

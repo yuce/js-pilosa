@@ -1,5 +1,7 @@
 
 import {Validator} from "./validator";
+import {AttributeMap} from "./common";
+
 
 export class Database {
     protected constructor(readonly name: string, readonly columnLabel: string) {}
@@ -36,6 +38,12 @@ export class Database {
     count(bitmap: PqlBitmapQuery): PqlQuery {
         return new PqlBaseQuery(`Count(${bitmap.serialize()})`, this);
     }
+
+    setProfileAttrs(columnID: number, attrs: AttributeMap): PqlBitmapQuery {
+        let attrsStr = createAttributesString(attrs);
+        return new PqlBitmapQuery(`SetProfileAttrs(${this.columnLabel}=${columnID}, ${attrsStr})`, this);
+    }
+
 
     private bitmapOperation(name: string, bitmaps: Array<PqlBitmapQuery>): PqlBitmapQuery {
         let qry = bitmaps.map(bitmap => bitmap.serialize()).join(", ");
@@ -103,9 +111,10 @@ export class Frame {
         return new PqlBitmapQuery(s, this.database);
     }
 
-    setBitmapAttrs(rowID: number, attrs: any): PqlBitmapQuery {
+    setBitmapAttrs(rowID: number, attrs: AttributeMap): PqlBitmapQuery {
         let attrsStr = createAttributesString(attrs);
-        return new PqlBitmapQuery(`SetBitmapAttrs(frame='${this.name}', ${this.rowLabel}=${rowID}, ${attrsStr})`, this.database);
+        return new PqlBitmapQuery(`SetBitmapAttrs(frame='${this.name}',
+            ${this.rowLabel}=${rowID}, ${attrsStr})`, this.database);
     }
 }
 
@@ -152,13 +161,13 @@ export class PqlBatchQuery implements PqlQuery {
     }
 }
 
-function createAttributesString(attrs: any) {
+function createAttributesString(attrs: AttributeMap) {
     let attrsList = [];
     for (let k in attrs) {
         Validator.validLabel(k);
         let v = attrs[k];
         if (typeof v === "string") {
-            v = `"${attrs[k].replace(/"/g, '\\"')}"`;
+            v = `"${v.replace(/"/g, '\\"')}"`;
         }
         attrsList.push(`${k}=${v}`);
     }

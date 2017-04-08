@@ -215,6 +215,28 @@ describe('Client', () => {
         }).catch(done);
     });
 
+    it('can query with profiles', done => {
+        const client = Util.getClient();
+        const frame = db.frame("query-test");
+        client.ensureFrame(frame).then(() =>
+        client.query(frame.setBit(100, 1000))).then(() =>
+        client.query(frame.setBit(100, 1000))).then(() =>
+        client.query(db.setProfileAttrs(1000, {name: "bombo"}))).then(() =>
+        client.query(frame.bitmap(100), {profiles: true})).then(r => {
+            expect(r).not.null;
+            expect(r.profile).not.null;
+            if (r.profile) {
+                expect(r.profile.id).equal(1000);
+                expect(r.profile.attributes).eql({name: "bombo"});
+            }
+        }).then(() =>
+        client.query(frame.bitmap(300))).then(r => {
+            expect(r).not.null;
+            expect(r.profile).null;
+            done();
+        }).catch(done);
+    });
+
     it('should throw an expection if the response was not decoded', done => {
         nock(SERVER_ADDRESS).
             post("/query").

@@ -1,21 +1,26 @@
 
 import {internal} from "../internal/internal";
 import {PilosaError} from "./error";
+import {AttributeMap} from "./common";
 
 export class QueryResponse {
-    private _results: Array<QueryResult> = new Array<QueryResult>();
+    readonly results: QueryResult[] = [];
+    readonly profiles: ProfileItem[] = [];
     private _errorMessage: string = "";
     private _isSuccess: boolean = false;
 
     protected constructor() {}
 
-    get results(): Array<QueryResult> {
-        return this._results;
+    get result(): QueryResult | null {
+        if (this.results.length > 0) {
+            return this.results[0];
+        }
+        return null;
     }
 
-    get result(): QueryResult | null {
-        if (this._results.length > 0) {
-            return this._results[0];
+    get profile(): ProfileItem | null {
+        if (this.profiles.length > 0) {
+            return this.profiles[0];
         }
         return null;
     }
@@ -45,12 +50,15 @@ export class QueryResponse {
 
         this._isSuccess = true;
 
-        const results = this._results;
+        const results = this.results;
         for (let result of response.Results || []) {
             results.push(QueryResult.fromInternal(result));
         }
 
-        // TODO: profiles
+        const profiles = this.profiles;
+        for (let profile of response.Profiles || []) {
+            profiles.push(ProfileItem.fromInternal(profile));
+        }
     }
 }
 
@@ -100,7 +108,7 @@ export class BitmapResult {
     static fromInternal(b: internal.Bitmap): BitmapResult {
         if (b.Bits && b.Attrs) {
             let bits = b.Bits.map((bit: Long) => bit.toNumber());
-            return new BitmapResult(Util.internalAttrsToObject(b.Attrs), bits);
+            return new BitmapResult(Util.internalAttrsToMap(b.Attrs), bits);
         }
         return new BitmapResult({}, []);
     }
@@ -115,25 +123,17 @@ export class BitmapResult {
 }
 
 export class CountResultItem {
-    private constructor(private _id: number, private _count: number) {}
+    private constructor(readonly id: number, readonly count: number) {}
 
     static fromInternal(obj: internal.Pair) {
         return new CountResultItem((obj.Key as Long).toNumber(), (obj.Count as Long).toNumber());
-    }
-
-    get id(): number {
-        return this._id;
-    }
-
-    get count(): number {
-        return this._count;
     }
 }
 
 export function __testing_triggerUnknownType() {
     const attr = new internal.Attr();
     attr.Key = "foo";
-    return Util.internalAttrsToObject([attr]);
+    return Util.internalAttrsToMap([attr]);
 }
 
 /** @internal */
@@ -148,13 +148,24 @@ export function __testing_empty_Bitmap() {
     return new internal.Bitmap();
 }
 
+export class ProfileItem {
+    private constructor(readonly id: number, readonly attributes: AttributeMap) {}
+
+    static fromInternal(obj: internal.Profile) {
+        const attrs = (obj.Attrs)? Util.internalAttrsToMap(obj.Attrs) : {};
+        return new ProfileItem((obj.ID as Long).toNumber(), attrs);
+    }
+}
+
+
+
 namespace Util {
     const PROTOBUF_STRING_TYPE = 1;
     const PROTOBUF_UINT_TYPE = 2;
     const PROTOBUF_BOOL_TYPE = 3;
     const PROTOBUF_DOUBLE_TYPE = 4;
 
-    export function internalAttrsToObject(attrs: Array<internal.Attr>): any {
+    export function internalAttrsToMap(attrs: Array<internal.Attr>): AttributeMap {
         const r: any = new Object();
         for (let attr of attrs) {
             if (attr.Key) {
