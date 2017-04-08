@@ -231,7 +231,7 @@ describe('Client', () => {
             reply(200, () => "{}");
         class C extends Client {
             static defaultClient() {
-                return new C(Cluster.withHost(URI.fromAddress(SERVER_ADDRESS)));
+                return new C(Cluster.withHost(URI.address(SERVER_ADDRESS)));
             }
             httpSchema() {
                 return this.httpRequest("GET", "/schema");

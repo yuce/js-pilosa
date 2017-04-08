@@ -17,7 +17,7 @@ export class Client {
     }
 
     static withAddress(address: string | URI): Client {
-        let uri: URI = (typeof address === "string")? URI.fromAddress(address) : address;
+        let uri: URI = (typeof address === "string")? URI.address(address) : address;
         return new Client(Cluster.withHost(uri));
     }
 
@@ -268,33 +268,18 @@ class QueryRequest {
 }
 
 export class URI {
-    private static _uriPattern: RegExp = /^(([+a-z]+):\/\/)?([0-9a-z.-]+)?(:([0-9]+))?$/;
+    readonly scheme: string = "http";
+    readonly host: string = "localhost";
+    readonly port: number = 10101;
 
-    private constructor(readonly scheme="http", readonly host="localhost", readonly port=10101) {}
-
-    static defaultURI(): URI {
-        return new URI();
+    constructor(parts?: {scheme?: string, host?: string, port?: number}) {
+        this.scheme = (parts && parts.scheme) || "http";
+        this.host = (parts && parts.host) || "localhost";
+        this.port = (parts && parts.port) || 10101;
     }
 
-    static fromAddress(address: string): URI {
+    static address(address: string): URI {
         return URI.parseAddress(address);
-    }
-
-    static withPort(port: number): URI {
-        return new URI(undefined, undefined, port);
-    }
-
-    static withHostPort(host: string, port: number): URI {
-        return new URI(undefined, host, port);
-    }
-
-    normalize(): string {
-        let scheme = this.scheme;
-        const index = scheme.indexOf("+");
-        if (index > 0) {
-            scheme = scheme.substring(0, index);
-        }
-        return `${scheme}://${this.host}:${this.port}`;
     }
 
     toString(): string {
@@ -316,8 +301,10 @@ export class URI {
             const scheme = m[2];
             const host = m[3];
             const port = (m[5] !== undefined)? parseInt(m[5]) : undefined;
-            return new URI(scheme, host, port);
+            return new URI({scheme: scheme, host: host, port: port});
         }
         throw PilosaError.uri("Not a Pilosa URI");
     }
+
+    private static _uriPattern: RegExp = /^(([+a-z]+):\/\/)?([0-9a-z.-]+)?(:([0-9]+))?$/;
 }

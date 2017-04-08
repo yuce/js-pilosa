@@ -12,7 +12,7 @@ describe('Client', () => {
     });
 
     it ('can be created with a URI', () => {
-        let client = Client.withAddress(URI.defaultURI());
+        let client = Client.withAddress(new URI());
         expect(client).not.null
     });
 
