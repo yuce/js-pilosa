@@ -9,21 +9,44 @@ export type HttpMethod = "POST" | "DELETE" | "GET" | "PATCH";
 
 export class Client {
     private currentHost: URI | null = null;
+    private cluster: Cluster;
 
-    protected constructor(private _cluster: ICluster) {}
+    constructor(clusterUriString?: Cluster | URI | string) {
+        let cluster: Cluster;
+        if (clusterUriString) {
+            if (clusterUriString instanceof Cluster) {
+                cluster = clusterUriString
+            }
+            else if (clusterUriString instanceof URI) {
+                cluster = new Cluster(clusterUriString);
+            }
+            else if (typeof clusterUriString === "string") {
+                cluster = new Cluster(URI.address(clusterUriString));
+            }
+            else {
+                throw PilosaError.generic("Cluster, URI or string address is required");
+            }
+        }
+        else {
+            cluster = new Cluster(new URI());
+        }
+        this.cluster = cluster;
+    }
 
+    /*
     static defaultClient(): Client {
         return Client.withAddress(":10101");
     }
 
     static withAddress(address: string | URI): Client {
         let uri: URI = (typeof address === "string")? URI.address(address) : address;
-        return new Client(Cluster.withHost(uri));
+        return new Client(new Cluster(uri));
     }
 
-    static withCluster(cluster: ICluster): Client {
+    static withCluster(cluster: Cluster): Client {
         return new Client(cluster);
     }
+    */
 
     query(query: PqlQuery): Promise<QueryResponse> {
         const request = QueryRequest.withDatabase(query.database);
@@ -176,7 +199,7 @@ export class Client {
 
             req.on('error', err => {
                 if (this.currentHost) {
-                    this._cluster.removeHost(this.currentHost);
+                    this.cluster.removeHost(this.currentHost);
                     this.currentHost = null;
                 }
                 reject(err);
@@ -191,7 +214,7 @@ export class Client {
 
     private getAddress(): URI {
         if (this.currentHost === null) {
-            this.currentHost = this._cluster.getHost();
+            this.currentHost = this.cluster.getHost();
         }
         const scheme = this.currentHost.scheme;
         if (scheme != "http") {
@@ -201,23 +224,12 @@ export class Client {
     }
 }
 
-export interface ICluster {
-    getHost(): URI;
-    removeHost(address: URI): void;
-}
-
-export class Cluster implements ICluster {
-    private _hosts: Array<URI>;
+export class Cluster {
+    private _hosts: URI[];
     private _nextIndex = 0;
 
-    constructor() {
-        this._hosts = new Array<URI>();
-    }
-
-    static withHost(host: URI): Cluster {
-        const cluster = new Cluster();
-        cluster.addHost(host);
-        return cluster;
+    constructor(...hosts: URI[]) {
+        this._hosts = hosts;
     }
 
     addHost(host: URI): void {
@@ -243,7 +255,7 @@ export class Cluster implements ICluster {
         }
     }
 
-    getHosts(): Array<URI> {
+    get hosts(): URI[] {
         return this._hosts;
     }
 }

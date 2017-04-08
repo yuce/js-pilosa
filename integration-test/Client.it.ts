@@ -8,7 +8,7 @@ const SERVER_ADDRESS = "http://localhost:10101";
 class Util {
     private static counter = 0;
     static getClient() {
-        return Client.withAddress(SERVER_ADDRESS);
+        return new Client(SERVER_ADDRESS);
     }
     static getRandomDatabase() {
         return Database.named(`testdb-${Util.counter++}`);
@@ -63,14 +63,14 @@ describe('Client', () => {
     });
 
     it('should throw an error on connection failure', done => {
-        const client = Client.withAddress("http://non-existent-sub.pilosa.com:22222");
+        const client = new Client("http://non-existent-sub.pilosa.com:22222");
         client.query(frame.setBit(15, 10))
             .then(() => done(new Error("should have failed")))
             .catch(_e => done());
     });
 
     it('should fail on unknown scheme', done => {
-        const client = Client.withAddress("notknown://:15555");
+        const client = new Client("notknown://:15555");
         client.query(frame.setBit(15, 10))
             .then(() => done(new Error("should have failed")))
             .catch(_e => done());
@@ -114,21 +114,21 @@ describe('Client', () => {
     });
 
     it('should fail if it cannot delete a database', done => {
-        const client = Client.withAddress("http://non-existent-sub.pilosa.com:22222");
+        const client = new Client("http://non-existent-sub.pilosa.com:22222");
         client.deleteDatabase(Database.named("non-existent"))
             .then(() => done(new Error("should have failed")))
             .catch(_e => done());
     });
 
     it('should fail if it cannot ensure database existence', done => {
-        const client = Client.withAddress("http://non-existent-sub.pilosa.com:22222");
+        const client = new Client("http://non-existent-sub.pilosa.com:22222");
         client.ensureDatabase(db)
             .then(() => done(new Error("should have failed")))
             .catch(_e => done());
     });
 
     it('should fail if it cannot ensure frame existence', done => {
-        const client = Client.withAddress("http://non-existent-sub.pilosa.com:22222");
+        const client = new Client("http://non-existent-sub.pilosa.com:22222");
         client.ensureFrame(db.frame("foo"))
             .then(() => done(new Error("should have failed")))
             .catch(_e => done());
@@ -231,7 +231,7 @@ describe('Client', () => {
             reply(200, () => "{}");
         class C extends Client {
             static defaultClient() {
-                return new C(Cluster.withHost(URI.address(SERVER_ADDRESS)));
+                return new C(new Cluster(URI.address(SERVER_ADDRESS)));
             }
             httpSchema() {
                 return this.httpRequest("GET", "/schema");

@@ -1,23 +1,19 @@
-import {expect} from 'chai';
 import {Client, Cluster, URI} from '../src/index';
 
 describe('Client', () => {
     it ('should have default parameters', () => {
-        Client.defaultClient();
+        new Client();
     });
 
     it ('can be created with a string address', () => {
-        let client = Client.withAddress(":9999");
-        expect(client).not.null
+        new Client(":9999");
     });
 
     it ('can be created with a URI', () => {
-        let client = Client.withAddress(new URI());
-        expect(client).not.null
+        new Client(new URI());
     });
 
     it ('can be created with a cluster', () => {
-        let client = Client.withCluster(new Cluster());
-        expect(client).not.null
+        new Client(new Cluster());
     });
 });

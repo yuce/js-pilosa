@@ -3,14 +3,14 @@ import {Cluster, URI} from '../src/index';
 
 describe('Cluster', () => {
     it('can be created with a URI', () => {
-        let c = Cluster.withHost(new URI());
-        expect(c.getHosts()).eql([new URI()]);
+        let c = new Cluster(new URI());
+        expect(c.hosts).eql([new URI()]);
     });
 
     it('can add hosts', () => {
         let c = new Cluster();
         c.addHost(URI.address(":10101"));
-        expect(c.getHosts()).eql([URI.address("http://localhost:10101")]);
+        expect(c.hosts).eql([URI.address("http://localhost:10101")]);
     });
 
     it ('can remove hosts', () => {
