@@ -10,7 +10,7 @@ export class Database {
     }
 
     frame(name: string, options: FrameOptions={}) {
-        return _Frame.create(this, name, options);
+        return _Frame.create(this, name, options.rowLabel || "id");
     }
 
     rawQuery(query: string) {
@@ -44,10 +44,8 @@ export class Database {
 }
 
 export class Frame {
-    private rowLabel: string;
     private columnLabel: string;
-    protected constructor(readonly database: Database, readonly name: string, readonly options: FrameOptions) {
-        this.rowLabel = options.rowLabel || "id";
+    protected constructor(readonly database: Database, readonly name: string, readonly rowLabel: string) {
         this.columnLabel = database.columnLabel;
     }
 
@@ -113,9 +111,9 @@ export class Frame {
 
 // simulates module private Frame creation
 class _Frame extends Frame {
-    static create(database: Database, name: string, options: FrameOptions) {
+    static create(database: Database, name: string, rowLabel: string) {
         Validator.validateFrameName(name);
-        return new Frame(database, name, options);
+        return new Frame(database, name, rowLabel);
     }
 }
 

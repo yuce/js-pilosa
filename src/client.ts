@@ -8,7 +8,7 @@ import {Database, Frame, PqlQuery} from './orm';
 export type HttpMethod = "POST" | "DELETE" | "GET" | "PATCH";
 
 export class Client {
-    private _currentAddress: URI;
+    private currentHost: URI | null = null;
 
     protected constructor(private _cluster: ICluster) {}
 
@@ -38,11 +38,7 @@ export class Client {
                 columnLabel: database.columnLabel
             }
         });
-        return new Promise<void>((resolve, reject) => {
-            this.httpRequest("POST", "/db", data).
-                then(_res => resolve()).
-                catch(reject);
-        });
+        return this.createOrDeleteDatabase("POST", data);
     }
 
     createFrame(frame: Frame): Promise<void> {
@@ -50,14 +46,10 @@ export class Client {
             db: frame.database.name,
             frame: frame.name,
             options: {
-                rowLabel: frame.options.rowLabel
+                rowLabel: frame.rowLabel
             }
         });
-        return new Promise<void>((resolve, reject) => {
-            this.httpRequest("POST", "/frame", data).
-                then(_ => resolve()).
-                catch(reject);
-        });
+        return this.createOrDeleteFrame("POST", data);
     }
 
     ensureDatabase(database: Database): Promise<void> {
@@ -92,8 +84,20 @@ export class Client {
 
     deleteDatabase(database: Database): Promise<void> {
         const data = this.encodeRequestData({db: database.name});
+        return this.createOrDeleteDatabase("DELETE", data);
+    }
+
+    private createOrDeleteDatabase(method: HttpMethod, data: Buffer): Promise<void> {
         return new Promise<void>((resolve, reject) => {
-            this.httpRequest("DELETE", "/db", data).
+            this.httpRequest(method, "/db", data).
+                then(_ => resolve()).
+                catch(reject);
+        });
+    }
+
+    private createOrDeleteFrame(method: HttpMethod, data: Buffer): Promise<void> {
+        return new Promise<void>((resolve, reject) => {
+            this.httpRequest(method, "/frame", data).
                 then(_ => resolve()).
                 catch(reject);
         });
@@ -170,7 +174,13 @@ export class Client {
                 }
             });
 
-            req.on('error', err => reject(err));
+            req.on('error', err => {
+                if (this.currentHost) {
+                    this._cluster.removeHost(this.currentHost);
+                    this.currentHost = null;
+                }
+                reject(err);
+            });
 
             if (data) {
                 req.write(data);
@@ -180,12 +190,14 @@ export class Client {
     }
 
     private getAddress(): URI {
-        this._currentAddress = this._cluster.getHost();
-        const scheme = this._currentAddress.scheme;
+        if (this.currentHost === null) {
+            this.currentHost = this._cluster.getHost();
+        }
+        const scheme = this.currentHost.scheme;
         if (scheme != "http") {
             throw PilosaError.generic("Unknown scheme: " + scheme);
         }
-        return this._currentAddress;
+        return this.currentHost;
     }
 }
 
@@ -276,7 +288,7 @@ export class URI {
         return new URI(undefined, host, port);
     }
 
-    get normalizedAddress(): string {
+    normalize(): string {
         let scheme = this.scheme;
         const index = scheme.indexOf("+");
         if (index > 0) {

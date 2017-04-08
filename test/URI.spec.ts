@@ -60,10 +60,10 @@ describe('URI', () => {
 
     it('can get normalized address', () => {
         let uri1 = URI.fromAddress("http+protobuf://big-data.pilosa.com:6888");
-        expect(uri1.normalizedAddress).equal("http://big-data.pilosa.com:6888");
+        expect(uri1.normalize()).equal("http://big-data.pilosa.com:6888");
 
         let uri2 = URI.defaultURI();
-        expect(uri2.normalizedAddress).equal("http://localhost:10101");
+        expect(uri2.normalize()).equal("http://localhost:10101");
     });
 
     it('should throw PilosaURIError for invalid address', () => {
