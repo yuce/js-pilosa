@@ -3,9 +3,9 @@ import {internal} from "../internal/internal";
 import * as http from 'http';
 import {QueryResponse} from './response';
 import {PilosaError} from './error';
-import {Database, Frame} from './orm';
+import {Database, Frame, PqlQuery} from './orm';
 
-export type HttpMethod = "POST" | "DELETE" | "GET";
+export type HttpMethod = "POST" | "DELETE" | "GET" | "PATCH";
 
 export class Client {
     private _currentAddress: URI;
@@ -25,9 +25,9 @@ export class Client {
         return new Client(cluster);
     }
 
-    query(database: Database, query: string): Promise<QueryResponse> {
-        const request = QueryRequest.withDatabase(database);
-        request.query = query;
+    query(query: PqlQuery): Promise<QueryResponse> {
+        const request = QueryRequest.withDatabase(query.database);
+        request.query = query.serialize();
         return this.queryPath(request);
     }
 
@@ -35,7 +35,7 @@ export class Client {
         const data = this.encodeRequestData({
             db: database.name,
             options: {
-                columnLabel: database.options.columnLabel
+                columnLabel: database.columnLabel
             }
         });
         return new Promise<void>((resolve, reject) => {
@@ -60,7 +60,7 @@ export class Client {
         });
     }
 
-    ensureDatabaseExists(database: Database): Promise<void> {
+    ensureDatabase(database: Database): Promise<void> {
         return new Promise<void>((resolve, reject) => {
             this.createDatabase(database).
                 then(resolve).
@@ -75,7 +75,7 @@ export class Client {
         });
     }
 
-    ensureFrameExists(frame: Frame): Promise<void> {
+    ensureFrame(frame: Frame): Promise<void> {
         return new Promise<void>((resolve, reject) => {
             this.createFrame(frame).
                 then(resolve).

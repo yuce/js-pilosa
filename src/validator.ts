@@ -10,43 +10,43 @@ export namespace Validator {
     const MAX_FRAME_NAME = 64;
     const MAX_LABEL = 64;
 
-    export function validateDatabaseName(databaseName: string): boolean {
+    export function validDatabaseName(databaseName: string): boolean {
         if (!databaseName || databaseName.length > MAX_DATABASE_NAME) {
             return false;
         }
         return DATABASE_NAME.test(databaseName);
     }
 
-    export function ensureValidDatabaseName(databaseName: string): void {
-        if (!validateDatabaseName(databaseName)) {
+    export function validateDatabaseName(databaseName: string): void {
+        if (!validDatabaseName(databaseName)) {
             throw PilosaError.validation(`Invalid database name: ${databaseName}`);
         }
     }
 
-    export function validateFrameName(frameName: string): boolean {
+    export function validFrameName(frameName: string): boolean {
         if (!frameName || frameName.length > MAX_FRAME_NAME) {
             return false;
         }
         return FRAME_NAME.test(frameName);
     }
-    
-    export function ensureValidFrameName(frameName: string): void {
-        if (!validateFrameName(frameName)) {
+
+    export function validateFrameName(frameName: string): void {
+        if (!validFrameName(frameName)) {
             throw PilosaError.validation(`Invalid frame name: ${frameName}`);
         }
     }
 
-    export function validateLabel(label: string): boolean {
+    export function validLabel(label: string): boolean {
         if (!label || label.length > MAX_LABEL) {
             return false;
         }
         return LABEL.test(label);
     }
 
-    export function ensureValidLabel(label: string): void {
-        if (!validateLabel(label)) {
+    export function validateLabel(label: string): void {
+        if (!validLabel(label)) {
             throw PilosaError.validation(`Invalid label: ${label}`);
         }
-    }   
+    }
 
 }

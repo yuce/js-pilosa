@@ -2,15 +2,23 @@
 import {Validator} from "./validator";
 
 export class Database {
-    protected constructor(readonly name: string, readonly options: DatabaseOptions) {}
+    protected constructor(readonly name: string, readonly columnLabel: string) {}
 
-    static named(name: string, options=DatabaseOptions.withDefaults()) {
-        Validator.ensureValidDatabaseName(name);
-        return new Database(name, options);
+    static named(name: string, options: DatabaseOptions={}) {
+        Validator.validateDatabaseName(name);
+        return new Database(name, options.columnLabel || "col_id");
     }
 
-    frame(name: string, options=FrameOptions.withDefaults()) {
+    frame(name: string, options: FrameOptions={}) {
         return _Frame.create(this, name, options);
+    }
+
+    rawQuery(query: string) {
+        return new PqlBaseQuery(query, this);
+    }
+
+    batchQuery(...queries: Array<PqlQuery>) {
+        return new PqlBatchQuery(queries, this);
     }
 
     union(bitmap1: PqlBitmapQuery, bitmap2: PqlBitmapQuery, ...bitmaps: Array<PqlBitmapQuery>): PqlBitmapQuery {
@@ -25,12 +33,12 @@ export class Database {
         return this.bitmapOperation("Difference", [bitmap1, bitmap2, ...bitmaps]);
     }
 
-    count(bitmap: PqlBitmapQuery): IPqlQuery {
-        return new PqlQuery(`Count(${bitmap.toString()})`, this);
+    count(bitmap: PqlBitmapQuery): PqlQuery {
+        return new PqlBaseQuery(`Count(${bitmap.serialize()})`, this);
     }
 
     private bitmapOperation(name: string, bitmaps: Array<PqlBitmapQuery>): PqlBitmapQuery {
-        let qry = bitmaps.map(bitmap => bitmap.toString()).join(", ");
+        let qry = bitmaps.map(bitmap => bitmap.serialize()).join(", ");
         return new PqlBitmapQuery(`${name}(${qry})`, this);
     }
 }
@@ -39,8 +47,8 @@ export class Frame {
     private rowLabel: string;
     private columnLabel: string;
     protected constructor(readonly database: Database, readonly name: string, readonly options: FrameOptions) {
-        this.rowLabel = options.rowLabel;
-        this.columnLabel = database.options.columnLabel;
+        this.rowLabel = options.rowLabel || "id";
+        this.columnLabel = database.columnLabel;
     }
 
     /**
@@ -60,8 +68,8 @@ export class Frame {
      * @param columnID profile ID
      * @return a PQL query
      */
-    setBit(rowID: number, columnID: number): IPqlQuery {
-        return new PqlQuery(`SetBit(${this.rowLabel}=${rowID}, frame='${this.name}', ${this.columnLabel}=${columnID})`, this.database);
+    setBit(rowID: number, columnID: number): PqlQuery {
+        return new PqlBaseQuery(`SetBit(${this.rowLabel}=${rowID}, frame='${this.name}', ${this.columnLabel}=${columnID})`, this.database);
     }
 
     /**
@@ -71,8 +79,8 @@ export class Frame {
      * @param columnID profile ID
      * @return a PQL query
      */
-    clearBit(rowID: number, columnID: number): IPqlQuery {
-        return new PqlQuery(`ClearBit(${this.rowLabel}=${rowID}, frame='${this.name}', ${this.columnLabel}=${columnID})`, this.database);
+    clearBit(rowID: number, columnID: number): PqlQuery {
+        return new PqlBaseQuery(`ClearBit(${this.rowLabel}=${rowID}, frame='${this.name}', ${this.columnLabel}=${columnID})`, this.database);
     }
 
     /**
@@ -88,65 +96,73 @@ export class Frame {
         let s = `TopN(frame='${this.name}', n=${n})`;
         if (bitmap !== undefined) {
             if (values !== undefined && field !== undefined) {
-                s = `TopN(${bitmap.toString()}, frame='${this.name}', n=${n}, field='${field}', ${JSON.stringify(values)})`;
+                s = `TopN(${bitmap.serialize()}, frame='${this.name}', n=${n}, field='${field}', ${JSON.stringify(values)})`;
             }
             else {
-                s = `TopN(${bitmap.toString()}, frame='${this.name}', n=${n})`;
+                s = `TopN(${bitmap.serialize()}, frame='${this.name}', n=${n})`;
             }
         }
         return new PqlBitmapQuery(s, this.database);
+    }
+
+    setBitmapAttrs(rowID: number, attrs: any): PqlBitmapQuery {
+        let attrsStr = createAttributesString(attrs);
+        return new PqlBitmapQuery(`SetBitmapAttrs(frame='${this.name}', ${this.rowLabel}=${rowID}, ${attrsStr})`, this.database);
     }
 }
 
 // simulates module private Frame creation
 class _Frame extends Frame {
     static create(database: Database, name: string, options: FrameOptions) {
-        Validator.ensureValidFrameName(name);
+        Validator.validateFrameName(name);
         return new Frame(database, name, options);
     }
 }
 
-export class DatabaseOptions {
-    protected constructor(readonly columnLabel: string) {}
-
-    static withDefaults() {
-        return new DatabaseOptions("profileID");
-    }
-
-    static withColumnLabel(label: string) {
-        Validator.ensureValidLabel(label);
-        return new DatabaseOptions(label);
-    }
+export interface DatabaseOptions {
+    readonly columnLabel?: string;
 }
 
-export class FrameOptions {
-    private constructor(readonly rowLabel: string) {}
-
-    static withDefaults() {
-        return new FrameOptions("id");
-    }
-
-    static withRowLabel(label: string) {
-        Validator.ensureValidLabel(label);
-        return new FrameOptions(label);
-    }
+export interface FrameOptions {
+    readonly rowLabel?: string;
 }
 
-export interface IPqlQuery {
+export interface PqlQuery {
     readonly database: Database;
-    toString(): string;
+    serialize(): string;
 }
 
-export class PqlQuery implements IPqlQuery {
+export class PqlBaseQuery implements PqlQuery {
     constructor(private pql: string, readonly database: Database) {}
-    toString(): string {
+    serialize() {
         return this.pql;
     }
 }
 
-export class PqlBitmapQuery implements IPqlQuery {
+export class PqlBitmapQuery implements PqlQuery {
     constructor(private pql: string, readonly database: Database) {}
-    toString(): string {
+    serialize() {
         return this.pql;
     }
+}
+
+export class PqlBatchQuery implements PqlQuery {
+    constructor(private queries: Array<PqlQuery>, readonly database: Database) {}
+
+    serialize() {
+        return this.queries.map(q => q.serialize()).join("");
+    }
+}
+
+function createAttributesString(attrs: any) {
+    let attrsList = [];
+    for (let k in attrs) {
+        Validator.validLabel(k);
+        let v = attrs[k];
+        if (typeof v === "string") {
+            v = `"${attrs[k].replace(/"/g, '\\"')}"`;
+        }
+        attrsList.push(`${k}=${v}`);
+    }
+    return attrsList.join(", ");
 }

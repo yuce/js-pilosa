@@ -8,8 +8,8 @@ describe('Validator', () => {
             "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
         ];
         for (let name of validDatabaseNames) {
-            expect(Validator.validateDatabaseName(name)).true;
-            expect(() => Validator.ensureValidDatabaseName(name)).not.throws();
+            expect(Validator.validDatabaseName(name)).true;
+            expect(() => Validator.validateDatabaseName(name)).not.throws();
         }
 
         const invalidDatabaseNames = [
@@ -17,8 +17,8 @@ describe('Validator', () => {
             "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa1"
         ];
         for (let name of invalidDatabaseNames) {
-            expect(Validator.validateDatabaseName(name)).false;
-            expect(() => Validator.ensureValidDatabaseName(name)).throws();
+            expect(Validator.validDatabaseName(name)).false;
+            expect(() => Validator.validateDatabaseName(name)).throws();
         }
     });
 
@@ -28,8 +28,8 @@ describe('Validator', () => {
             "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
         ];
         for (let name of validFrameNames) {
-            expect(Validator.validateFrameName(name)).true;
-            expect(() => Validator.ensureValidFrameName(name)).not.throws();
+            expect(Validator.validFrameName(name)).true;
+            expect(() => Validator.validateFrameName(name)).not.throws();
         }
 
         const invalidFrameNames = [
@@ -37,8 +37,8 @@ describe('Validator', () => {
             "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa1"
         ];
         for (let name of invalidFrameNames) {
-            expect(Validator.validateFrameName(name)).false;
-            expect(() => Validator.ensureValidFrameName(name)).throws();
+            expect(Validator.validFrameName(name)).false;
+            expect(() => Validator.validateFrameName(name)).throws();
         }
 
     });
@@ -49,8 +49,8 @@ describe('Validator', () => {
             "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
         ];
         for (let label of validLabels) {
-            expect(Validator.validateLabel(label)).true;
-            expect(() => Validator.ensureValidLabel(label)).not.throws();
+            expect(Validator.validLabel(label)).true;
+            expect(() => Validator.validateLabel(label)).not.throws();
         }
 
         const invalidLabels = [
@@ -58,8 +58,8 @@ describe('Validator', () => {
             "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa1"
         ];
         for (let label of invalidLabels) {
-            expect(Validator.validateLabel(label)).false;
-            expect(() => Validator.ensureValidLabel(label)).throws();
+            expect(Validator.validLabel(label)).false;
+            expect(() => Validator.validateLabel(label)).throws();
         }
     });
 });
