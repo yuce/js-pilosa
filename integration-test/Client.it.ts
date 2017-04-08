@@ -156,6 +156,32 @@ describe('Client', () => {
             .catch(done);
     });
 
+    it('can create a database with time quantum', done => {
+        const client = Util.getClient();
+        const db = Database.named("db-with-timequantum", {timeQuantum: "Y"});
+        client.ensureDatabase(db).then(() =>
+        client.deleteDatabase(db))
+            .then(done)
+            .catch(done);
+    });
+
+    it('can create a frame with time quantum', done => {
+        const client = Util.getClient();
+        const frame = db.frame("frame-with-timequantum", {timeQuantum: "YMDH"});
+        client.ensureFrame(frame)
+            .then(done)
+            .catch(done);
+    });
+
+    it('can delete a frame', done => {
+        const client = Util.getClient();
+        const frame = db.frame("to-be-deleted");
+        client.ensureFrame(frame).then(() =>
+        client.deleteFrame(frame))
+            .then(done)
+            .catch(done);
+    });
+
     it('can query bitmap', done => {
         const client = Util.getClient();
         client.query(db.batchQuery(

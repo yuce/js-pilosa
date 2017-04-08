@@ -4,15 +4,15 @@ import {AttributeMap} from "./common";
 
 
 export class Database {
-    protected constructor(readonly name: string, readonly columnLabel: string) {}
+    protected constructor(readonly name: string, readonly columnLabel: string, readonly timeQuantum: TimeQuantum) {}
 
     static named(name: string, options: DatabaseOptions={}) {
         Validator.validateDatabaseName(name);
-        return new Database(name, options.columnLabel || "col_id");
+        return new Database(name, options.columnLabel || "col_id", options.timeQuantum || "");
     }
 
     frame(name: string, options: FrameOptions={}) {
-        return _Frame.create(this, name, options.rowLabel || "id");
+        return _Frame.create(this, name, options.rowLabel || "id", options.timeQuantum || "");
     }
 
     rawQuery(query: string) {
@@ -53,7 +53,8 @@ export class Database {
 
 export class Frame {
     private columnLabel: string;
-    protected constructor(readonly database: Database, readonly name: string, readonly rowLabel: string) {
+    protected constructor(readonly database: Database, readonly name: string,
+            readonly rowLabel: string, readonly timeQuantum: TimeQuantum) {
         this.columnLabel = database.columnLabel;
     }
 
@@ -120,18 +121,20 @@ export class Frame {
 
 // simulates module private Frame creation
 class _Frame extends Frame {
-    static create(database: Database, name: string, rowLabel: string) {
+    static create(database: Database, name: string, rowLabel: string, timeQuantum: TimeQuantum) {
         Validator.validateFrameName(name);
-        return new Frame(database, name, rowLabel);
+        return new Frame(database, name, rowLabel, timeQuantum);
     }
 }
 
 export interface DatabaseOptions {
     readonly columnLabel?: string;
+    readonly timeQuantum?: TimeQuantum;
 }
 
 export interface FrameOptions {
     readonly rowLabel?: string;
+    readonly timeQuantum?: TimeQuantum;
 }
 
 export interface PqlQuery {
@@ -160,6 +163,8 @@ export class PqlBatchQuery implements PqlQuery {
         return this.queries.map(q => q.serialize()).join("");
     }
 }
+
+export type TimeQuantum = "" | "Y" | "M" | "D" | "H" | "YM" | "MD" | "DH" | "YMD" | "MDH" | "YMDH";
 
 function createAttributesString(attrs: AttributeMap) {
     let attrsList = [];

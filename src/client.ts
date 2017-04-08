@@ -37,7 +37,18 @@ export class Client {
                 columnLabel: database.columnLabel
             }
         });
-        return this.createOrDeleteDatabase("POST", data);
+        return new Promise<void>((resolve, reject) => {
+            this.httpRequest("POST", "/db", data).then(_ => {
+                if (database.timeQuantum == "") {
+                    resolve();
+                }
+                else {
+                    this.patchDatabaseTimeQuantum(database)
+                        .then(resolve)
+                        .catch(reject);
+                }
+            }).catch(reject);
+        });
     }
 
     createFrame(frame: Frame): Promise<void> {
@@ -48,7 +59,19 @@ export class Client {
                 rowLabel: frame.rowLabel
             }
         });
-        return this.createOrDeleteFrame("POST", data);
+        return new Promise<void>((resolve, reject) => {
+            this.httpRequest("POST", "/frame", data).then(_ => {
+                if (frame.timeQuantum == "") {
+                    resolve();
+                }
+                else {
+                    this.patchFrameTimeQuantum(frame)
+                        .then(resolve)
+                        .catch(reject);
+                }
+            }).catch(reject);
+        });
+
     }
 
     ensureDatabase(database: Database): Promise<void> {
@@ -83,22 +106,40 @@ export class Client {
 
     deleteDatabase(database: Database): Promise<void> {
         const data = this.encodeRequestData({db: database.name});
-        return this.createOrDeleteDatabase("DELETE", data);
-    }
-
-    private createOrDeleteDatabase(method: HttpMethod, data: Buffer): Promise<void> {
         return new Promise<void>((resolve, reject) => {
-            this.httpRequest(method, "/db", data).
-                then(_ => resolve()).
-                catch(reject);
+            this.httpRequest("DELETE", "/db", data)
+                .then(_ => resolve())
+                .catch(reject);
         });
     }
 
-    private createOrDeleteFrame(method: HttpMethod, data: Buffer): Promise<void> {
+    deleteFrame(frame: Frame): Promise<void> {
+        const data = this.encodeRequestData({
+            db: frame.database.name,
+            frame: frame.name
+        });
         return new Promise<void>((resolve, reject) => {
-            this.httpRequest(method, "/frame", data).
-                then(_ => resolve()).
-                catch(reject);
+            this.httpRequest("DELETE", "/frame", data)
+                .then(_ => resolve())
+                .catch(reject);
+        });
+    }
+
+    private patchDatabaseTimeQuantum(database: Database): Promise<void> {
+        const data = this.encodeRequestData({db: database.name, time_quantum: database.timeQuantum});
+        return new Promise<void>((resolve, reject) => {
+            this.httpRequest("PATCH", "/db/time_quantum", data)
+                .then(_ => resolve())
+                .catch(reject);
+        });
+    }
+
+    private patchFrameTimeQuantum(frame: Frame): Promise<void> {
+        const data = this.encodeRequestData({db: frame.database.name, frame: frame.name, time_quantum: frame.timeQuantum});
+        return new Promise<void>((resolve, reject) => {
+            this.httpRequest("PATCH", "/frame/time_quantum", data)
+                .then(_ => resolve())
+                .catch(reject);
         });
     }
 
