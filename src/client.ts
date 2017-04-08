@@ -3,7 +3,7 @@ import {internal} from "../internal/internal";
 import * as http from 'http';
 import {QueryResponse} from './response';
 import {PilosaError} from './error';
-import {Database, Frame, PqlQuery} from './orm';
+import {Database, Frame, PqlQuery, TimeQuantum} from './orm';
 
 export type HttpMethod = "POST" | "DELETE" | "GET" | "PATCH";
 
@@ -39,7 +39,7 @@ export class Client {
         });
         return new Promise<void>((resolve, reject) => {
             this.httpRequest("POST", "/db", data).then(_ => {
-                if (database.timeQuantum == "") {
+                if (database.timeQuantum.equals(TimeQuantum.NONE)) {
                     resolve();
                 }
                 else {
@@ -61,7 +61,7 @@ export class Client {
         });
         return new Promise<void>((resolve, reject) => {
             this.httpRequest("POST", "/frame", data).then(_ => {
-                if (frame.timeQuantum == "") {
+                if (frame.timeQuantum.equals(TimeQuantum.NONE)) {
                     resolve();
                 }
                 else {
@@ -126,7 +126,8 @@ export class Client {
     }
 
     private patchDatabaseTimeQuantum(database: Database): Promise<void> {
-        const data = this.encodeRequestData({db: database.name, time_quantum: database.timeQuantum});
+        const data = this.encodeRequestData({db: database.name,
+                time_quantum: database.timeQuantum.toString()});
         return new Promise<void>((resolve, reject) => {
             this.httpRequest("PATCH", "/db/time_quantum", data)
                 .then(_ => resolve())
@@ -135,7 +136,11 @@ export class Client {
     }
 
     private patchFrameTimeQuantum(frame: Frame): Promise<void> {
-        const data = this.encodeRequestData({db: frame.database.name, frame: frame.name, time_quantum: frame.timeQuantum});
+        const data = this.encodeRequestData({
+            db: frame.database.name,
+            frame: frame.name,
+            time_quantum: frame.timeQuantum.toString()
+        });
         return new Promise<void>((resolve, reject) => {
             this.httpRequest("PATCH", "/frame/time_quantum", data)
                 .then(_ => resolve())

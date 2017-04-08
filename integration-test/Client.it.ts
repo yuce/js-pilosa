@@ -1,6 +1,6 @@
 
 import {expect} from 'chai';
-import {Client, Cluster, Database, URI} from '../src/index';
+import {Client, Cluster, Database, URI, TimeQuantum} from '../src/index';
 import * as nock from 'nock';
 
 const SERVER_ADDRESS = "http://localhost:10101";
@@ -158,7 +158,9 @@ describe('Client', () => {
 
     it('can create a database with time quantum', done => {
         const client = Util.getClient();
-        const db = Database.named("db-with-timequantum", {timeQuantum: "Y"});
+        const db = Database.named("db-with-timequantum", {
+            timeQuantum: TimeQuantum.YEAR
+        });
         client.ensureDatabase(db).then(() =>
         client.deleteDatabase(db))
             .then(done)
@@ -167,7 +169,9 @@ describe('Client', () => {
 
     it('can create a frame with time quantum', done => {
         const client = Util.getClient();
-        const frame = db.frame("frame-with-timequantum", {timeQuantum: "YMDH"});
+        const frame = db.frame("frame-with-timequantum", {
+            timeQuantum: TimeQuantum.YEAR_MONTH_DAY
+        });
         client.ensureFrame(frame)
             .then(done)
             .catch(done);
@@ -224,9 +228,15 @@ describe('Client', () => {
 
     it('can retrieve bitmap attributes', done => {
         const client = Util.getClient();
+        const attrs = {
+            name: "some string",
+            age: 95,
+            height: 1.83,
+            registered: true
+        };
         client.query(db.batchQuery(
             frame.setBit(10, 44),
-            frame.setBitmapAttrs(10, {name: "some string", age: 95, height: 1.83, registered: true}))).then(_ =>
+            frame.setBitmapAttrs(10, attrs))).then(_ =>
         client.query(frame.bitmap(10))).then(r => {
             expect(r.result).not.null;
             if (r.result) {

@@ -4,15 +4,18 @@ import {AttributeMap} from "./common";
 
 
 export class Database {
-    protected constructor(readonly name: string, readonly columnLabel: string, readonly timeQuantum: TimeQuantum) {}
+    protected constructor(readonly name: string, readonly columnLabel: string,
+        readonly timeQuantum: TimeQuantum) {}
 
     static named(name: string, options: DatabaseOptions={}) {
         Validator.validateDatabaseName(name);
-        return new Database(name, options.columnLabel || "col_id", options.timeQuantum || "");
+        return new Database(name, options.columnLabel || "col_id",
+            options.timeQuantum || TimeQuantum.NONE);
     }
 
     frame(name: string, options: FrameOptions={}) {
-        return _Frame.create(this, name, options.rowLabel || "id", options.timeQuantum || "");
+        return _Frame.create(this, name, options.rowLabel || "id",
+            options.timeQuantum || TimeQuantum.NONE);
     }
 
     rawQuery(query: string) {
@@ -164,7 +167,32 @@ export class PqlBatchQuery implements PqlQuery {
     }
 }
 
-export type TimeQuantum = "" | "Y" | "M" | "D" | "H" | "YM" | "MD" | "DH" | "YMD" | "MDH" | "YMDH";
+// export type TimeQuantum = "" | "Y" | "M" | "D" | "H" | "YM" | "MD" | "DH" | "YMD" | "MDH" | "YMDH";
+
+export class TimeQuantum {
+    private constructor(private value: string) {}
+
+    equals(other: TimeQuantum): boolean {
+        return this.value == other.value;
+    }
+
+    toString(): string {
+        return this.value;
+    }
+
+    static readonly NONE = new TimeQuantum("");
+    static readonly YEAR = new TimeQuantum("Y");
+    static readonly MONTH = new TimeQuantum("M");
+    static readonly DAY = new TimeQuantum("D");
+    static readonly HOUR = new TimeQuantum("H");
+    static readonly YEAR_MONTH = new TimeQuantum("YM");
+    static readonly MONTH_DAY = new TimeQuantum("MD");
+    static readonly DAY_HOUR = new TimeQuantum("DH");
+    static readonly YEAR_MONTH_DAY = new TimeQuantum("YMD");
+    static readonly MONTH_DAY_HOUR = new TimeQuantum("MDH");
+    static readonly YEAR_MONTH_DAY_HOUR = new TimeQuantum("YMDH");
+}
+
 
 function createAttributesString(attrs: AttributeMap) {
     let attrsList = [];
