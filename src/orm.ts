@@ -4,13 +4,9 @@ import {AttributeMap} from "./common";
 
 
 export class Database {
-    protected constructor(readonly name: string, readonly columnLabel: string,
-        readonly timeQuantum: TimeQuantum) {}
-
-    static named(name: string, options: DatabaseOptions={}) {
-        Validator.validateDatabaseName(name);
-        return new Database(name, options.columnLabel || "col_id",
-            options.timeQuantum || TimeQuantum.NONE);
+    constructor(readonly name: string, options: DatabaseOptions={}) {
+        this.columnLabel = options.columnLabel || "col_id";
+        this.timeQuantum = options.timeQuantum || TimeQuantum.NONE;
     }
 
     frame(name: string, options: FrameOptions={}) {
@@ -47,11 +43,13 @@ export class Database {
         return new PqlBitmapQuery(`SetProfileAttrs(${this.columnLabel}=${columnID}, ${attrsStr})`, this);
     }
 
-
     private bitmapOperation(name: string, bitmaps: Array<PqlBitmapQuery>): PqlBitmapQuery {
         let qry = bitmaps.map(bitmap => bitmap.serialize()).join(", ");
         return new PqlBitmapQuery(`${name}(${qry})`, this);
     }
+
+    readonly columnLabel: string;
+    readonly timeQuantum: TimeQuantum;
 }
 
 export class Frame {

@@ -1,5 +1,3 @@
-INTERNAL_SOURCES = src/internal.js src/internal.d.ts
-INTERNAL_OUT = $(patsubst src/%,lib/%,$(INTERNAL_SOURCES))
 
 .PHONY: all build clean generate-proto test
 
@@ -15,4 +13,10 @@ generate-proto:
 	npm run generate-proto
 
 test:
+	npm run test
+
+test-all:
 	npm run test-all
+
+cover:
+	npm run cover

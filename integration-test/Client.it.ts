@@ -11,7 +11,7 @@ class Util {
         return new Client(SERVER_ADDRESS);
     }
     static getRandomDatabase() {
-        return Database.named(`testdb-${Util.counter++}`);
+        return new Database(`testdb-${Util.counter++}`);
     }
 }
 
@@ -52,7 +52,7 @@ describe('Client', () => {
         }).catch(done);
     });
     it('should create and delete a database', done => {
-        const tempdb = Database.named("to-be-deleted-" + db.name);
+        const tempdb = new Database("to-be-deleted-" + db.name);
         const client = Util.getClient();
         client.createDatabase(tempdb).then(() =>
         client.createFrame(tempdb.frame("delframe"))).then(() =>
@@ -115,7 +115,7 @@ describe('Client', () => {
 
     it('should fail if it cannot delete a database', done => {
         const client = new Client("http://non-existent-sub.pilosa.com:22222");
-        client.deleteDatabase(Database.named("non-existent"))
+        client.deleteDatabase(new Database("non-existent"))
             .then(() => done(new Error("should have failed")))
             .catch(_e => done());
     });
@@ -136,7 +136,7 @@ describe('Client', () => {
 
     it('can ensure database exists', done => {
         const client = Util.getClient();
-        const tempdb = Database.named(db.name + "-ensure");
+        const tempdb = new Database(db.name + "-ensure");
         client.ensureDatabase(tempdb).then(() =>
         client.ensureFrame(tempdb.frame("frm"))).then(() =>
         client.ensureDatabase(tempdb)).then(() =>
@@ -158,7 +158,7 @@ describe('Client', () => {
 
     it('can create a database with time quantum', done => {
         const client = Util.getClient();
-        const db = Database.named("db-with-timequantum", {
+        const db = new Database("db-with-timequantum", {
             timeQuantum: TimeQuantum.YEAR
         });
         client.ensureDatabase(db).then(() =>

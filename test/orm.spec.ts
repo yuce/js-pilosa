@@ -1,9 +1,9 @@
 import {expect} from 'chai';
 import {Database} from '../src/orm';
 
-const sampleDb = Database.named("sample-db");
+const sampleDb = new Database("sample-db");
 const sampleFrame = sampleDb.frame("sample-frame");
-const projectDb = Database.named("project-db", {columnLabel: "user"});
+const projectDb = new Database("project-db", {columnLabel: "user"});
 const collabFrame = projectDb.frame("collaboration", {rowLabel: "project"});
 
 const b1 = sampleFrame.bitmap(10);
