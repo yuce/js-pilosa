@@ -23,9 +23,10 @@ describe('Client', () => {
         "count-test", "importframe", "topn_test"
     ];
     let frame = db.frame("test");
+    const client = Util.getClient();
+
 
     beforeEach(done => {
-        const client = Util.getClient();
         client.ensureDatabase(db).then(() => {
             let ensureFramesList = [];
             for (let name of frameNames) {
@@ -45,7 +46,6 @@ describe('Client', () => {
     });
 
     it('should return a response', done => {
-        const client = Util.getClient();
         client.query(db.frame("query-test").setBit(155, 10)).then(r => {
             expect(r).not.equal(null);
             done();
@@ -53,7 +53,6 @@ describe('Client', () => {
     });
     it('should create and delete a database', done => {
         const tempdb = new Database("to-be-deleted-" + db.name);
-        const client = Util.getClient();
         client.createDatabase(tempdb).then(() =>
         client.createFrame(tempdb.frame("delframe"))).then(() =>
         client.query(tempdb.frame("delframe").setBit(1, 2))).then(() =>
@@ -77,14 +76,12 @@ describe('Client', () => {
     });
 
     it('should fail on parsing errors', done => {
-        const client = Util.getClient();
         client.query(db.rawQuery("SetBit(id=15, frame='test', col_id:=10)"))
             .then(() => done(new Error("should have failed")))
             .catch(_e => done());
     });
 
     it('can receive count responses', done => {
-        const client = Util.getClient();
         const f = db.frame("count-test");
         client.query(db.batchQuery(
             f.setBit(10, 20),
@@ -100,14 +97,12 @@ describe('Client', () => {
     });
 
     it('should fail when creating existing database', done => {
-        const client = Util.getClient();
         client.createDatabase(db)
             .then(() => done(new Error("should have failed")))
             .catch(_e => done());
     });
 
     it('should fail when creating existing frame', done => {
-        const client = Util.getClient();
         client.createFrame(frame)
             .then(() => done(new Error("should have failed")))
             .catch(_e => done());
@@ -135,7 +130,6 @@ describe('Client', () => {
     });
 
     it('can ensure database exists', done => {
-        const client = Util.getClient();
         const tempdb = new Database(db.name + "-ensure");
         client.ensureDatabase(tempdb).then(() =>
         client.ensureFrame(tempdb.frame("frm"))).then(() =>
@@ -146,7 +140,6 @@ describe('Client', () => {
     });
 
     it('can ensure frame exists', done => {
-        const client = Util.getClient();
         const frameName = "ensure-frame";
         const frame = db.frame(frameName);
         client.ensureFrame(frame).then(() =>
@@ -157,7 +150,6 @@ describe('Client', () => {
     });
 
     it('can create a database with time quantum', done => {
-        const client = Util.getClient();
         const db = new Database("db-with-timequantum", {
             timeQuantum: TimeQuantum.YEAR
         });
@@ -168,7 +160,6 @@ describe('Client', () => {
     });
 
     it('can create a frame with time quantum', done => {
-        const client = Util.getClient();
         const frame = db.frame("frame-with-timequantum", {
             timeQuantum: TimeQuantum.YEAR_MONTH_DAY
         });
@@ -178,7 +169,6 @@ describe('Client', () => {
     });
 
     it('can delete a frame', done => {
-        const client = Util.getClient();
         const frame = db.frame("to-be-deleted");
         client.ensureFrame(frame).then(() =>
         client.deleteFrame(frame))
@@ -187,7 +177,6 @@ describe('Client', () => {
     });
 
     it('can query bitmap', done => {
-        const client = Util.getClient();
         client.query(db.batchQuery(
                 frame.setBit(5, 10),
                 frame.setBit(5, 15),
@@ -208,7 +197,6 @@ describe('Client', () => {
     });
 
     it('can query topn', done => {
-        const client = Util.getClient();
         client.query(db.batchQuery(
             frame.setBit(10, 5),
             frame.setBit(10, 10),
@@ -227,7 +215,6 @@ describe('Client', () => {
     });
 
     it('can retrieve bitmap attributes', done => {
-        const client = Util.getClient();
         const attrs = {
             name: "some string",
             age: 95,
@@ -252,7 +239,6 @@ describe('Client', () => {
     });
 
     it('can query with profiles', done => {
-        const client = Util.getClient();
         const frame = db.frame("query-test");
         client.ensureFrame(frame).then(() =>
         client.query(frame.setBit(100, 1000))).then(() =>
@@ -277,7 +263,6 @@ describe('Client', () => {
         nock(SERVER_ADDRESS).
             post("/query").
             reply(200, () => "bad-reply");
-        const client = Util.getClient();
         client.query(db.frame("foo").bitmap(1))
             .then(_ => done(new Error("should have failed")))
             .catch(_e => done());
