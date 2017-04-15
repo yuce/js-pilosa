@@ -4,6 +4,7 @@
 all: build
 
 build:
+	npm install
 	tsc
 
 clean:

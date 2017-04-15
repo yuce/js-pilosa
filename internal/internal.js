@@ -6,9 +6,6 @@ var $protobuf = require("protobufjs/minimal");
 // Common aliases
 var $Reader = $protobuf.Reader, $Writer = $protobuf.Writer, $util = $protobuf.util;
 
-// Lazily resolved type references
-var $lazyTypes = [];
-
 // Exported root namespace
 var $root = $protobuf.roots["default"] || ($protobuf.roots["default"] = {});
 
@@ -24,32 +21,41 @@ $root.internal = (function() {
     internal.DB = (function() {
 
         /**
+         * Properties of a DB.
+         * @typedef internal.DB$Properties
+         * @type {Object}
+         * @property {string} [TimeQuantum] DB TimeQuantum.
+         * @property {string} [ColumnLabel] DB ColumnLabel.
+         */
+
+        /**
          * Constructs a new DB.
          * @exports internal.DB
          * @constructor
-         * @param {Object} [properties] Properties to set
+         * @param {internal.DB$Properties=} [properties] Properties to set
          */
         function DB(properties) {
             if (properties)
                 for (var keys = Object.keys(properties), i = 0; i < keys.length; ++i)
-                    this[keys[i]] = properties[keys[i]];
+                    if (properties[keys[i]] != null)
+                        this[keys[i]] = properties[keys[i]];
         }
 
         /**
          * DB TimeQuantum.
-         * @type {string|undefined}
+         * @type {string}
          */
         DB.prototype.TimeQuantum = "";
 
         /**
          * DB ColumnLabel.
-         * @type {string|undefined}
+         * @type {string}
          */
         DB.prototype.ColumnLabel = "";
 
         /**
          * Creates a new DB instance using the specified properties.
-         * @param {Object} [properties] Properties to set
+         * @param {internal.DB$Properties=} [properties] Properties to set
          * @returns {internal.DB} DB instance
          */
         DB.create = function create(properties) {
@@ -57,24 +63,24 @@ $root.internal = (function() {
         };
 
         /**
-         * Encodes the specified DB message.
-         * @param {internal.DB|Object} message DB message or plain object to encode
+         * Encodes the specified DB message. Does not implicitly {@link internal.DB.verify|verify} messages.
+         * @param {internal.DB$Properties} message DB message or plain object to encode
          * @param {$protobuf.Writer} [writer] Writer to encode to
          * @returns {$protobuf.Writer} Writer
          */
         DB.encode = function encode(message, writer) {
             if (!writer)
                 writer = $Writer.create();
-            if (message.TimeQuantum !== undefined && message.hasOwnProperty("TimeQuantum"))
+            if (message.TimeQuantum != null && message.hasOwnProperty("TimeQuantum"))
                 writer.uint32(/* id 1, wireType 2 =*/10).string(message.TimeQuantum);
-            if (message.ColumnLabel !== undefined && message.hasOwnProperty("ColumnLabel"))
+            if (message.ColumnLabel != null && message.hasOwnProperty("ColumnLabel"))
                 writer.uint32(/* id 2, wireType 2 =*/18).string(message.ColumnLabel);
             return writer;
         };
 
         /**
-         * Encodes the specified DB message, length delimited.
-         * @param {internal.DB|Object} message DB message or plain object to encode
+         * Encodes the specified DB message, length delimited. Does not implicitly {@link internal.DB.verify|verify} messages.
+         * @param {internal.DB$Properties} message DB message or plain object to encode
          * @param {$protobuf.Writer} [writer] Writer to encode to
          * @returns {$protobuf.Writer} Writer
          */
@@ -87,6 +93,8 @@ $root.internal = (function() {
          * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
          * @param {number} [length] Message length if known beforehand
          * @returns {internal.DB} DB
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
          */
         DB.decode = function decode(reader, length) {
             if (!(reader instanceof $Reader))
@@ -113,6 +121,8 @@ $root.internal = (function() {
          * Decodes a DB message from the specified reader or buffer, length delimited.
          * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
          * @returns {internal.DB} DB
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
          */
         DB.decodeDelimited = function decodeDelimited(reader) {
             if (!(reader instanceof $Reader))
@@ -122,16 +132,16 @@ $root.internal = (function() {
 
         /**
          * Verifies a DB message.
-         * @param {internal.DB|Object} message DB message or plain object to verify
+         * @param {Object.<string,*>} message Plain object to verify
          * @returns {?string} `null` if valid, otherwise the reason why it is not
          */
         DB.verify = function verify(message) {
             if (typeof message !== "object" || message === null)
                 return "object expected";
-            if (message.TimeQuantum !== undefined)
+            if (message.TimeQuantum != null && message.hasOwnProperty("TimeQuantum"))
                 if (!$util.isString(message.TimeQuantum))
                     return "TimeQuantum: string expected";
-            if (message.ColumnLabel !== undefined)
+            if (message.ColumnLabel != null && message.hasOwnProperty("ColumnLabel"))
                 if (!$util.isString(message.ColumnLabel))
                     return "ColumnLabel: string expected";
             return null;
@@ -146,9 +156,9 @@ $root.internal = (function() {
             if (object instanceof $root.internal.DB)
                 return object;
             var message = new $root.internal.DB();
-            if (object.TimeQuantum !== undefined && object.TimeQuantum !== null)
+            if (object.TimeQuantum != null)
                 message.TimeQuantum = String(object.TimeQuantum);
-            if (object.ColumnLabel !== undefined && object.ColumnLabel !== null)
+            if (object.ColumnLabel != null)
                 message.ColumnLabel = String(object.ColumnLabel);
             return message;
         };
@@ -176,9 +186,9 @@ $root.internal = (function() {
                 object.TimeQuantum = "";
                 object.ColumnLabel = "";
             }
-            if (message.TimeQuantum !== undefined && message.TimeQuantum !== null && message.hasOwnProperty("TimeQuantum"))
+            if (message.TimeQuantum != null && message.hasOwnProperty("TimeQuantum"))
                 object.TimeQuantum = message.TimeQuantum;
-            if (message.ColumnLabel !== undefined && message.ColumnLabel !== null && message.hasOwnProperty("ColumnLabel"))
+            if (message.ColumnLabel != null && message.hasOwnProperty("ColumnLabel"))
                 object.ColumnLabel = message.ColumnLabel;
             return object;
         };
@@ -206,32 +216,41 @@ $root.internal = (function() {
     internal.Frame = (function() {
 
         /**
+         * Properties of a Frame.
+         * @typedef internal.Frame$Properties
+         * @type {Object}
+         * @property {string} [TimeQuantum] Frame TimeQuantum.
+         * @property {string} [RowLabel] Frame RowLabel.
+         */
+
+        /**
          * Constructs a new Frame.
          * @exports internal.Frame
          * @constructor
-         * @param {Object} [properties] Properties to set
+         * @param {internal.Frame$Properties=} [properties] Properties to set
          */
         function Frame(properties) {
             if (properties)
                 for (var keys = Object.keys(properties), i = 0; i < keys.length; ++i)
-                    this[keys[i]] = properties[keys[i]];
+                    if (properties[keys[i]] != null)
+                        this[keys[i]] = properties[keys[i]];
         }
 
         /**
          * Frame TimeQuantum.
-         * @type {string|undefined}
+         * @type {string}
          */
         Frame.prototype.TimeQuantum = "";
 
         /**
          * Frame RowLabel.
-         * @type {string|undefined}
+         * @type {string}
          */
         Frame.prototype.RowLabel = "";
 
         /**
          * Creates a new Frame instance using the specified properties.
-         * @param {Object} [properties] Properties to set
+         * @param {internal.Frame$Properties=} [properties] Properties to set
          * @returns {internal.Frame} Frame instance
          */
         Frame.create = function create(properties) {
@@ -239,24 +258,24 @@ $root.internal = (function() {
         };
 
         /**
-         * Encodes the specified Frame message.
-         * @param {internal.Frame|Object} message Frame message or plain object to encode
+         * Encodes the specified Frame message. Does not implicitly {@link internal.Frame.verify|verify} messages.
+         * @param {internal.Frame$Properties} message Frame message or plain object to encode
          * @param {$protobuf.Writer} [writer] Writer to encode to
          * @returns {$protobuf.Writer} Writer
          */
         Frame.encode = function encode(message, writer) {
             if (!writer)
                 writer = $Writer.create();
-            if (message.TimeQuantum !== undefined && message.hasOwnProperty("TimeQuantum"))
+            if (message.TimeQuantum != null && message.hasOwnProperty("TimeQuantum"))
                 writer.uint32(/* id 1, wireType 2 =*/10).string(message.TimeQuantum);
-            if (message.RowLabel !== undefined && message.hasOwnProperty("RowLabel"))
+            if (message.RowLabel != null && message.hasOwnProperty("RowLabel"))
                 writer.uint32(/* id 2, wireType 2 =*/18).string(message.RowLabel);
             return writer;
         };
 
         /**
-         * Encodes the specified Frame message, length delimited.
-         * @param {internal.Frame|Object} message Frame message or plain object to encode
+         * Encodes the specified Frame message, length delimited. Does not implicitly {@link internal.Frame.verify|verify} messages.
+         * @param {internal.Frame$Properties} message Frame message or plain object to encode
          * @param {$protobuf.Writer} [writer] Writer to encode to
          * @returns {$protobuf.Writer} Writer
          */
@@ -269,6 +288,8 @@ $root.internal = (function() {
          * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
          * @param {number} [length] Message length if known beforehand
          * @returns {internal.Frame} Frame
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
          */
         Frame.decode = function decode(reader, length) {
             if (!(reader instanceof $Reader))
@@ -295,6 +316,8 @@ $root.internal = (function() {
          * Decodes a Frame message from the specified reader or buffer, length delimited.
          * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
          * @returns {internal.Frame} Frame
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
          */
         Frame.decodeDelimited = function decodeDelimited(reader) {
             if (!(reader instanceof $Reader))
@@ -304,16 +327,16 @@ $root.internal = (function() {
 
         /**
          * Verifies a Frame message.
-         * @param {internal.Frame|Object} message Frame message or plain object to verify
+         * @param {Object.<string,*>} message Plain object to verify
          * @returns {?string} `null` if valid, otherwise the reason why it is not
          */
         Frame.verify = function verify(message) {
             if (typeof message !== "object" || message === null)
                 return "object expected";
-            if (message.TimeQuantum !== undefined)
+            if (message.TimeQuantum != null && message.hasOwnProperty("TimeQuantum"))
                 if (!$util.isString(message.TimeQuantum))
                     return "TimeQuantum: string expected";
-            if (message.RowLabel !== undefined)
+            if (message.RowLabel != null && message.hasOwnProperty("RowLabel"))
                 if (!$util.isString(message.RowLabel))
                     return "RowLabel: string expected";
             return null;
@@ -328,9 +351,9 @@ $root.internal = (function() {
             if (object instanceof $root.internal.Frame)
                 return object;
             var message = new $root.internal.Frame();
-            if (object.TimeQuantum !== undefined && object.TimeQuantum !== null)
+            if (object.TimeQuantum != null)
                 message.TimeQuantum = String(object.TimeQuantum);
-            if (object.RowLabel !== undefined && object.RowLabel !== null)
+            if (object.RowLabel != null)
                 message.RowLabel = String(object.RowLabel);
             return message;
         };
@@ -358,9 +381,9 @@ $root.internal = (function() {
                 object.TimeQuantum = "";
                 object.RowLabel = "";
             }
-            if (message.TimeQuantum !== undefined && message.TimeQuantum !== null && message.hasOwnProperty("TimeQuantum"))
+            if (message.TimeQuantum != null && message.hasOwnProperty("TimeQuantum"))
                 object.TimeQuantum = message.TimeQuantum;
-            if (message.RowLabel !== undefined && message.RowLabel !== null && message.hasOwnProperty("RowLabel"))
+            if (message.RowLabel != null && message.hasOwnProperty("RowLabel"))
                 object.RowLabel = message.RowLabel;
             return object;
         };
@@ -388,37 +411,43 @@ $root.internal = (function() {
     internal.Bitmap = (function() {
 
         /**
+         * Properties of a Bitmap.
+         * @typedef internal.Bitmap$Properties
+         * @type {Object}
+         * @property {Array.<number|Long>} [Bits] Bitmap Bits.
+         * @property {Array.<internal.Attr$Properties>} [Attrs] Bitmap Attrs.
+         */
+
+        /**
          * Constructs a new Bitmap.
          * @exports internal.Bitmap
          * @constructor
-         * @param {Object} [properties] Properties to set
+         * @param {internal.Bitmap$Properties=} [properties] Properties to set
          */
         function Bitmap(properties) {
+            this.Bits = [];
+            this.Attrs = [];
             if (properties)
                 for (var keys = Object.keys(properties), i = 0; i < keys.length; ++i)
-                    this[keys[i]] = properties[keys[i]];
+                    if (properties[keys[i]] != null)
+                        this[keys[i]] = properties[keys[i]];
         }
 
         /**
          * Bitmap Bits.
-         * @type {Array.<number|$protobuf.Long>|undefined}
+         * @type {Array.<number|Long>}
          */
         Bitmap.prototype.Bits = $util.emptyArray;
 
         /**
          * Bitmap Attrs.
-         * @type {Array.<internal.Attr>|undefined}
+         * @type {Array.<internal.Attr$Properties>}
          */
         Bitmap.prototype.Attrs = $util.emptyArray;
 
-        // Lazily resolved type references
-        var $types = {
-            1: "internal.Attr"
-        }; $lazyTypes.push($types);
-
         /**
          * Creates a new Bitmap instance using the specified properties.
-         * @param {Object} [properties] Properties to set
+         * @param {internal.Bitmap$Properties=} [properties] Properties to set
          * @returns {internal.Bitmap} Bitmap instance
          */
         Bitmap.create = function create(properties) {
@@ -426,29 +455,29 @@ $root.internal = (function() {
         };
 
         /**
-         * Encodes the specified Bitmap message.
-         * @param {internal.Bitmap|Object} message Bitmap message or plain object to encode
+         * Encodes the specified Bitmap message. Does not implicitly {@link internal.Bitmap.verify|verify} messages.
+         * @param {internal.Bitmap$Properties} message Bitmap message or plain object to encode
          * @param {$protobuf.Writer} [writer] Writer to encode to
          * @returns {$protobuf.Writer} Writer
          */
         Bitmap.encode = function encode(message, writer) {
             if (!writer)
                 writer = $Writer.create();
-            if (message.Bits && message.Bits.length && message.hasOwnProperty("Bits")) {
+            if (message.Bits != null && message.Bits.length) {
                 writer.uint32(/* id 1, wireType 2 =*/10).fork();
                 for (var i = 0; i < message.Bits.length; ++i)
                     writer.uint64(message.Bits[i]);
                 writer.ldelim();
             }
-            if (message.Attrs !== undefined && message.hasOwnProperty("Attrs"))
+            if (message.Attrs != null && message.Attrs.length)
                 for (var i = 0; i < message.Attrs.length; ++i)
-                    $types[1].encode(message.Attrs[i], writer.uint32(/* id 2, wireType 2 =*/18).fork()).ldelim();
+                    $root.internal.Attr.encode(message.Attrs[i], writer.uint32(/* id 2, wireType 2 =*/18).fork()).ldelim();
             return writer;
         };
 
         /**
-         * Encodes the specified Bitmap message, length delimited.
-         * @param {internal.Bitmap|Object} message Bitmap message or plain object to encode
+         * Encodes the specified Bitmap message, length delimited. Does not implicitly {@link internal.Bitmap.verify|verify} messages.
+         * @param {internal.Bitmap$Properties} message Bitmap message or plain object to encode
          * @param {$protobuf.Writer} [writer] Writer to encode to
          * @returns {$protobuf.Writer} Writer
          */
@@ -461,6 +490,8 @@ $root.internal = (function() {
          * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
          * @param {number} [length] Message length if known beforehand
          * @returns {internal.Bitmap} Bitmap
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
          */
         Bitmap.decode = function decode(reader, length) {
             if (!(reader instanceof $Reader))
@@ -482,7 +513,7 @@ $root.internal = (function() {
                 case 2:
                     if (!(message.Attrs && message.Attrs.length))
                         message.Attrs = [];
-                    message.Attrs.push($types[1].decode(reader, reader.uint32()));
+                    message.Attrs.push($root.internal.Attr.decode(reader, reader.uint32()));
                     break;
                 default:
                     reader.skipType(tag & 7);
@@ -496,6 +527,8 @@ $root.internal = (function() {
          * Decodes a Bitmap message from the specified reader or buffer, length delimited.
          * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
          * @returns {internal.Bitmap} Bitmap
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
          */
         Bitmap.decodeDelimited = function decodeDelimited(reader) {
             if (!(reader instanceof $Reader))
@@ -505,24 +538,24 @@ $root.internal = (function() {
 
         /**
          * Verifies a Bitmap message.
-         * @param {internal.Bitmap|Object} message Bitmap message or plain object to verify
+         * @param {Object.<string,*>} message Plain object to verify
          * @returns {?string} `null` if valid, otherwise the reason why it is not
          */
         Bitmap.verify = function verify(message) {
             if (typeof message !== "object" || message === null)
                 return "object expected";
-            if (message.Bits !== undefined) {
+            if (message.Bits != null && message.hasOwnProperty("Bits")) {
                 if (!Array.isArray(message.Bits))
                     return "Bits: array expected";
                 for (var i = 0; i < message.Bits.length; ++i)
                     if (!$util.isInteger(message.Bits[i]) && !(message.Bits[i] && $util.isInteger(message.Bits[i].low) && $util.isInteger(message.Bits[i].high)))
                         return "Bits: integer|Long[] expected";
             }
-            if (message.Attrs !== undefined) {
+            if (message.Attrs != null && message.hasOwnProperty("Attrs")) {
                 if (!Array.isArray(message.Attrs))
                     return "Attrs: array expected";
                 for (var i = 0; i < message.Attrs.length; ++i) {
-                    var error = $types[1].verify(message.Attrs[i]);
+                    var error = $root.internal.Attr.verify(message.Attrs[i]);
                     if (error)
                         return "Attrs." + error;
                 }
@@ -560,7 +593,7 @@ $root.internal = (function() {
                 for (var i = 0; i < object.Attrs.length; ++i) {
                     if (typeof object.Attrs[i] !== "object")
                         throw TypeError(".internal.Bitmap.Attrs: object expected");
-                    message.Attrs[i] = $types[1].fromObject(object.Attrs[i]);
+                    message.Attrs[i] = $root.internal.Attr.fromObject(object.Attrs[i]);
                 }
             }
             return message;
@@ -589,7 +622,7 @@ $root.internal = (function() {
                 object.Bits = [];
                 object.Attrs = [];
             }
-            if (message.Bits !== undefined && message.Bits !== null && message.hasOwnProperty("Bits")) {
+            if (message.Bits && message.Bits.length) {
                 object.Bits = [];
                 for (var j = 0; j < message.Bits.length; ++j)
                     if (typeof message.Bits[j] === "number")
@@ -597,10 +630,10 @@ $root.internal = (function() {
                     else
                         object.Bits[j] = options.longs === String ? $util.Long.prototype.toString.call(message.Bits[j]) : options.longs === Number ? new $util.LongBits(message.Bits[j].low >>> 0, message.Bits[j].high >>> 0).toNumber(true) : message.Bits[j];
             }
-            if (message.Attrs !== undefined && message.Attrs !== null && message.hasOwnProperty("Attrs")) {
+            if (message.Attrs && message.Attrs.length) {
                 object.Attrs = [];
                 for (var j = 0; j < message.Attrs.length; ++j)
-                    object.Attrs[j] = $types[1].toObject(message.Attrs[j], options);
+                    object.Attrs[j] = $root.internal.Attr.toObject(message.Attrs[j], options);
             }
             return object;
         };
@@ -628,32 +661,41 @@ $root.internal = (function() {
     internal.Pair = (function() {
 
         /**
+         * Properties of a Pair.
+         * @typedef internal.Pair$Properties
+         * @type {Object}
+         * @property {number|Long} [Key] Pair Key.
+         * @property {number|Long} [Count] Pair Count.
+         */
+
+        /**
          * Constructs a new Pair.
          * @exports internal.Pair
          * @constructor
-         * @param {Object} [properties] Properties to set
+         * @param {internal.Pair$Properties=} [properties] Properties to set
          */
         function Pair(properties) {
             if (properties)
                 for (var keys = Object.keys(properties), i = 0; i < keys.length; ++i)
-                    this[keys[i]] = properties[keys[i]];
+                    if (properties[keys[i]] != null)
+                        this[keys[i]] = properties[keys[i]];
         }
 
         /**
          * Pair Key.
-         * @type {number|$protobuf.Long|undefined}
+         * @type {number|Long}
          */
         Pair.prototype.Key = $util.Long ? $util.Long.fromBits(0,0,true) : 0;
 
         /**
          * Pair Count.
-         * @type {number|$protobuf.Long|undefined}
+         * @type {number|Long}
          */
         Pair.prototype.Count = $util.Long ? $util.Long.fromBits(0,0,true) : 0;
 
         /**
          * Creates a new Pair instance using the specified properties.
-         * @param {Object} [properties] Properties to set
+         * @param {internal.Pair$Properties=} [properties] Properties to set
          * @returns {internal.Pair} Pair instance
          */
         Pair.create = function create(properties) {
@@ -661,24 +703,24 @@ $root.internal = (function() {
         };
 
         /**
-         * Encodes the specified Pair message.
-         * @param {internal.Pair|Object} message Pair message or plain object to encode
+         * Encodes the specified Pair message. Does not implicitly {@link internal.Pair.verify|verify} messages.
+         * @param {internal.Pair$Properties} message Pair message or plain object to encode
          * @param {$protobuf.Writer} [writer] Writer to encode to
          * @returns {$protobuf.Writer} Writer
          */
         Pair.encode = function encode(message, writer) {
             if (!writer)
                 writer = $Writer.create();
-            if (message.Key !== undefined && message.Key !== null && message.hasOwnProperty("Key"))
+            if (message.Key != null && message.hasOwnProperty("Key"))
                 writer.uint32(/* id 1, wireType 0 =*/8).uint64(message.Key);
-            if (message.Count !== undefined && message.Count !== null && message.hasOwnProperty("Count"))
+            if (message.Count != null && message.hasOwnProperty("Count"))
                 writer.uint32(/* id 2, wireType 0 =*/16).uint64(message.Count);
             return writer;
         };
 
         /**
-         * Encodes the specified Pair message, length delimited.
-         * @param {internal.Pair|Object} message Pair message or plain object to encode
+         * Encodes the specified Pair message, length delimited. Does not implicitly {@link internal.Pair.verify|verify} messages.
+         * @param {internal.Pair$Properties} message Pair message or plain object to encode
          * @param {$protobuf.Writer} [writer] Writer to encode to
          * @returns {$protobuf.Writer} Writer
          */
@@ -691,6 +733,8 @@ $root.internal = (function() {
          * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
          * @param {number} [length] Message length if known beforehand
          * @returns {internal.Pair} Pair
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
          */
         Pair.decode = function decode(reader, length) {
             if (!(reader instanceof $Reader))
@@ -717,6 +761,8 @@ $root.internal = (function() {
          * Decodes a Pair message from the specified reader or buffer, length delimited.
          * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
          * @returns {internal.Pair} Pair
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
          */
         Pair.decodeDelimited = function decodeDelimited(reader) {
             if (!(reader instanceof $Reader))
@@ -726,16 +772,16 @@ $root.internal = (function() {
 
         /**
          * Verifies a Pair message.
-         * @param {internal.Pair|Object} message Pair message or plain object to verify
+         * @param {Object.<string,*>} message Plain object to verify
          * @returns {?string} `null` if valid, otherwise the reason why it is not
          */
         Pair.verify = function verify(message) {
             if (typeof message !== "object" || message === null)
                 return "object expected";
-            if (message.Key !== undefined)
+            if (message.Key != null && message.hasOwnProperty("Key"))
                 if (!$util.isInteger(message.Key) && !(message.Key && $util.isInteger(message.Key.low) && $util.isInteger(message.Key.high)))
                     return "Key: integer|Long expected";
-            if (message.Count !== undefined)
+            if (message.Count != null && message.hasOwnProperty("Count"))
                 if (!$util.isInteger(message.Count) && !(message.Count && $util.isInteger(message.Count.low) && $util.isInteger(message.Count.high)))
                     return "Count: integer|Long expected";
             return null;
@@ -750,7 +796,7 @@ $root.internal = (function() {
             if (object instanceof $root.internal.Pair)
                 return object;
             var message = new $root.internal.Pair();
-            if (object.Key !== undefined && object.Key !== null)
+            if (object.Key != null)
                 if ($util.Long)
                     (message.Key = $util.Long.fromValue(object.Key)).unsigned = true;
                 else if (typeof object.Key === "string")
@@ -759,7 +805,7 @@ $root.internal = (function() {
                     message.Key = object.Key;
                 else if (typeof object.Key === "object")
                     message.Key = new $util.LongBits(object.Key.low >>> 0, object.Key.high >>> 0).toNumber(true);
-            if (object.Count !== undefined && object.Count !== null)
+            if (object.Count != null)
                 if ($util.Long)
                     (message.Count = $util.Long.fromValue(object.Count)).unsigned = true;
                 else if (typeof object.Count === "string")
@@ -802,12 +848,12 @@ $root.internal = (function() {
                 } else
                     object.Count = options.longs === String ? "0" : 0;
             }
-            if (message.Key !== undefined && message.Key !== null && message.hasOwnProperty("Key"))
+            if (message.Key != null && message.hasOwnProperty("Key"))
                 if (typeof message.Key === "number")
                     object.Key = options.longs === String ? String(message.Key) : message.Key;
                 else
                     object.Key = options.longs === String ? $util.Long.prototype.toString.call(message.Key) : options.longs === Number ? new $util.LongBits(message.Key.low >>> 0, message.Key.high >>> 0).toNumber(true) : message.Key;
-            if (message.Count !== undefined && message.Count !== null && message.hasOwnProperty("Count"))
+            if (message.Count != null && message.hasOwnProperty("Count"))
                 if (typeof message.Count === "number")
                     object.Count = options.longs === String ? String(message.Count) : message.Count;
                 else
@@ -838,38 +884,48 @@ $root.internal = (function() {
     internal.Bit = (function() {
 
         /**
+         * Properties of a Bit.
+         * @typedef internal.Bit$Properties
+         * @type {Object}
+         * @property {number|Long} [BitmapID] Bit BitmapID.
+         * @property {number|Long} [ProfileID] Bit ProfileID.
+         * @property {number|Long} [Timestamp] Bit Timestamp.
+         */
+
+        /**
          * Constructs a new Bit.
          * @exports internal.Bit
          * @constructor
-         * @param {Object} [properties] Properties to set
+         * @param {internal.Bit$Properties=} [properties] Properties to set
          */
         function Bit(properties) {
             if (properties)
                 for (var keys = Object.keys(properties), i = 0; i < keys.length; ++i)
-                    this[keys[i]] = properties[keys[i]];
+                    if (properties[keys[i]] != null)
+                        this[keys[i]] = properties[keys[i]];
         }
 
         /**
          * Bit BitmapID.
-         * @type {number|$protobuf.Long|undefined}
+         * @type {number|Long}
          */
         Bit.prototype.BitmapID = $util.Long ? $util.Long.fromBits(0,0,true) : 0;
 
         /**
          * Bit ProfileID.
-         * @type {number|$protobuf.Long|undefined}
+         * @type {number|Long}
          */
         Bit.prototype.ProfileID = $util.Long ? $util.Long.fromBits(0,0,true) : 0;
 
         /**
          * Bit Timestamp.
-         * @type {number|$protobuf.Long|undefined}
+         * @type {number|Long}
          */
         Bit.prototype.Timestamp = $util.Long ? $util.Long.fromBits(0,0,false) : 0;
 
         /**
          * Creates a new Bit instance using the specified properties.
-         * @param {Object} [properties] Properties to set
+         * @param {internal.Bit$Properties=} [properties] Properties to set
          * @returns {internal.Bit} Bit instance
          */
         Bit.create = function create(properties) {
@@ -877,26 +933,26 @@ $root.internal = (function() {
         };
 
         /**
-         * Encodes the specified Bit message.
-         * @param {internal.Bit|Object} message Bit message or plain object to encode
+         * Encodes the specified Bit message. Does not implicitly {@link internal.Bit.verify|verify} messages.
+         * @param {internal.Bit$Properties} message Bit message or plain object to encode
          * @param {$protobuf.Writer} [writer] Writer to encode to
          * @returns {$protobuf.Writer} Writer
          */
         Bit.encode = function encode(message, writer) {
             if (!writer)
                 writer = $Writer.create();
-            if (message.BitmapID !== undefined && message.BitmapID !== null && message.hasOwnProperty("BitmapID"))
+            if (message.BitmapID != null && message.hasOwnProperty("BitmapID"))
                 writer.uint32(/* id 1, wireType 0 =*/8).uint64(message.BitmapID);
-            if (message.ProfileID !== undefined && message.ProfileID !== null && message.hasOwnProperty("ProfileID"))
+            if (message.ProfileID != null && message.hasOwnProperty("ProfileID"))
                 writer.uint32(/* id 2, wireType 0 =*/16).uint64(message.ProfileID);
-            if (message.Timestamp !== undefined && message.Timestamp !== null && message.hasOwnProperty("Timestamp"))
+            if (message.Timestamp != null && message.hasOwnProperty("Timestamp"))
                 writer.uint32(/* id 3, wireType 0 =*/24).int64(message.Timestamp);
             return writer;
         };
 
         /**
-         * Encodes the specified Bit message, length delimited.
-         * @param {internal.Bit|Object} message Bit message or plain object to encode
+         * Encodes the specified Bit message, length delimited. Does not implicitly {@link internal.Bit.verify|verify} messages.
+         * @param {internal.Bit$Properties} message Bit message or plain object to encode
          * @param {$protobuf.Writer} [writer] Writer to encode to
          * @returns {$protobuf.Writer} Writer
          */
@@ -909,6 +965,8 @@ $root.internal = (function() {
          * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
          * @param {number} [length] Message length if known beforehand
          * @returns {internal.Bit} Bit
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
          */
         Bit.decode = function decode(reader, length) {
             if (!(reader instanceof $Reader))
@@ -938,6 +996,8 @@ $root.internal = (function() {
          * Decodes a Bit message from the specified reader or buffer, length delimited.
          * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
          * @returns {internal.Bit} Bit
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
          */
         Bit.decodeDelimited = function decodeDelimited(reader) {
             if (!(reader instanceof $Reader))
@@ -947,19 +1007,19 @@ $root.internal = (function() {
 
         /**
          * Verifies a Bit message.
-         * @param {internal.Bit|Object} message Bit message or plain object to verify
+         * @param {Object.<string,*>} message Plain object to verify
          * @returns {?string} `null` if valid, otherwise the reason why it is not
          */
         Bit.verify = function verify(message) {
             if (typeof message !== "object" || message === null)
                 return "object expected";
-            if (message.BitmapID !== undefined)
+            if (message.BitmapID != null && message.hasOwnProperty("BitmapID"))
                 if (!$util.isInteger(message.BitmapID) && !(message.BitmapID && $util.isInteger(message.BitmapID.low) && $util.isInteger(message.BitmapID.high)))
                     return "BitmapID: integer|Long expected";
-            if (message.ProfileID !== undefined)
+            if (message.ProfileID != null && message.hasOwnProperty("ProfileID"))
                 if (!$util.isInteger(message.ProfileID) && !(message.ProfileID && $util.isInteger(message.ProfileID.low) && $util.isInteger(message.ProfileID.high)))
                     return "ProfileID: integer|Long expected";
-            if (message.Timestamp !== undefined)
+            if (message.Timestamp != null && message.hasOwnProperty("Timestamp"))
                 if (!$util.isInteger(message.Timestamp) && !(message.Timestamp && $util.isInteger(message.Timestamp.low) && $util.isInteger(message.Timestamp.high)))
                     return "Timestamp: integer|Long expected";
             return null;
@@ -974,7 +1034,7 @@ $root.internal = (function() {
             if (object instanceof $root.internal.Bit)
                 return object;
             var message = new $root.internal.Bit();
-            if (object.BitmapID !== undefined && object.BitmapID !== null)
+            if (object.BitmapID != null)
                 if ($util.Long)
                     (message.BitmapID = $util.Long.fromValue(object.BitmapID)).unsigned = true;
                 else if (typeof object.BitmapID === "string")
@@ -983,7 +1043,7 @@ $root.internal = (function() {
                     message.BitmapID = object.BitmapID;
                 else if (typeof object.BitmapID === "object")
                     message.BitmapID = new $util.LongBits(object.BitmapID.low >>> 0, object.BitmapID.high >>> 0).toNumber(true);
-            if (object.ProfileID !== undefined && object.ProfileID !== null)
+            if (object.ProfileID != null)
                 if ($util.Long)
                     (message.ProfileID = $util.Long.fromValue(object.ProfileID)).unsigned = true;
                 else if (typeof object.ProfileID === "string")
@@ -992,7 +1052,7 @@ $root.internal = (function() {
                     message.ProfileID = object.ProfileID;
                 else if (typeof object.ProfileID === "object")
                     message.ProfileID = new $util.LongBits(object.ProfileID.low >>> 0, object.ProfileID.high >>> 0).toNumber(true);
-            if (object.Timestamp !== undefined && object.Timestamp !== null)
+            if (object.Timestamp != null)
                 if ($util.Long)
                     (message.Timestamp = $util.Long.fromValue(object.Timestamp)).unsigned = false;
                 else if (typeof object.Timestamp === "string")
@@ -1040,17 +1100,17 @@ $root.internal = (function() {
                 } else
                     object.Timestamp = options.longs === String ? "0" : 0;
             }
-            if (message.BitmapID !== undefined && message.BitmapID !== null && message.hasOwnProperty("BitmapID"))
+            if (message.BitmapID != null && message.hasOwnProperty("BitmapID"))
                 if (typeof message.BitmapID === "number")
                     object.BitmapID = options.longs === String ? String(message.BitmapID) : message.BitmapID;
                 else
                     object.BitmapID = options.longs === String ? $util.Long.prototype.toString.call(message.BitmapID) : options.longs === Number ? new $util.LongBits(message.BitmapID.low >>> 0, message.BitmapID.high >>> 0).toNumber(true) : message.BitmapID;
-            if (message.ProfileID !== undefined && message.ProfileID !== null && message.hasOwnProperty("ProfileID"))
+            if (message.ProfileID != null && message.hasOwnProperty("ProfileID"))
                 if (typeof message.ProfileID === "number")
                     object.ProfileID = options.longs === String ? String(message.ProfileID) : message.ProfileID;
                 else
                     object.ProfileID = options.longs === String ? $util.Long.prototype.toString.call(message.ProfileID) : options.longs === Number ? new $util.LongBits(message.ProfileID.low >>> 0, message.ProfileID.high >>> 0).toNumber(true) : message.ProfileID;
-            if (message.Timestamp !== undefined && message.Timestamp !== null && message.hasOwnProperty("Timestamp"))
+            if (message.Timestamp != null && message.hasOwnProperty("Timestamp"))
                 if (typeof message.Timestamp === "number")
                     object.Timestamp = options.longs === String ? String(message.Timestamp) : message.Timestamp;
                 else
@@ -1081,37 +1141,42 @@ $root.internal = (function() {
     internal.Profile = (function() {
 
         /**
+         * Properties of a Profile.
+         * @typedef internal.Profile$Properties
+         * @type {Object}
+         * @property {number|Long} [ID] Profile ID.
+         * @property {Array.<internal.Attr$Properties>} [Attrs] Profile Attrs.
+         */
+
+        /**
          * Constructs a new Profile.
          * @exports internal.Profile
          * @constructor
-         * @param {Object} [properties] Properties to set
+         * @param {internal.Profile$Properties=} [properties] Properties to set
          */
         function Profile(properties) {
+            this.Attrs = [];
             if (properties)
                 for (var keys = Object.keys(properties), i = 0; i < keys.length; ++i)
-                    this[keys[i]] = properties[keys[i]];
+                    if (properties[keys[i]] != null)
+                        this[keys[i]] = properties[keys[i]];
         }
 
         /**
          * Profile ID.
-         * @type {number|$protobuf.Long|undefined}
+         * @type {number|Long}
          */
         Profile.prototype.ID = $util.Long ? $util.Long.fromBits(0,0,true) : 0;
 
         /**
          * Profile Attrs.
-         * @type {Array.<internal.Attr>|undefined}
+         * @type {Array.<internal.Attr$Properties>}
          */
         Profile.prototype.Attrs = $util.emptyArray;
 
-        // Lazily resolved type references
-        var $types = {
-            1: "internal.Attr"
-        }; $lazyTypes.push($types);
-
         /**
          * Creates a new Profile instance using the specified properties.
-         * @param {Object} [properties] Properties to set
+         * @param {internal.Profile$Properties=} [properties] Properties to set
          * @returns {internal.Profile} Profile instance
          */
         Profile.create = function create(properties) {
@@ -1119,25 +1184,25 @@ $root.internal = (function() {
         };
 
         /**
-         * Encodes the specified Profile message.
-         * @param {internal.Profile|Object} message Profile message or plain object to encode
+         * Encodes the specified Profile message. Does not implicitly {@link internal.Profile.verify|verify} messages.
+         * @param {internal.Profile$Properties} message Profile message or plain object to encode
          * @param {$protobuf.Writer} [writer] Writer to encode to
          * @returns {$protobuf.Writer} Writer
          */
         Profile.encode = function encode(message, writer) {
             if (!writer)
                 writer = $Writer.create();
-            if (message.ID !== undefined && message.ID !== null && message.hasOwnProperty("ID"))
+            if (message.ID != null && message.hasOwnProperty("ID"))
                 writer.uint32(/* id 1, wireType 0 =*/8).uint64(message.ID);
-            if (message.Attrs !== undefined && message.hasOwnProperty("Attrs"))
+            if (message.Attrs != null && message.Attrs.length)
                 for (var i = 0; i < message.Attrs.length; ++i)
-                    $types[1].encode(message.Attrs[i], writer.uint32(/* id 2, wireType 2 =*/18).fork()).ldelim();
+                    $root.internal.Attr.encode(message.Attrs[i], writer.uint32(/* id 2, wireType 2 =*/18).fork()).ldelim();
             return writer;
         };
 
         /**
-         * Encodes the specified Profile message, length delimited.
-         * @param {internal.Profile|Object} message Profile message or plain object to encode
+         * Encodes the specified Profile message, length delimited. Does not implicitly {@link internal.Profile.verify|verify} messages.
+         * @param {internal.Profile$Properties} message Profile message or plain object to encode
          * @param {$protobuf.Writer} [writer] Writer to encode to
          * @returns {$protobuf.Writer} Writer
          */
@@ -1150,6 +1215,8 @@ $root.internal = (function() {
          * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
          * @param {number} [length] Message length if known beforehand
          * @returns {internal.Profile} Profile
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
          */
         Profile.decode = function decode(reader, length) {
             if (!(reader instanceof $Reader))
@@ -1164,7 +1231,7 @@ $root.internal = (function() {
                 case 2:
                     if (!(message.Attrs && message.Attrs.length))
                         message.Attrs = [];
-                    message.Attrs.push($types[1].decode(reader, reader.uint32()));
+                    message.Attrs.push($root.internal.Attr.decode(reader, reader.uint32()));
                     break;
                 default:
                     reader.skipType(tag & 7);
@@ -1178,6 +1245,8 @@ $root.internal = (function() {
          * Decodes a Profile message from the specified reader or buffer, length delimited.
          * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
          * @returns {internal.Profile} Profile
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
          */
         Profile.decodeDelimited = function decodeDelimited(reader) {
             if (!(reader instanceof $Reader))
@@ -1187,20 +1256,20 @@ $root.internal = (function() {
 
         /**
          * Verifies a Profile message.
-         * @param {internal.Profile|Object} message Profile message or plain object to verify
+         * @param {Object.<string,*>} message Plain object to verify
          * @returns {?string} `null` if valid, otherwise the reason why it is not
          */
         Profile.verify = function verify(message) {
             if (typeof message !== "object" || message === null)
                 return "object expected";
-            if (message.ID !== undefined)
+            if (message.ID != null && message.hasOwnProperty("ID"))
                 if (!$util.isInteger(message.ID) && !(message.ID && $util.isInteger(message.ID.low) && $util.isInteger(message.ID.high)))
                     return "ID: integer|Long expected";
-            if (message.Attrs !== undefined) {
+            if (message.Attrs != null && message.hasOwnProperty("Attrs")) {
                 if (!Array.isArray(message.Attrs))
                     return "Attrs: array expected";
                 for (var i = 0; i < message.Attrs.length; ++i) {
-                    var error = $types[1].verify(message.Attrs[i]);
+                    var error = $root.internal.Attr.verify(message.Attrs[i]);
                     if (error)
                         return "Attrs." + error;
                 }
@@ -1217,7 +1286,7 @@ $root.internal = (function() {
             if (object instanceof $root.internal.Profile)
                 return object;
             var message = new $root.internal.Profile();
-            if (object.ID !== undefined && object.ID !== null)
+            if (object.ID != null)
                 if ($util.Long)
                     (message.ID = $util.Long.fromValue(object.ID)).unsigned = true;
                 else if (typeof object.ID === "string")
@@ -1233,7 +1302,7 @@ $root.internal = (function() {
                 for (var i = 0; i < object.Attrs.length; ++i) {
                     if (typeof object.Attrs[i] !== "object")
                         throw TypeError(".internal.Profile.Attrs: object expected");
-                    message.Attrs[i] = $types[1].fromObject(object.Attrs[i]);
+                    message.Attrs[i] = $root.internal.Attr.fromObject(object.Attrs[i]);
                 }
             }
             return message;
@@ -1266,15 +1335,15 @@ $root.internal = (function() {
                     object.ID = options.longs === String ? long.toString() : options.longs === Number ? long.toNumber() : long;
                 } else
                     object.ID = options.longs === String ? "0" : 0;
-            if (message.ID !== undefined && message.ID !== null && message.hasOwnProperty("ID"))
+            if (message.ID != null && message.hasOwnProperty("ID"))
                 if (typeof message.ID === "number")
                     object.ID = options.longs === String ? String(message.ID) : message.ID;
                 else
                     object.ID = options.longs === String ? $util.Long.prototype.toString.call(message.ID) : options.longs === Number ? new $util.LongBits(message.ID.low >>> 0, message.ID.high >>> 0).toNumber(true) : message.ID;
-            if (message.Attrs !== undefined && message.Attrs !== null && message.hasOwnProperty("Attrs")) {
+            if (message.Attrs && message.Attrs.length) {
                 object.Attrs = [];
                 for (var j = 0; j < message.Attrs.length; ++j)
-                    object.Attrs[j] = $types[1].toObject(message.Attrs[j], options);
+                    object.Attrs[j] = $root.internal.Attr.toObject(message.Attrs[j], options);
             }
             return object;
         };
@@ -1302,56 +1371,69 @@ $root.internal = (function() {
     internal.Attr = (function() {
 
         /**
+         * Properties of an Attr.
+         * @typedef internal.Attr$Properties
+         * @type {Object}
+         * @property {string} [Key] Attr Key.
+         * @property {number|Long} [Type] Attr Type.
+         * @property {string} [StringValue] Attr StringValue.
+         * @property {number|Long} [UintValue] Attr UintValue.
+         * @property {boolean} [BoolValue] Attr BoolValue.
+         * @property {number} [FloatValue] Attr FloatValue.
+         */
+
+        /**
          * Constructs a new Attr.
          * @exports internal.Attr
          * @constructor
-         * @param {Object} [properties] Properties to set
+         * @param {internal.Attr$Properties=} [properties] Properties to set
          */
         function Attr(properties) {
             if (properties)
                 for (var keys = Object.keys(properties), i = 0; i < keys.length; ++i)
-                    this[keys[i]] = properties[keys[i]];
+                    if (properties[keys[i]] != null)
+                        this[keys[i]] = properties[keys[i]];
         }
 
         /**
          * Attr Key.
-         * @type {string|undefined}
+         * @type {string}
          */
         Attr.prototype.Key = "";
 
         /**
          * Attr Type.
-         * @type {number|$protobuf.Long|undefined}
+         * @type {number|Long}
          */
         Attr.prototype.Type = $util.Long ? $util.Long.fromBits(0,0,true) : 0;
 
         /**
          * Attr StringValue.
-         * @type {string|undefined}
+         * @type {string}
          */
         Attr.prototype.StringValue = "";
 
         /**
          * Attr UintValue.
-         * @type {number|$protobuf.Long|undefined}
+         * @type {number|Long}
          */
         Attr.prototype.UintValue = $util.Long ? $util.Long.fromBits(0,0,true) : 0;
 
         /**
          * Attr BoolValue.
-         * @type {boolean|undefined}
+         * @type {boolean}
          */
         Attr.prototype.BoolValue = false;
 
         /**
          * Attr FloatValue.
-         * @type {number|undefined}
+         * @type {number}
          */
         Attr.prototype.FloatValue = 0;
 
         /**
          * Creates a new Attr instance using the specified properties.
-         * @param {Object} [properties] Properties to set
+         * @param {internal.Attr$Properties=} [properties] Properties to set
          * @returns {internal.Attr} Attr instance
          */
         Attr.create = function create(properties) {
@@ -1359,32 +1441,32 @@ $root.internal = (function() {
         };
 
         /**
-         * Encodes the specified Attr message.
-         * @param {internal.Attr|Object} message Attr message or plain object to encode
+         * Encodes the specified Attr message. Does not implicitly {@link internal.Attr.verify|verify} messages.
+         * @param {internal.Attr$Properties} message Attr message or plain object to encode
          * @param {$protobuf.Writer} [writer] Writer to encode to
          * @returns {$protobuf.Writer} Writer
          */
         Attr.encode = function encode(message, writer) {
             if (!writer)
                 writer = $Writer.create();
-            if (message.Key !== undefined && message.hasOwnProperty("Key"))
+            if (message.Key != null && message.hasOwnProperty("Key"))
                 writer.uint32(/* id 1, wireType 2 =*/10).string(message.Key);
-            if (message.Type !== undefined && message.Type !== null && message.hasOwnProperty("Type"))
+            if (message.Type != null && message.hasOwnProperty("Type"))
                 writer.uint32(/* id 2, wireType 0 =*/16).uint64(message.Type);
-            if (message.StringValue !== undefined && message.hasOwnProperty("StringValue"))
+            if (message.StringValue != null && message.hasOwnProperty("StringValue"))
                 writer.uint32(/* id 3, wireType 2 =*/26).string(message.StringValue);
-            if (message.UintValue !== undefined && message.UintValue !== null && message.hasOwnProperty("UintValue"))
+            if (message.UintValue != null && message.hasOwnProperty("UintValue"))
                 writer.uint32(/* id 4, wireType 0 =*/32).uint64(message.UintValue);
-            if (message.BoolValue !== undefined && message.hasOwnProperty("BoolValue"))
+            if (message.BoolValue != null && message.hasOwnProperty("BoolValue"))
                 writer.uint32(/* id 5, wireType 0 =*/40).bool(message.BoolValue);
-            if (message.FloatValue !== undefined && message.hasOwnProperty("FloatValue"))
+            if (message.FloatValue != null && message.hasOwnProperty("FloatValue"))
                 writer.uint32(/* id 6, wireType 1 =*/49).double(message.FloatValue);
             return writer;
         };
 
         /**
-         * Encodes the specified Attr message, length delimited.
-         * @param {internal.Attr|Object} message Attr message or plain object to encode
+         * Encodes the specified Attr message, length delimited. Does not implicitly {@link internal.Attr.verify|verify} messages.
+         * @param {internal.Attr$Properties} message Attr message or plain object to encode
          * @param {$protobuf.Writer} [writer] Writer to encode to
          * @returns {$protobuf.Writer} Writer
          */
@@ -1397,6 +1479,8 @@ $root.internal = (function() {
          * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
          * @param {number} [length] Message length if known beforehand
          * @returns {internal.Attr} Attr
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
          */
         Attr.decode = function decode(reader, length) {
             if (!(reader instanceof $Reader))
@@ -1435,6 +1519,8 @@ $root.internal = (function() {
          * Decodes an Attr message from the specified reader or buffer, length delimited.
          * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
          * @returns {internal.Attr} Attr
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
          */
         Attr.decodeDelimited = function decodeDelimited(reader) {
             if (!(reader instanceof $Reader))
@@ -1444,28 +1530,28 @@ $root.internal = (function() {
 
         /**
          * Verifies an Attr message.
-         * @param {internal.Attr|Object} message Attr message or plain object to verify
+         * @param {Object.<string,*>} message Plain object to verify
          * @returns {?string} `null` if valid, otherwise the reason why it is not
          */
         Attr.verify = function verify(message) {
             if (typeof message !== "object" || message === null)
                 return "object expected";
-            if (message.Key !== undefined)
+            if (message.Key != null && message.hasOwnProperty("Key"))
                 if (!$util.isString(message.Key))
                     return "Key: string expected";
-            if (message.Type !== undefined)
+            if (message.Type != null && message.hasOwnProperty("Type"))
                 if (!$util.isInteger(message.Type) && !(message.Type && $util.isInteger(message.Type.low) && $util.isInteger(message.Type.high)))
                     return "Type: integer|Long expected";
-            if (message.StringValue !== undefined)
+            if (message.StringValue != null && message.hasOwnProperty("StringValue"))
                 if (!$util.isString(message.StringValue))
                     return "StringValue: string expected";
-            if (message.UintValue !== undefined)
+            if (message.UintValue != null && message.hasOwnProperty("UintValue"))
                 if (!$util.isInteger(message.UintValue) && !(message.UintValue && $util.isInteger(message.UintValue.low) && $util.isInteger(message.UintValue.high)))
                     return "UintValue: integer|Long expected";
-            if (message.BoolValue !== undefined)
+            if (message.BoolValue != null && message.hasOwnProperty("BoolValue"))
                 if (typeof message.BoolValue !== "boolean")
                     return "BoolValue: boolean expected";
-            if (message.FloatValue !== undefined)
+            if (message.FloatValue != null && message.hasOwnProperty("FloatValue"))
                 if (typeof message.FloatValue !== "number")
                     return "FloatValue: number expected";
             return null;
@@ -1480,9 +1566,9 @@ $root.internal = (function() {
             if (object instanceof $root.internal.Attr)
                 return object;
             var message = new $root.internal.Attr();
-            if (object.Key !== undefined && object.Key !== null)
+            if (object.Key != null)
                 message.Key = String(object.Key);
-            if (object.Type !== undefined && object.Type !== null)
+            if (object.Type != null)
                 if ($util.Long)
                     (message.Type = $util.Long.fromValue(object.Type)).unsigned = true;
                 else if (typeof object.Type === "string")
@@ -1491,9 +1577,9 @@ $root.internal = (function() {
                     message.Type = object.Type;
                 else if (typeof object.Type === "object")
                     message.Type = new $util.LongBits(object.Type.low >>> 0, object.Type.high >>> 0).toNumber(true);
-            if (object.StringValue !== undefined && object.StringValue !== null)
+            if (object.StringValue != null)
                 message.StringValue = String(object.StringValue);
-            if (object.UintValue !== undefined && object.UintValue !== null)
+            if (object.UintValue != null)
                 if ($util.Long)
                     (message.UintValue = $util.Long.fromValue(object.UintValue)).unsigned = true;
                 else if (typeof object.UintValue === "string")
@@ -1502,9 +1588,9 @@ $root.internal = (function() {
                     message.UintValue = object.UintValue;
                 else if (typeof object.UintValue === "object")
                     message.UintValue = new $util.LongBits(object.UintValue.low >>> 0, object.UintValue.high >>> 0).toNumber(true);
-            if (object.BoolValue !== undefined && object.BoolValue !== null)
+            if (object.BoolValue != null)
                 message.BoolValue = Boolean(object.BoolValue);
-            if (object.FloatValue !== undefined && object.FloatValue !== null)
+            if (object.FloatValue != null)
                 message.FloatValue = Number(object.FloatValue);
             return message;
         };
@@ -1544,23 +1630,23 @@ $root.internal = (function() {
                 object.BoolValue = false;
                 object.FloatValue = 0;
             }
-            if (message.Key !== undefined && message.Key !== null && message.hasOwnProperty("Key"))
+            if (message.Key != null && message.hasOwnProperty("Key"))
                 object.Key = message.Key;
-            if (message.Type !== undefined && message.Type !== null && message.hasOwnProperty("Type"))
+            if (message.Type != null && message.hasOwnProperty("Type"))
                 if (typeof message.Type === "number")
                     object.Type = options.longs === String ? String(message.Type) : message.Type;
                 else
                     object.Type = options.longs === String ? $util.Long.prototype.toString.call(message.Type) : options.longs === Number ? new $util.LongBits(message.Type.low >>> 0, message.Type.high >>> 0).toNumber(true) : message.Type;
-            if (message.StringValue !== undefined && message.StringValue !== null && message.hasOwnProperty("StringValue"))
+            if (message.StringValue != null && message.hasOwnProperty("StringValue"))
                 object.StringValue = message.StringValue;
-            if (message.UintValue !== undefined && message.UintValue !== null && message.hasOwnProperty("UintValue"))
+            if (message.UintValue != null && message.hasOwnProperty("UintValue"))
                 if (typeof message.UintValue === "number")
                     object.UintValue = options.longs === String ? String(message.UintValue) : message.UintValue;
                 else
                     object.UintValue = options.longs === String ? $util.Long.prototype.toString.call(message.UintValue) : options.longs === Number ? new $util.LongBits(message.UintValue.low >>> 0, message.UintValue.high >>> 0).toNumber(true) : message.UintValue;
-            if (message.BoolValue !== undefined && message.BoolValue !== null && message.hasOwnProperty("BoolValue"))
+            if (message.BoolValue != null && message.hasOwnProperty("BoolValue"))
                 object.BoolValue = message.BoolValue;
-            if (message.FloatValue !== undefined && message.FloatValue !== null && message.hasOwnProperty("FloatValue"))
+            if (message.FloatValue != null && message.hasOwnProperty("FloatValue"))
                 object.FloatValue = message.FloatValue;
             return object;
         };
@@ -1588,31 +1674,35 @@ $root.internal = (function() {
     internal.AttrMap = (function() {
 
         /**
+         * Properties of an AttrMap.
+         * @typedef internal.AttrMap$Properties
+         * @type {Object}
+         * @property {Array.<internal.Attr$Properties>} [Attrs] AttrMap Attrs.
+         */
+
+        /**
          * Constructs a new AttrMap.
          * @exports internal.AttrMap
          * @constructor
-         * @param {Object} [properties] Properties to set
+         * @param {internal.AttrMap$Properties=} [properties] Properties to set
          */
         function AttrMap(properties) {
+            this.Attrs = [];
             if (properties)
                 for (var keys = Object.keys(properties), i = 0; i < keys.length; ++i)
-                    this[keys[i]] = properties[keys[i]];
+                    if (properties[keys[i]] != null)
+                        this[keys[i]] = properties[keys[i]];
         }
 
         /**
          * AttrMap Attrs.
-         * @type {Array.<internal.Attr>|undefined}
+         * @type {Array.<internal.Attr$Properties>}
          */
         AttrMap.prototype.Attrs = $util.emptyArray;
 
-        // Lazily resolved type references
-        var $types = {
-            0: "internal.Attr"
-        }; $lazyTypes.push($types);
-
         /**
          * Creates a new AttrMap instance using the specified properties.
-         * @param {Object} [properties] Properties to set
+         * @param {internal.AttrMap$Properties=} [properties] Properties to set
          * @returns {internal.AttrMap} AttrMap instance
          */
         AttrMap.create = function create(properties) {
@@ -1620,23 +1710,23 @@ $root.internal = (function() {
         };
 
         /**
-         * Encodes the specified AttrMap message.
-         * @param {internal.AttrMap|Object} message AttrMap message or plain object to encode
+         * Encodes the specified AttrMap message. Does not implicitly {@link internal.AttrMap.verify|verify} messages.
+         * @param {internal.AttrMap$Properties} message AttrMap message or plain object to encode
          * @param {$protobuf.Writer} [writer] Writer to encode to
          * @returns {$protobuf.Writer} Writer
          */
         AttrMap.encode = function encode(message, writer) {
             if (!writer)
                 writer = $Writer.create();
-            if (message.Attrs !== undefined && message.hasOwnProperty("Attrs"))
+            if (message.Attrs != null && message.Attrs.length)
                 for (var i = 0; i < message.Attrs.length; ++i)
-                    $types[0].encode(message.Attrs[i], writer.uint32(/* id 1, wireType 2 =*/10).fork()).ldelim();
+                    $root.internal.Attr.encode(message.Attrs[i], writer.uint32(/* id 1, wireType 2 =*/10).fork()).ldelim();
             return writer;
         };
 
         /**
-         * Encodes the specified AttrMap message, length delimited.
-         * @param {internal.AttrMap|Object} message AttrMap message or plain object to encode
+         * Encodes the specified AttrMap message, length delimited. Does not implicitly {@link internal.AttrMap.verify|verify} messages.
+         * @param {internal.AttrMap$Properties} message AttrMap message or plain object to encode
          * @param {$protobuf.Writer} [writer] Writer to encode to
          * @returns {$protobuf.Writer} Writer
          */
@@ -1649,6 +1739,8 @@ $root.internal = (function() {
          * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
          * @param {number} [length] Message length if known beforehand
          * @returns {internal.AttrMap} AttrMap
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
          */
         AttrMap.decode = function decode(reader, length) {
             if (!(reader instanceof $Reader))
@@ -1660,7 +1752,7 @@ $root.internal = (function() {
                 case 1:
                     if (!(message.Attrs && message.Attrs.length))
                         message.Attrs = [];
-                    message.Attrs.push($types[0].decode(reader, reader.uint32()));
+                    message.Attrs.push($root.internal.Attr.decode(reader, reader.uint32()));
                     break;
                 default:
                     reader.skipType(tag & 7);
@@ -1674,6 +1766,8 @@ $root.internal = (function() {
          * Decodes an AttrMap message from the specified reader or buffer, length delimited.
          * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
          * @returns {internal.AttrMap} AttrMap
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
          */
         AttrMap.decodeDelimited = function decodeDelimited(reader) {
             if (!(reader instanceof $Reader))
@@ -1683,17 +1777,17 @@ $root.internal = (function() {
 
         /**
          * Verifies an AttrMap message.
-         * @param {internal.AttrMap|Object} message AttrMap message or plain object to verify
+         * @param {Object.<string,*>} message Plain object to verify
          * @returns {?string} `null` if valid, otherwise the reason why it is not
          */
         AttrMap.verify = function verify(message) {
             if (typeof message !== "object" || message === null)
                 return "object expected";
-            if (message.Attrs !== undefined) {
+            if (message.Attrs != null && message.hasOwnProperty("Attrs")) {
                 if (!Array.isArray(message.Attrs))
                     return "Attrs: array expected";
                 for (var i = 0; i < message.Attrs.length; ++i) {
-                    var error = $types[0].verify(message.Attrs[i]);
+                    var error = $root.internal.Attr.verify(message.Attrs[i]);
                     if (error)
                         return "Attrs." + error;
                 }
@@ -1717,7 +1811,7 @@ $root.internal = (function() {
                 for (var i = 0; i < object.Attrs.length; ++i) {
                     if (typeof object.Attrs[i] !== "object")
                         throw TypeError(".internal.AttrMap.Attrs: object expected");
-                    message.Attrs[i] = $types[0].fromObject(object.Attrs[i]);
+                    message.Attrs[i] = $root.internal.Attr.fromObject(object.Attrs[i]);
                 }
             }
             return message;
@@ -1744,10 +1838,10 @@ $root.internal = (function() {
             var object = {};
             if (options.arrays || options.defaults)
                 object.Attrs = [];
-            if (message.Attrs !== undefined && message.Attrs !== null && message.hasOwnProperty("Attrs")) {
+            if (message.Attrs && message.Attrs.length) {
                 object.Attrs = [];
                 for (var j = 0; j < message.Attrs.length; ++j)
-                    object.Attrs[j] = $types[0].toObject(message.Attrs[j], options);
+                    object.Attrs[j] = $root.internal.Attr.toObject(message.Attrs[j], options);
             }
             return object;
         };
@@ -1775,56 +1869,70 @@ $root.internal = (function() {
     internal.QueryRequest = (function() {
 
         /**
+         * Properties of a QueryRequest.
+         * @typedef internal.QueryRequest$Properties
+         * @type {Object}
+         * @property {string} [DB] QueryRequest DB.
+         * @property {string} [Query] QueryRequest Query.
+         * @property {Array.<number|Long>} [Slices] QueryRequest Slices.
+         * @property {boolean} [Profiles] QueryRequest Profiles.
+         * @property {string} [Quantum] QueryRequest Quantum.
+         * @property {boolean} [Remote] QueryRequest Remote.
+         */
+
+        /**
          * Constructs a new QueryRequest.
          * @exports internal.QueryRequest
          * @constructor
-         * @param {Object} [properties] Properties to set
+         * @param {internal.QueryRequest$Properties=} [properties] Properties to set
          */
         function QueryRequest(properties) {
+            this.Slices = [];
             if (properties)
                 for (var keys = Object.keys(properties), i = 0; i < keys.length; ++i)
-                    this[keys[i]] = properties[keys[i]];
+                    if (properties[keys[i]] != null)
+                        this[keys[i]] = properties[keys[i]];
         }
 
         /**
          * QueryRequest DB.
-         * @type {string|undefined}
+         * @type {string}
          */
         QueryRequest.prototype.DB = "";
 
         /**
          * QueryRequest Query.
-         * @type {string|undefined}
+         * @type {string}
          */
         QueryRequest.prototype.Query = "";
 
         /**
          * QueryRequest Slices.
-         * @type {Array.<number|$protobuf.Long>|undefined}
+         * @type {Array.<number|Long>}
          */
         QueryRequest.prototype.Slices = $util.emptyArray;
 
         /**
          * QueryRequest Profiles.
-         * @type {boolean|undefined}
+         * @type {boolean}
          */
         QueryRequest.prototype.Profiles = false;
 
         /**
          * QueryRequest Quantum.
-         * @type {string|undefined}
+         * @type {string}
          */
         QueryRequest.prototype.Quantum = "";
 
         /**
          * QueryRequest Remote.
-         * @type {boolean|undefined}
+         * @type {boolean}
          */
         QueryRequest.prototype.Remote = false;
 
         /**
          * Creates a new QueryRequest instance using the specified properties.
-         * @param {Object} [properties] Properties to set
+         * @param {internal.QueryRequest$Properties=} [properties] Properties to set
          * @returns {internal.QueryRequest} QueryRequest instance
          */
         QueryRequest.create = function create(properties) {
@@ -1832,36 +1940,36 @@ $root.internal = (function() {
         };
 
         /**
-         * Encodes the specified QueryRequest message.
-         * @param {internal.QueryRequest|Object} message QueryRequest message or plain object to encode
+         * Encodes the specified QueryRequest message. Does not implicitly {@link internal.QueryRequest.verify|verify} messages.
+         * @param {internal.QueryRequest$Properties} message QueryRequest message or plain object to encode
          * @param {$protobuf.Writer} [writer] Writer to encode to
          * @returns {$protobuf.Writer} Writer
          */
         QueryRequest.encode = function encode(message, writer) {
             if (!writer)
                 writer = $Writer.create();
-            if (message.DB !== undefined && message.hasOwnProperty("DB"))
+            if (message.DB != null && message.hasOwnProperty("DB"))
                 writer.uint32(/* id 1, wireType 2 =*/10).string(message.DB);
-            if (message.Query !== undefined && message.hasOwnProperty("Query"))
+            if (message.Query != null && message.hasOwnProperty("Query"))
                 writer.uint32(/* id 2, wireType 2 =*/18).string(message.Query);
-            if (message.Slices && message.Slices.length && message.hasOwnProperty("Slices")) {
+            if (message.Slices != null && message.Slices.length) {
                 writer.uint32(/* id 3, wireType 2 =*/26).fork();
                 for (var i = 0; i < message.Slices.length; ++i)
                     writer.uint64(message.Slices[i]);
                 writer.ldelim();
             }
-            if (message.Profiles !== undefined && message.hasOwnProperty("Profiles"))
+            if (message.Profiles != null && message.hasOwnProperty("Profiles"))
                 writer.uint32(/* id 4, wireType 0 =*/32).bool(message.Profiles);
-            if (message.Quantum !== undefined && message.hasOwnProperty("Quantum"))
+            if (message.Quantum != null && message.hasOwnProperty("Quantum"))
                 writer.uint32(/* id 5, wireType 2 =*/42).string(message.Quantum);
-            if (message.Remote !== undefined && message.hasOwnProperty("Remote"))
+            if (message.Remote != null && message.hasOwnProperty("Remote"))
                 writer.uint32(/* id 6, wireType 0 =*/48).bool(message.Remote);
             return writer;
         };
 
         /**
-         * Encodes the specified QueryRequest message, length delimited.
-         * @param {internal.QueryRequest|Object} message QueryRequest message or plain object to encode
+         * Encodes the specified QueryRequest message, length delimited. Does not implicitly {@link internal.QueryRequest.verify|verify} messages.
+         * @param {internal.QueryRequest$Properties} message QueryRequest message or plain object to encode
          * @param {$protobuf.Writer} [writer] Writer to encode to
          * @returns {$protobuf.Writer} Writer
          */
@@ -1874,6 +1982,8 @@ $root.internal = (function() {
          * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
          * @param {number} [length] Message length if known beforehand
          * @returns {internal.QueryRequest} QueryRequest
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
          */
         QueryRequest.decode = function decode(reader, length) {
             if (!(reader instanceof $Reader))
@@ -1919,6 +2029,8 @@ $root.internal = (function() {
          * Decodes a QueryRequest message from the specified reader or buffer, length delimited.
          * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
          * @returns {internal.QueryRequest} QueryRequest
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
          */
         QueryRequest.decodeDelimited = function decodeDelimited(reader) {
             if (!(reader instanceof $Reader))
@@ -1928,32 +2040,32 @@ $root.internal = (function() {
 
         /**
          * Verifies a QueryRequest message.
-         * @param {internal.QueryRequest|Object} message QueryRequest message or plain object to verify
+         * @param {Object.<string,*>} message Plain object to verify
          * @returns {?string} `null` if valid, otherwise the reason why it is not
          */
         QueryRequest.verify = function verify(message) {
             if (typeof message !== "object" || message === null)
                 return "object expected";
-            if (message.DB !== undefined)
+            if (message.DB != null && message.hasOwnProperty("DB"))
                 if (!$util.isString(message.DB))
                     return "DB: string expected";
-            if (message.Query !== undefined)
+            if (message.Query != null && message.hasOwnProperty("Query"))
                 if (!$util.isString(message.Query))
                     return "Query: string expected";
-            if (message.Slices !== undefined) {
+            if (message.Slices != null && message.hasOwnProperty("Slices")) {
                 if (!Array.isArray(message.Slices))
                     return "Slices: array expected";
                 for (var i = 0; i < message.Slices.length; ++i)
                     if (!$util.isInteger(message.Slices[i]) && !(message.Slices[i] && $util.isInteger(message.Slices[i].low) && $util.isInteger(message.Slices[i].high)))
                         return "Slices: integer|Long[] expected";
             }
-            if (message.Profiles !== undefined)
+            if (message.Profiles != null && message.hasOwnProperty("Profiles"))
                 if (typeof message.Profiles !== "boolean")
                     return "Profiles: boolean expected";
-            if (message.Quantum !== undefined)
+            if (message.Quantum != null && message.hasOwnProperty("Quantum"))
                 if (!$util.isString(message.Quantum))
                     return "Quantum: string expected";
-            if (message.Remote !== undefined)
+            if (message.Remote != null && message.hasOwnProperty("Remote"))
                 if (typeof message.Remote !== "boolean")
                     return "Remote: boolean expected";
             return null;
@@ -1968,9 +2080,9 @@ $root.internal = (function() {
             if (object instanceof $root.internal.QueryRequest)
                 return object;
             var message = new $root.internal.QueryRequest();
-            if (object.DB !== undefined && object.DB !== null)
+            if (object.DB != null)
                 message.DB = String(object.DB);
-            if (object.Query !== undefined && object.Query !== null)
+            if (object.Query != null)
                 message.Query = String(object.Query);
             if (object.Slices) {
                 if (!Array.isArray(object.Slices))
@@ -1986,11 +2098,11 @@ $root.internal = (function() {
                     else if (typeof object.Slices[i] === "object")
                         message.Slices[i] = new $util.LongBits(object.Slices[i].low >>> 0, object.Slices[i].high >>> 0).toNumber(true);
             }
-            if (object.Profiles !== undefined && object.Profiles !== null)
+            if (object.Profiles != null)
                 message.Profiles = Boolean(object.Profiles);
-            if (object.Quantum !== undefined && object.Quantum !== null)
+            if (object.Quantum != null)
                 message.Quantum = String(object.Quantum);
-            if (object.Remote !== undefined && object.Remote !== null)
+            if (object.Remote != null)
                 message.Remote = Boolean(object.Remote);
             return message;
         };
@@ -2023,11 +2135,11 @@ $root.internal = (function() {
                 object.Quantum = "";
                 object.Remote = false;
             }
-            if (message.DB !== undefined && message.DB !== null && message.hasOwnProperty("DB"))
+            if (message.DB != null && message.hasOwnProperty("DB"))
                 object.DB = message.DB;
-            if (message.Query !== undefined && message.Query !== null && message.hasOwnProperty("Query"))
+            if (message.Query != null && message.hasOwnProperty("Query"))
                 object.Query = message.Query;
-            if (message.Slices !== undefined && message.Slices !== null && message.hasOwnProperty("Slices")) {
+            if (message.Slices && message.Slices.length) {
                 object.Slices = [];
                 for (var j = 0; j < message.Slices.length; ++j)
                     if (typeof message.Slices[j] === "number")
@@ -2035,11 +2147,11 @@ $root.internal = (function() {
                     else
                         object.Slices[j] = options.longs === String ? $util.Long.prototype.toString.call(message.Slices[j]) : options.longs === Number ? new $util.LongBits(message.Slices[j].low >>> 0, message.Slices[j].high >>> 0).toNumber(true) : message.Slices[j];
             }
-            if (message.Profiles !== undefined && message.Profiles !== null && message.hasOwnProperty("Profiles"))
+            if (message.Profiles != null && message.hasOwnProperty("Profiles"))
                 object.Profiles = message.Profiles;
-            if (message.Quantum !== undefined && message.Quantum !== null && message.hasOwnProperty("Quantum"))
+            if (message.Quantum != null && message.hasOwnProperty("Quantum"))
                 object.Quantum = message.Quantum;
-            if (message.Remote !== undefined && message.Remote !== null && message.hasOwnProperty("Remote"))
+            if (message.Remote != null && message.hasOwnProperty("Remote"))
                 object.Remote = message.Remote;
             return object;
         };
@@ -2067,44 +2179,50 @@ $root.internal = (function() {
     internal.QueryResponse = (function() {
 
         /**
+         * Properties of a QueryResponse.
+         * @typedef internal.QueryResponse$Properties
+         * @type {Object}
+         * @property {string} [Err] QueryResponse Err.
+         * @property {Array.<internal.QueryResult$Properties>} [Results] QueryResponse Results.
+         * @property {Array.<internal.Profile$Properties>} [Profiles] QueryResponse Profiles.
+         */
+
+        /**
          * Constructs a new QueryResponse.
          * @exports internal.QueryResponse
          * @constructor
-         * @param {Object} [properties] Properties to set
+         * @param {internal.QueryResponse$Properties=} [properties] Properties to set
          */
         function QueryResponse(properties) {
+            this.Results = [];
+            this.Profiles = [];
             if (properties)
                 for (var keys = Object.keys(properties), i = 0; i < keys.length; ++i)
-                    this[keys[i]] = properties[keys[i]];
+                    if (properties[keys[i]] != null)
+                        this[keys[i]] = properties[keys[i]];
         }
 
         /**
          * QueryResponse Err.
-         * @type {string|undefined}
+         * @type {string}
          */
         QueryResponse.prototype.Err = "";
 
         /**
          * QueryResponse Results.
-         * @type {Array.<internal.QueryResult>|undefined}
+         * @type {Array.<internal.QueryResult$Properties>}
          */
         QueryResponse.prototype.Results = $util.emptyArray;
 
         /**
          * QueryResponse Profiles.
-         * @type {Array.<internal.Profile>|undefined}
+         * @type {Array.<internal.Profile$Properties>}
          */
         QueryResponse.prototype.Profiles = $util.emptyArray;
 
-        // Lazily resolved type references
-        var $types = {
-            1: "internal.QueryResult",
-            2: "internal.Profile"
-        }; $lazyTypes.push($types);
-
         /**
          * Creates a new QueryResponse instance using the specified properties.
-         * @param {Object} [properties] Properties to set
+         * @param {internal.QueryResponse$Properties=} [properties] Properties to set
          * @returns {internal.QueryResponse} QueryResponse instance
          */
         QueryResponse.create = function create(properties) {
@@ -2112,28 +2230,28 @@ $root.internal = (function() {
         };
 
         /**
-         * Encodes the specified QueryResponse message.
-         * @param {internal.QueryResponse|Object} message QueryResponse message or plain object to encode
+         * Encodes the specified QueryResponse message. Does not implicitly {@link internal.QueryResponse.verify|verify} messages.
+         * @param {internal.QueryResponse$Properties} message QueryResponse message or plain object to encode
          * @param {$protobuf.Writer} [writer] Writer to encode to
          * @returns {$protobuf.Writer} Writer
          */
         QueryResponse.encode = function encode(message, writer) {
             if (!writer)
                 writer = $Writer.create();
-            if (message.Err !== undefined && message.hasOwnProperty("Err"))
+            if (message.Err != null && message.hasOwnProperty("Err"))
                 writer.uint32(/* id 1, wireType 2 =*/10).string(message.Err);
-            if (message.Results !== undefined && message.hasOwnProperty("Results"))
+            if (message.Results != null && message.Results.length)
                 for (var i = 0; i < message.Results.length; ++i)
-                    $types[1].encode(message.Results[i], writer.uint32(/* id 2, wireType 2 =*/18).fork()).ldelim();
-            if (message.Profiles !== undefined && message.hasOwnProperty("Profiles"))
+                    $root.internal.QueryResult.encode(message.Results[i], writer.uint32(/* id 2, wireType 2 =*/18).fork()).ldelim();
+            if (message.Profiles != null && message.Profiles.length)
                 for (var i = 0; i < message.Profiles.length; ++i)
-                    $types[2].encode(message.Profiles[i], writer.uint32(/* id 3, wireType 2 =*/26).fork()).ldelim();
+                    $root.internal.Profile.encode(message.Profiles[i], writer.uint32(/* id 3, wireType 2 =*/26).fork()).ldelim();
             return writer;
         };
 
         /**
-         * Encodes the specified QueryResponse message, length delimited.
-         * @param {internal.QueryResponse|Object} message QueryResponse message or plain object to encode
+         * Encodes the specified QueryResponse message, length delimited. Does not implicitly {@link internal.QueryResponse.verify|verify} messages.
+         * @param {internal.QueryResponse$Properties} message QueryResponse message or plain object to encode
          * @param {$protobuf.Writer} [writer] Writer to encode to
          * @returns {$protobuf.Writer} Writer
          */
@@ -2146,6 +2264,8 @@ $root.internal = (function() {
          * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
          * @param {number} [length] Message length if known beforehand
          * @returns {internal.QueryResponse} QueryResponse
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
          */
         QueryResponse.decode = function decode(reader, length) {
             if (!(reader instanceof $Reader))
@@ -2160,12 +2280,12 @@ $root.internal = (function() {
                 case 2:
                     if (!(message.Results && message.Results.length))
                         message.Results = [];
-                    message.Results.push($types[1].decode(reader, reader.uint32()));
+                    message.Results.push($root.internal.QueryResult.decode(reader, reader.uint32()));
                     break;
                 case 3:
                     if (!(message.Profiles && message.Profiles.length))
                         message.Profiles = [];
-                    message.Profiles.push($types[2].decode(reader, reader.uint32()));
+                    message.Profiles.push($root.internal.Profile.decode(reader, reader.uint32()));
                     break;
                 default:
                     reader.skipType(tag & 7);
@@ -2179,6 +2299,8 @@ $root.internal = (function() {
          * Decodes a QueryResponse message from the specified reader or buffer, length delimited.
          * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
          * @returns {internal.QueryResponse} QueryResponse
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
          */
         QueryResponse.decodeDelimited = function decodeDelimited(reader) {
             if (!(reader instanceof $Reader))
@@ -2188,29 +2310,29 @@ $root.internal = (function() {
 
         /**
          * Verifies a QueryResponse message.
-         * @param {internal.QueryResponse|Object} message QueryResponse message or plain object to verify
+         * @param {Object.<string,*>} message Plain object to verify
          * @returns {?string} `null` if valid, otherwise the reason why it is not
          */
         QueryResponse.verify = function verify(message) {
             if (typeof message !== "object" || message === null)
                 return "object expected";
-            if (message.Err !== undefined)
+            if (message.Err != null && message.hasOwnProperty("Err"))
                 if (!$util.isString(message.Err))
                     return "Err: string expected";
-            if (message.Results !== undefined) {
+            if (message.Results != null && message.hasOwnProperty("Results")) {
                 if (!Array.isArray(message.Results))
                     return "Results: array expected";
                 for (var i = 0; i < message.Results.length; ++i) {
-                    var error = $types[1].verify(message.Results[i]);
+                    var error = $root.internal.QueryResult.verify(message.Results[i]);
                     if (error)
                         return "Results." + error;
                 }
             }
-            if (message.Profiles !== undefined) {
+            if (message.Profiles != null && message.hasOwnProperty("Profiles")) {
                 if (!Array.isArray(message.Profiles))
                     return "Profiles: array expected";
                 for (var i = 0; i < message.Profiles.length; ++i) {
-                    var error = $types[2].verify(message.Profiles[i]);
+                    var error = $root.internal.Profile.verify(message.Profiles[i]);
                     if (error)
                         return "Profiles." + error;
                 }
@@ -2227,7 +2349,7 @@ $root.internal = (function() {
             if (object instanceof $root.internal.QueryResponse)
                 return object;
             var message = new $root.internal.QueryResponse();
-            if (object.Err !== undefined && object.Err !== null)
+            if (object.Err != null)
                 message.Err = String(object.Err);
             if (object.Results) {
                 if (!Array.isArray(object.Results))
@@ -2236,7 +2358,7 @@ $root.internal = (function() {
                 for (var i = 0; i < object.Results.length; ++i) {
                     if (typeof object.Results[i] !== "object")
                         throw TypeError(".internal.QueryResponse.Results: object expected");
-                    message.Results[i] = $types[1].fromObject(object.Results[i]);
+                    message.Results[i] = $root.internal.QueryResult.fromObject(object.Results[i]);
                 }
             }
             if (object.Profiles) {
@@ -2246,7 +2368,7 @@ $root.internal = (function() {
                 for (var i = 0; i < object.Profiles.length; ++i) {
                     if (typeof object.Profiles[i] !== "object")
                         throw TypeError(".internal.QueryResponse.Profiles: object expected");
-                    message.Profiles[i] = $types[2].fromObject(object.Profiles[i]);
+                    message.Profiles[i] = $root.internal.Profile.fromObject(object.Profiles[i]);
                 }
             }
             return message;
@@ -2277,17 +2399,17 @@ $root.internal = (function() {
             }
             if (options.defaults)
                 object.Err = "";
-            if (message.Err !== undefined && message.Err !== null && message.hasOwnProperty("Err"))
+            if (message.Err != null && message.hasOwnProperty("Err"))
                 object.Err = message.Err;
-            if (message.Results !== undefined && message.Results !== null && message.hasOwnProperty("Results")) {
+            if (message.Results && message.Results.length) {
                 object.Results = [];
                 for (var j = 0; j < message.Results.length; ++j)
-                    object.Results[j] = $types[1].toObject(message.Results[j], options);
+                    object.Results[j] = $root.internal.QueryResult.toObject(message.Results[j], options);
             }
-            if (message.Profiles !== undefined && message.Profiles !== null && message.hasOwnProperty("Profiles")) {
+            if (message.Profiles && message.Profiles.length) {
                 object.Profiles = [];
                 for (var j = 0; j < message.Profiles.length; ++j)
-                    object.Profiles[j] = $types[2].toObject(message.Profiles[j], options);
+                    object.Profiles[j] = $root.internal.Profile.toObject(message.Profiles[j], options);
             }
             return object;
         };
@@ -2315,50 +2437,56 @@ $root.internal = (function() {
     internal.QueryResult = (function() {
 
         /**
+         * Properties of a QueryResult.
+         * @typedef internal.QueryResult$Properties
+         * @type {Object}
+         * @property {internal.Bitmap$Properties} [Bitmap] QueryResult Bitmap.
+         * @property {number|Long} [N] QueryResult N.
+         * @property {Array.<internal.Pair$Properties>} [Pairs] QueryResult Pairs.
+         * @property {boolean} [Changed] QueryResult Changed.
+         */
+
+        /**
          * Constructs a new QueryResult.
          * @exports internal.QueryResult
          * @constructor
-         * @param {Object} [properties] Properties to set
+         * @param {internal.QueryResult$Properties=} [properties] Properties to set
          */
         function QueryResult(properties) {
+            this.Pairs = [];
             if (properties)
                 for (var keys = Object.keys(properties), i = 0; i < keys.length; ++i)
-                    this[keys[i]] = properties[keys[i]];
+                    if (properties[keys[i]] != null)
+                        this[keys[i]] = properties[keys[i]];
         }
 
         /**
          * QueryResult Bitmap.
-         * @type {internal.Bitmap|undefined}
+         * @type {(internal.Bitmap$Properties|null)}
          */
         QueryResult.prototype.Bitmap = null;
 
         /**
          * QueryResult N.
-         * @type {number|$protobuf.Long|undefined}
+         * @type {number|Long}
          */
         QueryResult.prototype.N = $util.Long ? $util.Long.fromBits(0,0,true) : 0;
 
         /**
          * QueryResult Pairs.
-         * @type {Array.<internal.Pair>|undefined}
+         * @type {Array.<internal.Pair$Properties>}
          */
         QueryResult.prototype.Pairs = $util.emptyArray;
 
         /**
          * QueryResult Changed.
-         * @type {boolean|undefined}
+         * @type {boolean}
          */
         QueryResult.prototype.Changed = false;
 
-        // Lazily resolved type references
-        var $types = {
-            0: "internal.Bitmap",
-            2: "internal.Pair"
-        }; $lazyTypes.push($types);
-
         /**
          * Creates a new QueryResult instance using the specified properties.
-         * @param {Object} [properties] Properties to set
+         * @param {internal.QueryResult$Properties=} [properties] Properties to set
          * @returns {internal.QueryResult} QueryResult instance
          */
         QueryResult.create = function create(properties) {
@@ -2366,29 +2494,29 @@ $root.internal = (function() {
         };
 
         /**
-         * Encodes the specified QueryResult message.
-         * @param {internal.QueryResult|Object} message QueryResult message or plain object to encode
+         * Encodes the specified QueryResult message. Does not implicitly {@link internal.QueryResult.verify|verify} messages.
+         * @param {internal.QueryResult$Properties} message QueryResult message or plain object to encode
          * @param {$protobuf.Writer} [writer] Writer to encode to
          * @returns {$protobuf.Writer} Writer
          */
         QueryResult.encode = function encode(message, writer) {
             if (!writer)
                 writer = $Writer.create();
-            if (message.Bitmap && message.hasOwnProperty("Bitmap"))
-                $types[0].encode(message.Bitmap, writer.uint32(/* id 1, wireType 2 =*/10).fork()).ldelim();
-            if (message.N !== undefined && message.N !== null && message.hasOwnProperty("N"))
+            if (message.Bitmap != null && message.hasOwnProperty("Bitmap"))
+                $root.internal.Bitmap.encode(message.Bitmap, writer.uint32(/* id 1, wireType 2 =*/10).fork()).ldelim();
+            if (message.N != null && message.hasOwnProperty("N"))
                 writer.uint32(/* id 2, wireType 0 =*/16).uint64(message.N);
-            if (message.Pairs !== undefined && message.hasOwnProperty("Pairs"))
+            if (message.Pairs != null && message.Pairs.length)
                 for (var i = 0; i < message.Pairs.length; ++i)
-                    $types[2].encode(message.Pairs[i], writer.uint32(/* id 3, wireType 2 =*/26).fork()).ldelim();
-            if (message.Changed !== undefined && message.hasOwnProperty("Changed"))
+                    $root.internal.Pair.encode(message.Pairs[i], writer.uint32(/* id 3, wireType 2 =*/26).fork()).ldelim();
+            if (message.Changed != null && message.hasOwnProperty("Changed"))
                 writer.uint32(/* id 4, wireType 0 =*/32).bool(message.Changed);
             return writer;
         };
 
         /**
-         * Encodes the specified QueryResult message, length delimited.
-         * @param {internal.QueryResult|Object} message QueryResult message or plain object to encode
+         * Encodes the specified QueryResult message, length delimited. Does not implicitly {@link internal.QueryResult.verify|verify} messages.
+         * @param {internal.QueryResult$Properties} message QueryResult message or plain object to encode
          * @param {$protobuf.Writer} [writer] Writer to encode to
          * @returns {$protobuf.Writer} Writer
          */
@@ -2401,6 +2529,8 @@ $root.internal = (function() {
          * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
          * @param {number} [length] Message length if known beforehand
          * @returns {internal.QueryResult} QueryResult
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
          */
         QueryResult.decode = function decode(reader, length) {
             if (!(reader instanceof $Reader))
@@ -2410,7 +2540,7 @@ $root.internal = (function() {
                 var tag = reader.uint32();
                 switch (tag >>> 3) {
                 case 1:
-                    message.Bitmap = $types[0].decode(reader, reader.uint32());
+                    message.Bitmap = $root.internal.Bitmap.decode(reader, reader.uint32());
                     break;
                 case 2:
                     message.N = reader.uint64();
@@ -2418,7 +2548,7 @@ $root.internal = (function() {
                 case 3:
                     if (!(message.Pairs && message.Pairs.length))
                         message.Pairs = [];
-                    message.Pairs.push($types[2].decode(reader, reader.uint32()));
+                    message.Pairs.push($root.internal.Pair.decode(reader, reader.uint32()));
                     break;
                 case 4:
                     message.Changed = reader.bool();
@@ -2435,6 +2565,8 @@ $root.internal = (function() {
          * Decodes a QueryResult message from the specified reader or buffer, length delimited.
          * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
          * @returns {internal.QueryResult} QueryResult
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
          */
         QueryResult.decodeDelimited = function decodeDelimited(reader) {
             if (!(reader instanceof $Reader))
@@ -2444,30 +2576,30 @@ $root.internal = (function() {
 
         /**
          * Verifies a QueryResult message.
-         * @param {internal.QueryResult|Object} message QueryResult message or plain object to verify
+         * @param {Object.<string,*>} message Plain object to verify
          * @returns {?string} `null` if valid, otherwise the reason why it is not
          */
         QueryResult.verify = function verify(message) {
             if (typeof message !== "object" || message === null)
                 return "object expected";
-            if (message.Bitmap !== undefined && message.Bitmap !== null) {
-                var error = $types[0].verify(message.Bitmap);
+            if (message.Bitmap != null && message.hasOwnProperty("Bitmap")) {
+                var error = $root.internal.Bitmap.verify(message.Bitmap);
                 if (error)
                     return "Bitmap." + error;
             }
-            if (message.N !== undefined)
+            if (message.N != null && message.hasOwnProperty("N"))
                 if (!$util.isInteger(message.N) && !(message.N && $util.isInteger(message.N.low) && $util.isInteger(message.N.high)))
                     return "N: integer|Long expected";
-            if (message.Pairs !== undefined) {
+            if (message.Pairs != null && message.hasOwnProperty("Pairs")) {
                 if (!Array.isArray(message.Pairs))
                     return "Pairs: array expected";
                 for (var i = 0; i < message.Pairs.length; ++i) {
-                    var error = $types[2].verify(message.Pairs[i]);
+                    var error = $root.internal.Pair.verify(message.Pairs[i]);
                     if (error)
                         return "Pairs." + error;
                 }
             }
-            if (message.Changed !== undefined)
+            if (message.Changed != null && message.hasOwnProperty("Changed"))
                 if (typeof message.Changed !== "boolean")
                     return "Changed: boolean expected";
             return null;
@@ -2482,12 +2614,12 @@ $root.internal = (function() {
             if (object instanceof $root.internal.QueryResult)
                 return object;
             var message = new $root.internal.QueryResult();
-            if (object.Bitmap !== undefined && object.Bitmap !== null) {
+            if (object.Bitmap != null) {
                 if (typeof object.Bitmap !== "object")
                     throw TypeError(".internal.QueryResult.Bitmap: object expected");
-                message.Bitmap = $types[0].fromObject(object.Bitmap);
+                message.Bitmap = $root.internal.Bitmap.fromObject(object.Bitmap);
             }
-            if (object.N !== undefined && object.N !== null)
+            if (object.N != null)
                 if ($util.Long)
                     (message.N = $util.Long.fromValue(object.N)).unsigned = true;
                 else if (typeof object.N === "string")
@@ -2503,10 +2635,10 @@ $root.internal = (function() {
                 for (var i = 0; i < object.Pairs.length; ++i) {
                     if (typeof object.Pairs[i] !== "object")
                         throw TypeError(".internal.QueryResult.Pairs: object expected");
-                    message.Pairs[i] = $types[2].fromObject(object.Pairs[i]);
+                    message.Pairs[i] = $root.internal.Pair.fromObject(object.Pairs[i]);
                 }
             }
-            if (object.Changed !== undefined && object.Changed !== null)
+            if (object.Changed != null)
                 message.Changed = Boolean(object.Changed);
             return message;
         };
@@ -2541,19 +2673,19 @@ $root.internal = (function() {
                     object.N = options.longs === String ? "0" : 0;
                 object.Changed = false;
             }
-            if (message.Bitmap !== undefined && message.Bitmap !== null && message.hasOwnProperty("Bitmap"))
-                object.Bitmap = $types[0].toObject(message.Bitmap, options);
-            if (message.N !== undefined && message.N !== null && message.hasOwnProperty("N"))
+            if (message.Bitmap != null && message.hasOwnProperty("Bitmap"))
+                object.Bitmap = $root.internal.Bitmap.toObject(message.Bitmap, options);
+            if (message.N != null && message.hasOwnProperty("N"))
                 if (typeof message.N === "number")
                     object.N = options.longs === String ? String(message.N) : message.N;
                 else
                     object.N = options.longs === String ? $util.Long.prototype.toString.call(message.N) : options.longs === Number ? new $util.LongBits(message.N.low >>> 0, message.N.high >>> 0).toNumber(true) : message.N;
-            if (message.Pairs !== undefined && message.Pairs !== null && message.hasOwnProperty("Pairs")) {
+            if (message.Pairs && message.Pairs.length) {
                 object.Pairs = [];
                 for (var j = 0; j < message.Pairs.length; ++j)
-                    object.Pairs[j] = $types[2].toObject(message.Pairs[j], options);
+                    object.Pairs[j] = $root.internal.Pair.toObject(message.Pairs[j], options);
             }
-            if (message.Changed !== undefined && message.Changed !== null && message.hasOwnProperty("Changed"))
+            if (message.Changed != null && message.hasOwnProperty("Changed"))
                 object.Changed = message.Changed;
             return object;
         };
@@ -2581,56 +2713,72 @@ $root.internal = (function() {
     internal.ImportRequest = (function() {
 
         /**
+         * Properties of an ImportRequest.
+         * @typedef internal.ImportRequest$Properties
+         * @type {Object}
+         * @property {string} [DB] ImportRequest DB.
+         * @property {string} [Frame] ImportRequest Frame.
+         * @property {number|Long} [Slice] ImportRequest Slice.
+         * @property {Array.<number|Long>} [BitmapIDs] ImportRequest BitmapIDs.
+         * @property {Array.<number|Long>} [ProfileIDs] ImportRequest ProfileIDs.
+         * @property {Array.<number|Long>} [Timestamps] ImportRequest Timestamps.
+         */
+
+        /**
          * Constructs a new ImportRequest.
          * @exports internal.ImportRequest
          * @constructor
-         * @param {Object} [properties] Properties to set
+         * @param {internal.ImportRequest$Properties=} [properties] Properties to set
          */
         function ImportRequest(properties) {
+            this.BitmapIDs = [];
+            this.ProfileIDs = [];
+            this.Timestamps = [];
             if (properties)
                 for (var keys = Object.keys(properties), i = 0; i < keys.length; ++i)
-                    this[keys[i]] = properties[keys[i]];
+                    if (properties[keys[i]] != null)
+                        this[keys[i]] = properties[keys[i]];
         }
 
         /**
          * ImportRequest DB.
-         * @type {string|undefined}
+         * @type {string}
          */
         ImportRequest.prototype.DB = "";
 
         /**
          * ImportRequest Frame.
-         * @type {string|undefined}
+         * @type {string}
          */
         ImportRequest.prototype.Frame = "";
 
         /**
          * ImportRequest Slice.
-         * @type {number|$protobuf.Long|undefined}
+         * @type {number|Long}
          */
         ImportRequest.prototype.Slice = $util.Long ? $util.Long.fromBits(0,0,true) : 0;
 
         /**
          * ImportRequest BitmapIDs.
-         * @type {Array.<number|$protobuf.Long>|undefined}
+         * @type {Array.<number|Long>}
          */
         ImportRequest.prototype.BitmapIDs = $util.emptyArray;
 
         /**
          * ImportRequest ProfileIDs.
-         * @type {Array.<number|$protobuf.Long>|undefined}
+         * @type {Array.<number|Long>}
          */
         ImportRequest.prototype.ProfileIDs = $util.emptyArray;
 
         /**
          * ImportRequest Timestamps.
-         * @type {Array.<number|$protobuf.Long>|undefined}
+         * @type {Array.<number|Long>}
          */
         ImportRequest.prototype.Timestamps = $util.emptyArray;
 
         /**
          * Creates a new ImportRequest instance using the specified properties.
-         * @param {Object} [properties] Properties to set
+         * @param {internal.ImportRequest$Properties=} [properties] Properties to set
          * @returns {internal.ImportRequest} ImportRequest instance
          */
         ImportRequest.create = function create(properties) {
@@ -2638,33 +2786,33 @@ $root.internal = (function() {
         };
 
         /**
-         * Encodes the specified ImportRequest message.
-         * @param {internal.ImportRequest|Object} message ImportRequest message or plain object to encode
+         * Encodes the specified ImportRequest message. Does not implicitly {@link internal.ImportRequest.verify|verify} messages.
+         * @param {internal.ImportRequest$Properties} message ImportRequest message or plain object to encode
          * @param {$protobuf.Writer} [writer] Writer to encode to
          * @returns {$protobuf.Writer} Writer
          */
         ImportRequest.encode = function encode(message, writer) {
             if (!writer)
                 writer = $Writer.create();
-            if (message.DB !== undefined && message.hasOwnProperty("DB"))
+            if (message.DB != null && message.hasOwnProperty("DB"))
                 writer.uint32(/* id 1, wireType 2 =*/10).string(message.DB);
-            if (message.Frame !== undefined && message.hasOwnProperty("Frame"))
+            if (message.Frame != null && message.hasOwnProperty("Frame"))
                 writer.uint32(/* id 2, wireType 2 =*/18).string(message.Frame);
-            if (message.Slice !== undefined && message.Slice !== null && message.hasOwnProperty("Slice"))
+            if (message.Slice != null && message.hasOwnProperty("Slice"))
                 writer.uint32(/* id 3, wireType 0 =*/24).uint64(message.Slice);
-            if (message.BitmapIDs && message.BitmapIDs.length && message.hasOwnProperty("BitmapIDs")) {
+            if (message.BitmapIDs != null && message.BitmapIDs.length) {
                 writer.uint32(/* id 4, wireType 2 =*/34).fork();
                 for (var i = 0; i < message.BitmapIDs.length; ++i)
                     writer.uint64(message.BitmapIDs[i]);
                 writer.ldelim();
             }
-            if (message.ProfileIDs && message.ProfileIDs.length && message.hasOwnProperty("ProfileIDs")) {
+            if (message.ProfileIDs != null && message.ProfileIDs.length) {
                 writer.uint32(/* id 5, wireType 2 =*/42).fork();
                 for (var i = 0; i < message.ProfileIDs.length; ++i)
                     writer.uint64(message.ProfileIDs[i]);
                 writer.ldelim();
             }
-            if (message.Timestamps && message.Timestamps.length && message.hasOwnProperty("Timestamps")) {
+            if (message.Timestamps != null && message.Timestamps.length) {
                 writer.uint32(/* id 6, wireType 2 =*/50).fork();
                 for (var i = 0; i < message.Timestamps.length; ++i)
                     writer.int64(message.Timestamps[i]);
@@ -2674,8 +2822,8 @@ $root.internal = (function() {
         };
 
         /**
-         * Encodes the specified ImportRequest message, length delimited.
-         * @param {internal.ImportRequest|Object} message ImportRequest message or plain object to encode
+         * Encodes the specified ImportRequest message, length delimited. Does not implicitly {@link internal.ImportRequest.verify|verify} messages.
+         * @param {internal.ImportRequest$Properties} message ImportRequest message or plain object to encode
          * @param {$protobuf.Writer} [writer] Writer to encode to
          * @returns {$protobuf.Writer} Writer
          */
@@ -2688,6 +2836,8 @@ $root.internal = (function() {
          * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
          * @param {number} [length] Message length if known beforehand
          * @returns {internal.ImportRequest} ImportRequest
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
          */
         ImportRequest.decode = function decode(reader, length) {
             if (!(reader instanceof $Reader))
@@ -2747,6 +2897,8 @@ $root.internal = (function() {
          * Decodes an ImportRequest message from the specified reader or buffer, length delimited.
          * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
          * @returns {internal.ImportRequest} ImportRequest
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
          */
         ImportRequest.decodeDelimited = function decodeDelimited(reader) {
             if (!(reader instanceof $Reader))
@@ -2756,36 +2908,36 @@ $root.internal = (function() {
 
         /**
          * Verifies an ImportRequest message.
-         * @param {internal.ImportRequest|Object} message ImportRequest message or plain object to verify
+         * @param {Object.<string,*>} message Plain object to verify
          * @returns {?string} `null` if valid, otherwise the reason why it is not
          */
         ImportRequest.verify = function verify(message) {
             if (typeof message !== "object" || message === null)
                 return "object expected";
-            if (message.DB !== undefined)
+            if (message.DB != null && message.hasOwnProperty("DB"))
                 if (!$util.isString(message.DB))
                     return "DB: string expected";
-            if (message.Frame !== undefined)
+            if (message.Frame != null && message.hasOwnProperty("Frame"))
                 if (!$util.isString(message.Frame))
                     return "Frame: string expected";
-            if (message.Slice !== undefined)
+            if (message.Slice != null && message.hasOwnProperty("Slice"))
                 if (!$util.isInteger(message.Slice) && !(message.Slice && $util.isInteger(message.Slice.low) && $util.isInteger(message.Slice.high)))
                     return "Slice: integer|Long expected";
-            if (message.BitmapIDs !== undefined) {
+            if (message.BitmapIDs != null && message.hasOwnProperty("BitmapIDs")) {
                 if (!Array.isArray(message.BitmapIDs))
                     return "BitmapIDs: array expected";
                 for (var i = 0; i < message.BitmapIDs.length; ++i)
                     if (!$util.isInteger(message.BitmapIDs[i]) && !(message.BitmapIDs[i] && $util.isInteger(message.BitmapIDs[i].low) && $util.isInteger(message.BitmapIDs[i].high)))
                         return "BitmapIDs: integer|Long[] expected";
             }
-            if (message.ProfileIDs !== undefined) {
+            if (message.ProfileIDs != null && message.hasOwnProperty("ProfileIDs")) {
                 if (!Array.isArray(message.ProfileIDs))
                     return "ProfileIDs: array expected";
                 for (var i = 0; i < message.ProfileIDs.length; ++i)
                     if (!$util.isInteger(message.ProfileIDs[i]) && !(message.ProfileIDs[i] && $util.isInteger(message.ProfileIDs[i].low) && $util.isInteger(message.ProfileIDs[i].high)))
                         return "ProfileIDs: integer|Long[] expected";
             }
-            if (message.Timestamps !== undefined) {
+            if (message.Timestamps != null && message.hasOwnProperty("Timestamps")) {
                 if (!Array.isArray(message.Timestamps))
                     return "Timestamps: array expected";
                 for (var i = 0; i < message.Timestamps.length; ++i)
@@ -2804,11 +2956,11 @@ $root.internal = (function() {
             if (object instanceof $root.internal.ImportRequest)
                 return object;
             var message = new $root.internal.ImportRequest();
-            if (object.DB !== undefined && object.DB !== null)
+            if (object.DB != null)
                 message.DB = String(object.DB);
-            if (object.Frame !== undefined && object.Frame !== null)
+            if (object.Frame != null)
                 message.Frame = String(object.Frame);
-            if (object.Slice !== undefined && object.Slice !== null)
+            if (object.Slice != null)
                 if ($util.Long)
                     (message.Slice = $util.Long.fromValue(object.Slice)).unsigned = true;
                 else if (typeof object.Slice === "string")
@@ -2895,16 +3047,16 @@ $root.internal = (function() {
                 } else
                     object.Slice = options.longs === String ? "0" : 0;
             }
-            if (message.DB !== undefined && message.DB !== null && message.hasOwnProperty("DB"))
+            if (message.DB != null && message.hasOwnProperty("DB"))
                 object.DB = message.DB;
-            if (message.Frame !== undefined && message.Frame !== null && message.hasOwnProperty("Frame"))
+            if (message.Frame != null && message.hasOwnProperty("Frame"))
                 object.Frame = message.Frame;
-            if (message.Slice !== undefined && message.Slice !== null && message.hasOwnProperty("Slice"))
+            if (message.Slice != null && message.hasOwnProperty("Slice"))
                 if (typeof message.Slice === "number")
                     object.Slice = options.longs === String ? String(message.Slice) : message.Slice;
                 else
                     object.Slice = options.longs === String ? $util.Long.prototype.toString.call(message.Slice) : options.longs === Number ? new $util.LongBits(message.Slice.low >>> 0, message.Slice.high >>> 0).toNumber(true) : message.Slice;
-            if (message.BitmapIDs !== undefined && message.BitmapIDs !== null && message.hasOwnProperty("BitmapIDs")) {
+            if (message.BitmapIDs && message.BitmapIDs.length) {
                 object.BitmapIDs = [];
                 for (var j = 0; j < message.BitmapIDs.length; ++j)
                     if (typeof message.BitmapIDs[j] === "number")
@@ -2912,7 +3064,7 @@ $root.internal = (function() {
                     else
                         object.BitmapIDs[j] = options.longs === String ? $util.Long.prototype.toString.call(message.BitmapIDs[j]) : options.longs === Number ? new $util.LongBits(message.BitmapIDs[j].low >>> 0, message.BitmapIDs[j].high >>> 0).toNumber(true) : message.BitmapIDs[j];
             }
-            if (message.ProfileIDs !== undefined && message.ProfileIDs !== null && message.hasOwnProperty("ProfileIDs")) {
+            if (message.ProfileIDs && message.ProfileIDs.length) {
                 object.ProfileIDs = [];
                 for (var j = 0; j < message.ProfileIDs.length; ++j)
                     if (typeof message.ProfileIDs[j] === "number")
@@ -2920,7 +3072,7 @@ $root.internal = (function() {
                     else
                         object.ProfileIDs[j] = options.longs === String ? $util.Long.prototype.toString.call(message.ProfileIDs[j]) : options.longs === Number ? new $util.LongBits(message.ProfileIDs[j].low >>> 0, message.ProfileIDs[j].high >>> 0).toNumber(true) : message.ProfileIDs[j];
             }
-            if (message.Timestamps !== undefined && message.Timestamps !== null && message.hasOwnProperty("Timestamps")) {
+            if (message.Timestamps && message.Timestamps.length) {
                 object.Timestamps = [];
                 for (var j = 0; j < message.Timestamps.length; ++j)
                     if (typeof message.Timestamps[j] === "number")
@@ -2954,26 +3106,34 @@ $root.internal = (function() {
     internal.ImportResponse = (function() {
 
         /**
+         * Properties of an ImportResponse.
+         * @typedef internal.ImportResponse$Properties
+         * @type {Object}
+         * @property {string} [Err] ImportResponse Err.
+         */
+
+        /**
          * Constructs a new ImportResponse.
          * @exports internal.ImportResponse
          * @constructor
-         * @param {Object} [properties] Properties to set
+         * @param {internal.ImportResponse$Properties=} [properties] Properties to set
          */
         function ImportResponse(properties) {
             if (properties)
                 for (var keys = Object.keys(properties), i = 0; i < keys.length; ++i)
-                    this[keys[i]] = properties[keys[i]];
+                    if (properties[keys[i]] != null)
+                        this[keys[i]] = properties[keys[i]];
         }
 
         /**
          * ImportResponse Err.
-         * @type {string|undefined}
+         * @type {string}
          */
         ImportResponse.prototype.Err = "";
 
         /**
          * Creates a new ImportResponse instance using the specified properties.
-         * @param {Object} [properties] Properties to set
+         * @param {internal.ImportResponse$Properties=} [properties] Properties to set
          * @returns {internal.ImportResponse} ImportResponse instance
          */
         ImportResponse.create = function create(properties) {
@@ -2981,22 +3141,22 @@ $root.internal = (function() {
         };
 
         /**
-         * Encodes the specified ImportResponse message.
-         * @param {internal.ImportResponse|Object} message ImportResponse message or plain object to encode
+         * Encodes the specified ImportResponse message. Does not implicitly {@link internal.ImportResponse.verify|verify} messages.
+         * @param {internal.ImportResponse$Properties} message ImportResponse message or plain object to encode
          * @param {$protobuf.Writer} [writer] Writer to encode to
          * @returns {$protobuf.Writer} Writer
          */
         ImportResponse.encode = function encode(message, writer) {
             if (!writer)
                 writer = $Writer.create();
-            if (message.Err !== undefined && message.hasOwnProperty("Err"))
+            if (message.Err != null && message.hasOwnProperty("Err"))
                 writer.uint32(/* id 1, wireType 2 =*/10).string(message.Err);
             return writer;
         };
 
         /**
-         * Encodes the specified ImportResponse message, length delimited.
-         * @param {internal.ImportResponse|Object} message ImportResponse message or plain object to encode
+         * Encodes the specified ImportResponse message, length delimited. Does not implicitly {@link internal.ImportResponse.verify|verify} messages.
+         * @param {internal.ImportResponse$Properties} message ImportResponse message or plain object to encode
          * @param {$protobuf.Writer} [writer] Writer to encode to
          * @returns {$protobuf.Writer} Writer
          */
@@ -3009,6 +3169,8 @@ $root.internal = (function() {
          * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
          * @param {number} [length] Message length if known beforehand
          * @returns {internal.ImportResponse} ImportResponse
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
          */
         ImportResponse.decode = function decode(reader, length) {
             if (!(reader instanceof $Reader))
@@ -3032,6 +3194,8 @@ $root.internal = (function() {
          * Decodes an ImportResponse message from the specified reader or buffer, length delimited.
          * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
          * @returns {internal.ImportResponse} ImportResponse
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
          */
         ImportResponse.decodeDelimited = function decodeDelimited(reader) {
             if (!(reader instanceof $Reader))
@@ -3041,13 +3205,13 @@ $root.internal = (function() {
 
         /**
          * Verifies an ImportResponse message.
-         * @param {internal.ImportResponse|Object} message ImportResponse message or plain object to verify
+         * @param {Object.<string,*>} message Plain object to verify
          * @returns {?string} `null` if valid, otherwise the reason why it is not
          */
         ImportResponse.verify = function verify(message) {
             if (typeof message !== "object" || message === null)
                 return "object expected";
-            if (message.Err !== undefined)
+            if (message.Err != null && message.hasOwnProperty("Err"))
                 if (!$util.isString(message.Err))
                     return "Err: string expected";
             return null;
@@ -3062,7 +3226,7 @@ $root.internal = (function() {
             if (object instanceof $root.internal.ImportResponse)
                 return object;
             var message = new $root.internal.ImportResponse();
-            if (object.Err !== undefined && object.Err !== null)
+            if (object.Err != null)
                 message.Err = String(object.Err);
             return message;
         };
@@ -3088,7 +3252,7 @@ $root.internal = (function() {
             var object = {};
             if (options.defaults)
                 object.Err = "";
-            if (message.Err !== undefined && message.Err !== null && message.hasOwnProperty("Err"))
+            if (message.Err != null && message.hasOwnProperty("Err"))
                 object.Err = message.Err;
             return object;
         };
@@ -3116,44 +3280,55 @@ $root.internal = (function() {
     internal.BlockDataRequest = (function() {
 
         /**
+         * Properties of a BlockDataRequest.
+         * @typedef internal.BlockDataRequest$Properties
+         * @type {Object}
+         * @property {string} [DB] BlockDataRequest DB.
+         * @property {string} [Frame] BlockDataRequest Frame.
+         * @property {number|Long} [Slice] BlockDataRequest Slice.
+         * @property {number|Long} [Block] BlockDataRequest Block.
+         */
+
+        /**
          * Constructs a new BlockDataRequest.
          * @exports internal.BlockDataRequest
          * @constructor
-         * @param {Object} [properties] Properties to set
+         * @param {internal.BlockDataRequest$Properties=} [properties] Properties to set
          */
         function BlockDataRequest(properties) {
             if (properties)
                 for (var keys = Object.keys(properties), i = 0; i < keys.length; ++i)
-                    this[keys[i]] = properties[keys[i]];
+                    if (properties[keys[i]] != null)
+                        this[keys[i]] = properties[keys[i]];
         }
 
         /**
          * BlockDataRequest DB.
-         * @type {string|undefined}
+         * @type {string}
          */
         BlockDataRequest.prototype.DB = "";
 
         /**
          * BlockDataRequest Frame.
-         * @type {string|undefined}
+         * @type {string}
          */
         BlockDataRequest.prototype.Frame = "";
 
         /**
          * BlockDataRequest Slice.
-         * @type {number|$protobuf.Long|undefined}
+         * @type {number|Long}
          */
         BlockDataRequest.prototype.Slice = $util.Long ? $util.Long.fromBits(0,0,true) : 0;
 
         /**
          * BlockDataRequest Block.
-         * @type {number|$protobuf.Long|undefined}
+         * @type {number|Long}
          */
         BlockDataRequest.prototype.Block = $util.Long ? $util.Long.fromBits(0,0,true) : 0;
 
         /**
          * Creates a new BlockDataRequest instance using the specified properties.
-         * @param {Object} [properties] Properties to set
+         * @param {internal.BlockDataRequest$Properties=} [properties] Properties to set
          * @returns {internal.BlockDataRequest} BlockDataRequest instance
          */
         BlockDataRequest.create = function create(properties) {
@@ -3161,28 +3336,28 @@ $root.internal = (function() {
         };
 
         /**
-         * Encodes the specified BlockDataRequest message.
-         * @param {internal.BlockDataRequest|Object} message BlockDataRequest message or plain object to encode
+         * Encodes the specified BlockDataRequest message. Does not implicitly {@link internal.BlockDataRequest.verify|verify} messages.
+         * @param {internal.BlockDataRequest$Properties} message BlockDataRequest message or plain object to encode
          * @param {$protobuf.Writer} [writer] Writer to encode to
          * @returns {$protobuf.Writer} Writer
          */
         BlockDataRequest.encode = function encode(message, writer) {
             if (!writer)
                 writer = $Writer.create();
-            if (message.DB !== undefined && message.hasOwnProperty("DB"))
+            if (message.DB != null && message.hasOwnProperty("DB"))
                 writer.uint32(/* id 1, wireType 2 =*/10).string(message.DB);
-            if (message.Frame !== undefined && message.hasOwnProperty("Frame"))
+            if (message.Frame != null && message.hasOwnProperty("Frame"))
                 writer.uint32(/* id 2, wireType 2 =*/18).string(message.Frame);
-            if (message.Slice !== undefined && message.Slice !== null && message.hasOwnProperty("Slice"))
+            if (message.Slice != null && message.hasOwnProperty("Slice"))
                 writer.uint32(/* id 3, wireType 0 =*/24).uint64(message.Slice);
-            if (message.Block !== undefined && message.Block !== null && message.hasOwnProperty("Block"))
+            if (message.Block != null && message.hasOwnProperty("Block"))
                 writer.uint32(/* id 4, wireType 0 =*/32).uint64(message.Block);
             return writer;
         };
 
         /**
-         * Encodes the specified BlockDataRequest message, length delimited.
-         * @param {internal.BlockDataRequest|Object} message BlockDataRequest message or plain object to encode
+         * Encodes the specified BlockDataRequest message, length delimited. Does not implicitly {@link internal.BlockDataRequest.verify|verify} messages.
+         * @param {internal.BlockDataRequest$Properties} message BlockDataRequest message or plain object to encode
          * @param {$protobuf.Writer} [writer] Writer to encode to
          * @returns {$protobuf.Writer} Writer
          */
@@ -3195,6 +3370,8 @@ $root.internal = (function() {
          * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
          * @param {number} [length] Message length if known beforehand
          * @returns {internal.BlockDataRequest} BlockDataRequest
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
          */
         BlockDataRequest.decode = function decode(reader, length) {
             if (!(reader instanceof $Reader))
@@ -3227,6 +3404,8 @@ $root.internal = (function() {
          * Decodes a BlockDataRequest message from the specified reader or buffer, length delimited.
          * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
          * @returns {internal.BlockDataRequest} BlockDataRequest
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
          */
         BlockDataRequest.decodeDelimited = function decodeDelimited(reader) {
             if (!(reader instanceof $Reader))
@@ -3236,22 +3415,22 @@ $root.internal = (function() {
 
         /**
          * Verifies a BlockDataRequest message.
-         * @param {internal.BlockDataRequest|Object} message BlockDataRequest message or plain object to verify
+         * @param {Object.<string,*>} message Plain object to verify
          * @returns {?string} `null` if valid, otherwise the reason why it is not
          */
         BlockDataRequest.verify = function verify(message) {
             if (typeof message !== "object" || message === null)
                 return "object expected";
-            if (message.DB !== undefined)
+            if (message.DB != null && message.hasOwnProperty("DB"))
                 if (!$util.isString(message.DB))
                     return "DB: string expected";
-            if (message.Frame !== undefined)
+            if (message.Frame != null && message.hasOwnProperty("Frame"))
                 if (!$util.isString(message.Frame))
                     return "Frame: string expected";
-            if (message.Slice !== undefined)
+            if (message.Slice != null && message.hasOwnProperty("Slice"))
                 if (!$util.isInteger(message.Slice) && !(message.Slice && $util.isInteger(message.Slice.low) && $util.isInteger(message.Slice.high)))
                     return "Slice: integer|Long expected";
-            if (message.Block !== undefined)
+            if (message.Block != null && message.hasOwnProperty("Block"))
                 if (!$util.isInteger(message.Block) && !(message.Block && $util.isInteger(message.Block.low) && $util.isInteger(message.Block.high)))
                     return "Block: integer|Long expected";
             return null;
@@ -3266,11 +3445,11 @@ $root.internal = (function() {
             if (object instanceof $root.internal.BlockDataRequest)
                 return object;
             var message = new $root.internal.BlockDataRequest();
-            if (object.DB !== undefined && object.DB !== null)
+            if (object.DB != null)
                 message.DB = String(object.DB);
-            if (object.Frame !== undefined && object.Frame !== null)
+            if (object.Frame != null)
                 message.Frame = String(object.Frame);
-            if (object.Slice !== undefined && object.Slice !== null)
+            if (object.Slice != null)
                 if ($util.Long)
                     (message.Slice = $util.Long.fromValue(object.Slice)).unsigned = true;
                 else if (typeof object.Slice === "string")
@@ -3279,7 +3458,7 @@ $root.internal = (function() {
                     message.Slice = object.Slice;
                 else if (typeof object.Slice === "object")
                     message.Slice = new $util.LongBits(object.Slice.low >>> 0, object.Slice.high >>> 0).toNumber(true);
-            if (object.Block !== undefined && object.Block !== null)
+            if (object.Block != null)
                 if ($util.Long)
                     (message.Block = $util.Long.fromValue(object.Block)).unsigned = true;
                 else if (typeof object.Block === "string")
@@ -3324,16 +3503,16 @@ $root.internal = (function() {
                 } else
                     object.Block = options.longs === String ? "0" : 0;
             }
-            if (message.DB !== undefined && message.DB !== null && message.hasOwnProperty("DB"))
+            if (message.DB != null && message.hasOwnProperty("DB"))
                 object.DB = message.DB;
-            if (message.Frame !== undefined && message.Frame !== null && message.hasOwnProperty("Frame"))
+            if (message.Frame != null && message.hasOwnProperty("Frame"))
                 object.Frame = message.Frame;
-            if (message.Slice !== undefined && message.Slice !== null && message.hasOwnProperty("Slice"))
+            if (message.Slice != null && message.hasOwnProperty("Slice"))
                 if (typeof message.Slice === "number")
                     object.Slice = options.longs === String ? String(message.Slice) : message.Slice;
                 else
                     object.Slice = options.longs === String ? $util.Long.prototype.toString.call(message.Slice) : options.longs === Number ? new $util.LongBits(message.Slice.low >>> 0, message.Slice.high >>> 0).toNumber(true) : message.Slice;
-            if (message.Block !== undefined && message.Block !== null && message.hasOwnProperty("Block"))
+            if (message.Block != null && message.hasOwnProperty("Block"))
                 if (typeof message.Block === "number")
                     object.Block = options.longs === String ? String(message.Block) : message.Block;
                 else
@@ -3364,32 +3543,43 @@ $root.internal = (function() {
     internal.BlockDataResponse = (function() {
 
         /**
+         * Properties of a BlockDataResponse.
+         * @typedef internal.BlockDataResponse$Properties
+         * @type {Object}
+         * @property {Array.<number|Long>} [BitmapIDs] BlockDataResponse BitmapIDs.
+         * @property {Array.<number|Long>} [ProfileIDs] BlockDataResponse ProfileIDs.
+         */
+
+        /**
          * Constructs a new BlockDataResponse.
          * @exports internal.BlockDataResponse
          * @constructor
-         * @param {Object} [properties] Properties to set
+         * @param {internal.BlockDataResponse$Properties=} [properties] Properties to set
          */
         function BlockDataResponse(properties) {
+            this.BitmapIDs = [];
+            this.ProfileIDs = [];
             if (properties)
                 for (var keys = Object.keys(properties), i = 0; i < keys.length; ++i)
-                    this[keys[i]] = properties[keys[i]];
+                    if (properties[keys[i]] != null)
+                        this[keys[i]] = properties[keys[i]];
         }
 
         /**
          * BlockDataResponse BitmapIDs.
-         * @type {Array.<number|$protobuf.Long>|undefined}
+         * @type {Array.<number|Long>}
          */
         BlockDataResponse.prototype.BitmapIDs = $util.emptyArray;
 
         /**
          * BlockDataResponse ProfileIDs.
-         * @type {Array.<number|$protobuf.Long>|undefined}
+         * @type {Array.<number|Long>}
          */
         BlockDataResponse.prototype.ProfileIDs = $util.emptyArray;
 
         /**
          * Creates a new BlockDataResponse instance using the specified properties.
-         * @param {Object} [properties] Properties to set
+         * @param {internal.BlockDataResponse$Properties=} [properties] Properties to set
          * @returns {internal.BlockDataResponse} BlockDataResponse instance
          */
         BlockDataResponse.create = function create(properties) {
@@ -3397,21 +3587,21 @@ $root.internal = (function() {
         };
 
         /**
-         * Encodes the specified BlockDataResponse message.
-         * @param {internal.BlockDataResponse|Object} message BlockDataResponse message or plain object to encode
+         * Encodes the specified BlockDataResponse message. Does not implicitly {@link internal.BlockDataResponse.verify|verify} messages.
+         * @param {internal.BlockDataResponse$Properties} message BlockDataResponse message or plain object to encode
          * @param {$protobuf.Writer} [writer] Writer to encode to
          * @returns {$protobuf.Writer} Writer
          */
         BlockDataResponse.encode = function encode(message, writer) {
             if (!writer)
                 writer = $Writer.create();
-            if (message.BitmapIDs && message.BitmapIDs.length && message.hasOwnProperty("BitmapIDs")) {
+            if (message.BitmapIDs != null && message.BitmapIDs.length) {
                 writer.uint32(/* id 1, wireType 2 =*/10).fork();
                 for (var i = 0; i < message.BitmapIDs.length; ++i)
                     writer.uint64(message.BitmapIDs[i]);
                 writer.ldelim();
             }
-            if (message.ProfileIDs && message.ProfileIDs.length && message.hasOwnProperty("ProfileIDs")) {
+            if (message.ProfileIDs != null && message.ProfileIDs.length) {
                 writer.uint32(/* id 2, wireType 2 =*/18).fork();
                 for (var i = 0; i < message.ProfileIDs.length; ++i)
                     writer.uint64(message.ProfileIDs[i]);
@@ -3421,8 +3611,8 @@ $root.internal = (function() {
         };
 
         /**
-         * Encodes the specified BlockDataResponse message, length delimited.
-         * @param {internal.BlockDataResponse|Object} message BlockDataResponse message or plain object to encode
+         * Encodes the specified BlockDataResponse message, length delimited. Does not implicitly {@link internal.BlockDataResponse.verify|verify} messages.
+         * @param {internal.BlockDataResponse$Properties} message BlockDataResponse message or plain object to encode
          * @param {$protobuf.Writer} [writer] Writer to encode to
          * @returns {$protobuf.Writer} Writer
          */
@@ -3435,6 +3625,8 @@ $root.internal = (function() {
          * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
          * @param {number} [length] Message length if known beforehand
          * @returns {internal.BlockDataResponse} BlockDataResponse
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
          */
         BlockDataResponse.decode = function decode(reader, length) {
             if (!(reader instanceof $Reader))
@@ -3475,6 +3667,8 @@ $root.internal = (function() {
          * Decodes a BlockDataResponse message from the specified reader or buffer, length delimited.
          * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
          * @returns {internal.BlockDataResponse} BlockDataResponse
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
          */
         BlockDataResponse.decodeDelimited = function decodeDelimited(reader) {
             if (!(reader instanceof $Reader))
@@ -3484,20 +3678,20 @@ $root.internal = (function() {
 
         /**
          * Verifies a BlockDataResponse message.
-         * @param {internal.BlockDataResponse|Object} message BlockDataResponse message or plain object to verify
+         * @param {Object.<string,*>} message Plain object to verify
          * @returns {?string} `null` if valid, otherwise the reason why it is not
          */
         BlockDataResponse.verify = function verify(message) {
             if (typeof message !== "object" || message === null)
                 return "object expected";
-            if (message.BitmapIDs !== undefined) {
+            if (message.BitmapIDs != null && message.hasOwnProperty("BitmapIDs")) {
                 if (!Array.isArray(message.BitmapIDs))
                     return "BitmapIDs: array expected";
                 for (var i = 0; i < message.BitmapIDs.length; ++i)
                     if (!$util.isInteger(message.BitmapIDs[i]) && !(message.BitmapIDs[i] && $util.isInteger(message.BitmapIDs[i].low) && $util.isInteger(message.BitmapIDs[i].high)))
                         return "BitmapIDs: integer|Long[] expected";
             }
-            if (message.ProfileIDs !== undefined) {
+            if (message.ProfileIDs != null && message.hasOwnProperty("ProfileIDs")) {
                 if (!Array.isArray(message.ProfileIDs))
                     return "ProfileIDs: array expected";
                 for (var i = 0; i < message.ProfileIDs.length; ++i)
@@ -3570,7 +3764,7 @@ $root.internal = (function() {
                 object.BitmapIDs = [];
                 object.ProfileIDs = [];
             }
-            if (message.BitmapIDs !== undefined && message.BitmapIDs !== null && message.hasOwnProperty("BitmapIDs")) {
+            if (message.BitmapIDs && message.BitmapIDs.length) {
                 object.BitmapIDs = [];
                 for (var j = 0; j < message.BitmapIDs.length; ++j)
                     if (typeof message.BitmapIDs[j] === "number")
@@ -3578,7 +3772,7 @@ $root.internal = (function() {
                     else
                         object.BitmapIDs[j] = options.longs === String ? $util.Long.prototype.toString.call(message.BitmapIDs[j]) : options.longs === Number ? new $util.LongBits(message.BitmapIDs[j].low >>> 0, message.BitmapIDs[j].high >>> 0).toNumber(true) : message.BitmapIDs[j];
             }
-            if (message.ProfileIDs !== undefined && message.ProfileIDs !== null && message.hasOwnProperty("ProfileIDs")) {
+            if (message.ProfileIDs && message.ProfileIDs.length) {
                 object.ProfileIDs = [];
                 for (var j = 0; j < message.ProfileIDs.length; ++j)
                     if (typeof message.ProfileIDs[j] === "number")
@@ -3612,26 +3806,35 @@ $root.internal = (function() {
     internal.Cache = (function() {
 
         /**
+         * Properties of a Cache.
+         * @typedef internal.Cache$Properties
+         * @type {Object}
+         * @property {Array.<number|Long>} [BitmapIDs] Cache BitmapIDs.
+         */
+
+        /**
          * Constructs a new Cache.
          * @exports internal.Cache
          * @constructor
-         * @param {Object} [properties] Properties to set
+         * @param {internal.Cache$Properties=} [properties] Properties to set
          */
         function Cache(properties) {
+            this.BitmapIDs = [];
             if (properties)
                 for (var keys = Object.keys(properties), i = 0; i < keys.length; ++i)
-                    this[keys[i]] = properties[keys[i]];
+                    if (properties[keys[i]] != null)
+                        this[keys[i]] = properties[keys[i]];
         }
 
         /**
          * Cache BitmapIDs.
-         * @type {Array.<number|$protobuf.Long>|undefined}
+         * @type {Array.<number|Long>}
          */
         Cache.prototype.BitmapIDs = $util.emptyArray;
 
         /**
          * Creates a new Cache instance using the specified properties.
-         * @param {Object} [properties] Properties to set
+         * @param {internal.Cache$Properties=} [properties] Properties to set
          * @returns {internal.Cache} Cache instance
          */
         Cache.create = function create(properties) {
@@ -3639,15 +3842,15 @@ $root.internal = (function() {
         };
 
         /**
-         * Encodes the specified Cache message.
-         * @param {internal.Cache|Object} message Cache message or plain object to encode
+         * Encodes the specified Cache message. Does not implicitly {@link internal.Cache.verify|verify} messages.
+         * @param {internal.Cache$Properties} message Cache message or plain object to encode
          * @param {$protobuf.Writer} [writer] Writer to encode to
          * @returns {$protobuf.Writer} Writer
          */
         Cache.encode = function encode(message, writer) {
             if (!writer)
                 writer = $Writer.create();
-            if (message.BitmapIDs && message.BitmapIDs.length && message.hasOwnProperty("BitmapIDs")) {
+            if (message.BitmapIDs != null && message.BitmapIDs.length) {
                 writer.uint32(/* id 1, wireType 2 =*/10).fork();
                 for (var i = 0; i < message.BitmapIDs.length; ++i)
                     writer.uint64(message.BitmapIDs[i]);
@@ -3657,8 +3860,8 @@ $root.internal = (function() {
         };
 
         /**
-         * Encodes the specified Cache message, length delimited.
-         * @param {internal.Cache|Object} message Cache message or plain object to encode
+         * Encodes the specified Cache message, length delimited. Does not implicitly {@link internal.Cache.verify|verify} messages.
+         * @param {internal.Cache$Properties} message Cache message or plain object to encode
          * @param {$protobuf.Writer} [writer] Writer to encode to
          * @returns {$protobuf.Writer} Writer
          */
@@ -3671,6 +3874,8 @@ $root.internal = (function() {
          * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
          * @param {number} [length] Message length if known beforehand
          * @returns {internal.Cache} Cache
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
          */
         Cache.decode = function decode(reader, length) {
             if (!(reader instanceof $Reader))
@@ -3701,6 +3906,8 @@ $root.internal = (function() {
          * Decodes a Cache message from the specified reader or buffer, length delimited.
          * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
          * @returns {internal.Cache} Cache
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
          */
         Cache.decodeDelimited = function decodeDelimited(reader) {
             if (!(reader instanceof $Reader))
@@ -3710,13 +3917,13 @@ $root.internal = (function() {
 
         /**
          * Verifies a Cache message.
-         * @param {internal.Cache|Object} message Cache message or plain object to verify
+         * @param {Object.<string,*>} message Plain object to verify
          * @returns {?string} `null` if valid, otherwise the reason why it is not
          */
         Cache.verify = function verify(message) {
             if (typeof message !== "object" || message === null)
                 return "object expected";
-            if (message.BitmapIDs !== undefined) {
+            if (message.BitmapIDs != null && message.hasOwnProperty("BitmapIDs")) {
                 if (!Array.isArray(message.BitmapIDs))
                     return "BitmapIDs: array expected";
                 for (var i = 0; i < message.BitmapIDs.length; ++i)
@@ -3773,7 +3980,7 @@ $root.internal = (function() {
             var object = {};
             if (options.arrays || options.defaults)
                 object.BitmapIDs = [];
-            if (message.BitmapIDs !== undefined && message.BitmapIDs !== null && message.hasOwnProperty("BitmapIDs")) {
+            if (message.BitmapIDs && message.BitmapIDs.length) {
                 object.BitmapIDs = [];
                 for (var j = 0; j < message.BitmapIDs.length; ++j)
                     if (typeof message.BitmapIDs[j] === "number")
@@ -3807,26 +4014,35 @@ $root.internal = (function() {
     internal.MaxSlicesResponse = (function() {
 
         /**
+         * Properties of a MaxSlicesResponse.
+         * @typedef internal.MaxSlicesResponse$Properties
+         * @type {Object}
+         * @property {Object.<string,number|Long>} [MaxSlices] MaxSlicesResponse MaxSlices.
+         */
+
+        /**
          * Constructs a new MaxSlicesResponse.
          * @exports internal.MaxSlicesResponse
          * @constructor
-         * @param {Object} [properties] Properties to set
+         * @param {internal.MaxSlicesResponse$Properties=} [properties] Properties to set
          */
         function MaxSlicesResponse(properties) {
+            this.MaxSlices = {};
             if (properties)
                 for (var keys = Object.keys(properties), i = 0; i < keys.length; ++i)
-                    this[keys[i]] = properties[keys[i]];
+                    if (properties[keys[i]] != null)
+                        this[keys[i]] = properties[keys[i]];
         }
 
         /**
          * MaxSlicesResponse MaxSlices.
-         * @type {Object.<string,number|$protobuf.Long>|undefined}
+         * @type {Object.<string,number|Long>}
          */
         MaxSlicesResponse.prototype.MaxSlices = $util.emptyObject;
 
         /**
          * Creates a new MaxSlicesResponse instance using the specified properties.
-         * @param {Object} [properties] Properties to set
+         * @param {internal.MaxSlicesResponse$Properties=} [properties] Properties to set
          * @returns {internal.MaxSlicesResponse} MaxSlicesResponse instance
          */
         MaxSlicesResponse.create = function create(properties) {
@@ -3834,23 +4050,23 @@ $root.internal = (function() {
         };
 
         /**
-         * Encodes the specified MaxSlicesResponse message.
-         * @param {internal.MaxSlicesResponse|Object} message MaxSlicesResponse message or plain object to encode
+         * Encodes the specified MaxSlicesResponse message. Does not implicitly {@link internal.MaxSlicesResponse.verify|verify} messages.
+         * @param {internal.MaxSlicesResponse$Properties} message MaxSlicesResponse message or plain object to encode
          * @param {$protobuf.Writer} [writer] Writer to encode to
          * @returns {$protobuf.Writer} Writer
          */
         MaxSlicesResponse.encode = function encode(message, writer) {
             if (!writer)
                 writer = $Writer.create();
-            if (message.MaxSlices && message.hasOwnProperty("MaxSlices"))
+            if (message.MaxSlices != null && message.hasOwnProperty("MaxSlices"))
                 for (var keys = Object.keys(message.MaxSlices), i = 0; i < keys.length; ++i)
                     writer.uint32(/* id 1, wireType 2 =*/10).fork().uint32(/* id 1, wireType 2 =*/10).string(keys[i]).uint32(/* id 2, wireType 0 =*/16).uint64(message.MaxSlices[keys[i]]).ldelim();
             return writer;
         };
 
         /**
-         * Encodes the specified MaxSlicesResponse message, length delimited.
-         * @param {internal.MaxSlicesResponse|Object} message MaxSlicesResponse message or plain object to encode
+         * Encodes the specified MaxSlicesResponse message, length delimited. Does not implicitly {@link internal.MaxSlicesResponse.verify|verify} messages.
+         * @param {internal.MaxSlicesResponse$Properties} message MaxSlicesResponse message or plain object to encode
          * @param {$protobuf.Writer} [writer] Writer to encode to
          * @returns {$protobuf.Writer} Writer
          */
@@ -3863,11 +4079,13 @@ $root.internal = (function() {
          * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
          * @param {number} [length] Message length if known beforehand
          * @returns {internal.MaxSlicesResponse} MaxSlicesResponse
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
          */
         MaxSlicesResponse.decode = function decode(reader, length) {
             if (!(reader instanceof $Reader))
                 reader = $Reader.create(reader);
-            var end = length === undefined ? reader.len : reader.pos + length, message = new $root.internal.MaxSlicesResponse();
+            var end = length === undefined ? reader.len : reader.pos + length, message = new $root.internal.MaxSlicesResponse(), key;
             while (reader.pos < end) {
                 var tag = reader.uint32();
                 switch (tag >>> 3) {
@@ -3875,9 +4093,9 @@ $root.internal = (function() {
                     reader.skip().pos++;
                     if (message.MaxSlices === $util.emptyObject)
                         message.MaxSlices = {};
-                    var key = reader.string();
+                    key = reader.string();
                     reader.pos++;
-                    message.MaxSlices[typeof key === "object" ? $util.longToHash(key) : key] = reader.uint64();
+                    message.MaxSlices[key] = reader.uint64();
                     break;
                 default:
                     reader.skipType(tag & 7);
@@ -3891,6 +4109,8 @@ $root.internal = (function() {
          * Decodes a MaxSlicesResponse message from the specified reader or buffer, length delimited.
          * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
          * @returns {internal.MaxSlicesResponse} MaxSlicesResponse
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
          */
         MaxSlicesResponse.decodeDelimited = function decodeDelimited(reader) {
             if (!(reader instanceof $Reader))
@@ -3900,13 +4120,13 @@ $root.internal = (function() {
 
         /**
          * Verifies a MaxSlicesResponse message.
-         * @param {internal.MaxSlicesResponse|Object} message MaxSlicesResponse message or plain object to verify
+         * @param {Object.<string,*>} message Plain object to verify
          * @returns {?string} `null` if valid, otherwise the reason why it is not
          */
         MaxSlicesResponse.verify = function verify(message) {
             if (typeof message !== "object" || message === null)
                 return "object expected";
-            if (message.MaxSlices !== undefined) {
+            if (message.MaxSlices != null && message.hasOwnProperty("MaxSlices")) {
                 if (!$util.isObject(message.MaxSlices))
                     return "MaxSlices: object expected";
                 var key = Object.keys(message.MaxSlices);
@@ -3964,9 +4184,10 @@ $root.internal = (function() {
             var object = {};
             if (options.objects || options.defaults)
                 object.MaxSlices = {};
-            if (message.MaxSlices !== undefined && message.MaxSlices !== null && message.hasOwnProperty("MaxSlices")) {
+            var keys2;
+            if (message.MaxSlices && (keys2 = Object.keys(message.MaxSlices)).length) {
                 object.MaxSlices = {};
-                for (var keys2 = Object.keys(message.MaxSlices), j = 0; j < keys2.length; ++j)
+                for (var j = 0; j < keys2.length; ++j)
                     if (typeof message.MaxSlices[keys2[j]] === "number")
                         object.MaxSlices[keys2[j]] = options.longs === String ? String(message.MaxSlices[keys2[j]]) : message.MaxSlices[keys2[j]];
                     else
@@ -3997,8 +4218,5 @@ $root.internal = (function() {
 
     return internal;
 })();
-
-// Resolve lazy type references to actual types
-$util.lazyResolve($root, $lazyTypes);
 
 module.exports = $root;

@@ -7,11 +7,16 @@ import * as $protobuf from "protobufjs";
  */
 export namespace internal {
 
+    type DB$Properties = {
+        TimeQuantum?: string;
+        ColumnLabel?: string;
+    };
+
     /**
      * Constructs a new DB.
      * @exports internal.DB
      * @constructor
-     * @param {Object} [properties] Properties to set
+     * @param {internal.DB$Properties=} [properties] Properties to set
      */
     class DB {
 
@@ -19,73 +24,77 @@ export namespace internal {
          * Constructs a new DB.
          * @exports internal.DB
          * @constructor
-         * @param {Object} [properties] Properties to set
+         * @param {internal.DB$Properties=} [properties] Properties to set
          */
-        constructor(properties?: Object);
+        constructor(properties?: internal.DB$Properties);
 
         /**
          * DB TimeQuantum.
-         * @type {string|undefined}
+         * @type {string}
          */
-        TimeQuantum?: string;
+        public TimeQuantum: string;
 
         /**
          * DB ColumnLabel.
-         * @type {string|undefined}
+         * @type {string}
          */
-        ColumnLabel?: string;
+        public ColumnLabel: string;
 
         /**
          * Creates a new DB instance using the specified properties.
-         * @param {Object} [properties] Properties to set
+         * @param {internal.DB$Properties=} [properties] Properties to set
          * @returns {internal.DB} DB instance
          */
-        static create(properties?: Object): internal.DB;
+        public static create(properties?: internal.DB$Properties): internal.DB;
 
         /**
-         * Encodes the specified DB message.
-         * @param {internal.DB|Object} message DB message or plain object to encode
+         * Encodes the specified DB message. Does not implicitly {@link internal.DB.verify|verify} messages.
+         * @param {internal.DB$Properties} message DB message or plain object to encode
          * @param {$protobuf.Writer} [writer] Writer to encode to
          * @returns {$protobuf.Writer} Writer
          */
-        static encode(message: (internal.DB|Object), writer?: $protobuf.Writer): $protobuf.Writer;
+        public static encode(message: internal.DB$Properties, writer?: $protobuf.Writer): $protobuf.Writer;
 
         /**
-         * Encodes the specified DB message, length delimited.
-         * @param {internal.DB|Object} message DB message or plain object to encode
+         * Encodes the specified DB message, length delimited. Does not implicitly {@link internal.DB.verify|verify} messages.
+         * @param {internal.DB$Properties} message DB message or plain object to encode
          * @param {$protobuf.Writer} [writer] Writer to encode to
          * @returns {$protobuf.Writer} Writer
          */
-        static encodeDelimited(message: (internal.DB|Object), writer?: $protobuf.Writer): $protobuf.Writer;
+        public static encodeDelimited(message: internal.DB$Properties, writer?: $protobuf.Writer): $protobuf.Writer;
 
         /**
          * Decodes a DB message from the specified reader or buffer.
          * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
          * @param {number} [length] Message length if known beforehand
          * @returns {internal.DB} DB
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
          */
-        static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): internal.DB;
+        public static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): internal.DB;
 
         /**
          * Decodes a DB message from the specified reader or buffer, length delimited.
          * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
          * @returns {internal.DB} DB
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
          */
-        static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): internal.DB;
+        public static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): internal.DB;
 
         /**
          * Verifies a DB message.
-         * @param {internal.DB|Object} message DB message or plain object to verify
+         * @param {Object.<string,*>} message Plain object to verify
          * @returns {?string} `null` if valid, otherwise the reason why it is not
          */
-        static verify(message: (internal.DB|Object)): string;
+        public static verify(message: { [k: string]: any }): string;
 
         /**
          * Creates a DB message from a plain object. Also converts values to their respective internal types.
          * @param {Object.<string,*>} object Plain object
          * @returns {internal.DB} DB
          */
-        static fromObject(object: { [k: string]: any }): internal.DB;
+        public static fromObject(object: { [k: string]: any }): internal.DB;
 
         /**
          * Creates a DB message from a plain object. Also converts values to their respective internal types.
@@ -94,7 +103,7 @@ export namespace internal {
          * @param {Object.<string,*>} object Plain object
          * @returns {internal.DB} DB
          */
-        static from(object: { [k: string]: any }): internal.DB;
+        public static from(object: { [k: string]: any }): internal.DB;
 
         /**
          * Creates a plain object from a DB message. Also converts values to other types if specified.
@@ -102,27 +111,32 @@ export namespace internal {
          * @param {$protobuf.ConversionOptions} [options] Conversion options
          * @returns {Object.<string,*>} Plain object
          */
-        static toObject(message: internal.DB, options?: $protobuf.ConversionOptions): { [k: string]: any };
+        public static toObject(message: internal.DB, options?: $protobuf.ConversionOptions): { [k: string]: any };
 
         /**
          * Creates a plain object from this DB message. Also converts values to other types if specified.
          * @param {$protobuf.ConversionOptions} [options] Conversion options
          * @returns {Object.<string,*>} Plain object
          */
-        toObject(options?: $protobuf.ConversionOptions): { [k: string]: any };
+        public toObject(options?: $protobuf.ConversionOptions): { [k: string]: any };
 
         /**
          * Converts this DB to JSON.
          * @returns {Object.<string,*>} JSON object
          */
-        toJSON(): { [k: string]: any };
+        public toJSON(): { [k: string]: any };
     }
+
+    type Frame$Properties = {
+        TimeQuantum?: string;
+        RowLabel?: string;
+    };
 
     /**
      * Constructs a new Frame.
      * @exports internal.Frame
      * @constructor
-     * @param {Object} [properties] Properties to set
+     * @param {internal.Frame$Properties=} [properties] Properties to set
      */
     class Frame {
 
@@ -130,73 +144,77 @@ export namespace internal {
          * Constructs a new Frame.
          * @exports internal.Frame
          * @constructor
-         * @param {Object} [properties] Properties to set
+         * @param {internal.Frame$Properties=} [properties] Properties to set
          */
-        constructor(properties?: Object);
+        constructor(properties?: internal.Frame$Properties);
 
         /**
          * Frame TimeQuantum.
-         * @type {string|undefined}
+         * @type {string}
          */
-        TimeQuantum?: string;
+        public TimeQuantum: string;
 
         /**
          * Frame RowLabel.
-         * @type {string|undefined}
+         * @type {string}
          */
-        RowLabel?: string;
+        public RowLabel: string;
 
         /**
          * Creates a new Frame instance using the specified properties.
-         * @param {Object} [properties] Properties to set
+         * @param {internal.Frame$Properties=} [properties] Properties to set
          * @returns {internal.Frame} Frame instance
          */
-        static create(properties?: Object): internal.Frame;
+        public static create(properties?: internal.Frame$Properties): internal.Frame;
 
         /**
-         * Encodes the specified Frame message.
-         * @param {internal.Frame|Object} message Frame message or plain object to encode
+         * Encodes the specified Frame message. Does not implicitly {@link internal.Frame.verify|verify} messages.
+         * @param {internal.Frame$Properties} message Frame message or plain object to encode
          * @param {$protobuf.Writer} [writer] Writer to encode to
          * @returns {$protobuf.Writer} Writer
          */
-        static encode(message: (internal.Frame|Object), writer?: $protobuf.Writer): $protobuf.Writer;
+        public static encode(message: internal.Frame$Properties, writer?: $protobuf.Writer): $protobuf.Writer;
 
         /**
-         * Encodes the specified Frame message, length delimited.
-         * @param {internal.Frame|Object} message Frame message or plain object to encode
+         * Encodes the specified Frame message, length delimited. Does not implicitly {@link internal.Frame.verify|verify} messages.
+         * @param {internal.Frame$Properties} message Frame message or plain object to encode
          * @param {$protobuf.Writer} [writer] Writer to encode to
          * @returns {$protobuf.Writer} Writer
          */
-        static encodeDelimited(message: (internal.Frame|Object), writer?: $protobuf.Writer): $protobuf.Writer;
+        public static encodeDelimited(message: internal.Frame$Properties, writer?: $protobuf.Writer): $protobuf.Writer;
 
         /**
          * Decodes a Frame message from the specified reader or buffer.
          * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
          * @param {number} [length] Message length if known beforehand
          * @returns {internal.Frame} Frame
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
          */
-        static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): internal.Frame;
+        public static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): internal.Frame;
 
         /**
          * Decodes a Frame message from the specified reader or buffer, length delimited.
          * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
          * @returns {internal.Frame} Frame
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
          */
-        static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): internal.Frame;
+        public static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): internal.Frame;
 
         /**
          * Verifies a Frame message.
-         * @param {internal.Frame|Object} message Frame message or plain object to verify
+         * @param {Object.<string,*>} message Plain object to verify
          * @returns {?string} `null` if valid, otherwise the reason why it is not
          */
-        static verify(message: (internal.Frame|Object)): string;
+        public static verify(message: { [k: string]: any }): string;
 
         /**
          * Creates a Frame message from a plain object. Also converts values to their respective internal types.
          * @param {Object.<string,*>} object Plain object
          * @returns {internal.Frame} Frame
          */
-        static fromObject(object: { [k: string]: any }): internal.Frame;
+        public static fromObject(object: { [k: string]: any }): internal.Frame;
 
         /**
          * Creates a Frame message from a plain object. Also converts values to their respective internal types.
@@ -205,7 +223,7 @@ export namespace internal {
          * @param {Object.<string,*>} object Plain object
          * @returns {internal.Frame} Frame
          */
-        static from(object: { [k: string]: any }): internal.Frame;
+        public static from(object: { [k: string]: any }): internal.Frame;
 
         /**
          * Creates a plain object from a Frame message. Also converts values to other types if specified.
@@ -213,27 +231,32 @@ export namespace internal {
          * @param {$protobuf.ConversionOptions} [options] Conversion options
          * @returns {Object.<string,*>} Plain object
          */
-        static toObject(message: internal.Frame, options?: $protobuf.ConversionOptions): { [k: string]: any };
+        public static toObject(message: internal.Frame, options?: $protobuf.ConversionOptions): { [k: string]: any };
 
         /**
          * Creates a plain object from this Frame message. Also converts values to other types if specified.
          * @param {$protobuf.ConversionOptions} [options] Conversion options
          * @returns {Object.<string,*>} Plain object
          */
-        toObject(options?: $protobuf.ConversionOptions): { [k: string]: any };
+        public toObject(options?: $protobuf.ConversionOptions): { [k: string]: any };
 
         /**
          * Converts this Frame to JSON.
          * @returns {Object.<string,*>} JSON object
          */
-        toJSON(): { [k: string]: any };
+        public toJSON(): { [k: string]: any };
     }
+
+    type Bitmap$Properties = {
+        Bits?: (number|Long)[];
+        Attrs?: internal.Attr$Properties[];
+    };
 
     /**
      * Constructs a new Bitmap.
      * @exports internal.Bitmap
      * @constructor
-     * @param {Object} [properties] Properties to set
+     * @param {internal.Bitmap$Properties=} [properties] Properties to set
      */
     class Bitmap {
 
@@ -241,73 +264,77 @@ export namespace internal {
          * Constructs a new Bitmap.
          * @exports internal.Bitmap
          * @constructor
-         * @param {Object} [properties] Properties to set
+         * @param {internal.Bitmap$Properties=} [properties] Properties to set
          */
-        constructor(properties?: Object);
+        constructor(properties?: internal.Bitmap$Properties);
 
         /**
          * Bitmap Bits.
-         * @type {Array.<number|$protobuf.Long>|undefined}
+         * @type {Array.<number|Long>}
          */
-        Bits?: (number|$protobuf.Long)[];
+        public Bits: (number|Long)[];
 
         /**
          * Bitmap Attrs.
-         * @type {Array.<internal.Attr>|undefined}
+         * @type {Array.<internal.Attr$Properties>}
          */
-        Attrs?: internal.Attr[];
+        public Attrs: internal.Attr$Properties[];
 
         /**
          * Creates a new Bitmap instance using the specified properties.
-         * @param {Object} [properties] Properties to set
+         * @param {internal.Bitmap$Properties=} [properties] Properties to set
          * @returns {internal.Bitmap} Bitmap instance
          */
-        static create(properties?: Object): internal.Bitmap;
+        public static create(properties?: internal.Bitmap$Properties): internal.Bitmap;
 
         /**
-         * Encodes the specified Bitmap message.
-         * @param {internal.Bitmap|Object} message Bitmap message or plain object to encode
+         * Encodes the specified Bitmap message. Does not implicitly {@link internal.Bitmap.verify|verify} messages.
+         * @param {internal.Bitmap$Properties} message Bitmap message or plain object to encode
          * @param {$protobuf.Writer} [writer] Writer to encode to
          * @returns {$protobuf.Writer} Writer
          */
-        static encode(message: (internal.Bitmap|Object), writer?: $protobuf.Writer): $protobuf.Writer;
+        public static encode(message: internal.Bitmap$Properties, writer?: $protobuf.Writer): $protobuf.Writer;
 
         /**
-         * Encodes the specified Bitmap message, length delimited.
-         * @param {internal.Bitmap|Object} message Bitmap message or plain object to encode
+         * Encodes the specified Bitmap message, length delimited. Does not implicitly {@link internal.Bitmap.verify|verify} messages.
+         * @param {internal.Bitmap$Properties} message Bitmap message or plain object to encode
          * @param {$protobuf.Writer} [writer] Writer to encode to
          * @returns {$protobuf.Writer} Writer
          */
-        static encodeDelimited(message: (internal.Bitmap|Object), writer?: $protobuf.Writer): $protobuf.Writer;
+        public static encodeDelimited(message: internal.Bitmap$Properties, writer?: $protobuf.Writer): $protobuf.Writer;
 
         /**
          * Decodes a Bitmap message from the specified reader or buffer.
          * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
          * @param {number} [length] Message length if known beforehand
          * @returns {internal.Bitmap} Bitmap
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
          */
-        static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): internal.Bitmap;
+        public static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): internal.Bitmap;
 
         /**
          * Decodes a Bitmap message from the specified reader or buffer, length delimited.
          * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
          * @returns {internal.Bitmap} Bitmap
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
          */
-        static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): internal.Bitmap;
+        public static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): internal.Bitmap;
 
         /**
          * Verifies a Bitmap message.
-         * @param {internal.Bitmap|Object} message Bitmap message or plain object to verify
+         * @param {Object.<string,*>} message Plain object to verify
          * @returns {?string} `null` if valid, otherwise the reason why it is not
          */
-        static verify(message: (internal.Bitmap|Object)): string;
+        public static verify(message: { [k: string]: any }): string;
 
         /**
          * Creates a Bitmap message from a plain object. Also converts values to their respective internal types.
          * @param {Object.<string,*>} object Plain object
          * @returns {internal.Bitmap} Bitmap
          */
-        static fromObject(object: { [k: string]: any }): internal.Bitmap;
+        public static fromObject(object: { [k: string]: any }): internal.Bitmap;
 
         /**
          * Creates a Bitmap message from a plain object. Also converts values to their respective internal types.
@@ -316,7 +343,7 @@ export namespace internal {
          * @param {Object.<string,*>} object Plain object
          * @returns {internal.Bitmap} Bitmap
          */
-        static from(object: { [k: string]: any }): internal.Bitmap;
+        public static from(object: { [k: string]: any }): internal.Bitmap;
 
         /**
          * Creates a plain object from a Bitmap message. Also converts values to other types if specified.
@@ -324,27 +351,32 @@ export namespace internal {
          * @param {$protobuf.ConversionOptions} [options] Conversion options
          * @returns {Object.<string,*>} Plain object
          */
-        static toObject(message: internal.Bitmap, options?: $protobuf.ConversionOptions): { [k: string]: any };
+        public static toObject(message: internal.Bitmap, options?: $protobuf.ConversionOptions): { [k: string]: any };
 
         /**
          * Creates a plain object from this Bitmap message. Also converts values to other types if specified.
          * @param {$protobuf.ConversionOptions} [options] Conversion options
          * @returns {Object.<string,*>} Plain object
          */
-        toObject(options?: $protobuf.ConversionOptions): { [k: string]: any };
+        public toObject(options?: $protobuf.ConversionOptions): { [k: string]: any };
 
         /**
          * Converts this Bitmap to JSON.
          * @returns {Object.<string,*>} JSON object
          */
-        toJSON(): { [k: string]: any };
+        public toJSON(): { [k: string]: any };
     }
+
+    type Pair$Properties = {
+        Key?: (number|Long);
+        Count?: (number|Long);
+    };
 
     /**
      * Constructs a new Pair.
      * @exports internal.Pair
      * @constructor
-     * @param {Object} [properties] Properties to set
+     * @param {internal.Pair$Properties=} [properties] Properties to set
      */
     class Pair {
 
@@ -352,73 +384,77 @@ export namespace internal {
          * Constructs a new Pair.
          * @exports internal.Pair
          * @constructor
-         * @param {Object} [properties] Properties to set
+         * @param {internal.Pair$Properties=} [properties] Properties to set
          */
-        constructor(properties?: Object);
+        constructor(properties?: internal.Pair$Properties);
 
         /**
          * Pair Key.
-         * @type {number|$protobuf.Long|undefined}
+         * @type {number|Long}
          */
-        Key?: (number|$protobuf.Long);
+        public Key: (number|Long);
 
         /**
          * Pair Count.
-         * @type {number|$protobuf.Long|undefined}
+         * @type {number|Long}
          */
-        Count?: (number|$protobuf.Long);
+        public Count: (number|Long);
 
         /**
          * Creates a new Pair instance using the specified properties.
-         * @param {Object} [properties] Properties to set
+         * @param {internal.Pair$Properties=} [properties] Properties to set
          * @returns {internal.Pair} Pair instance
          */
-        static create(properties?: Object): internal.Pair;
+        public static create(properties?: internal.Pair$Properties): internal.Pair;
 
         /**
-         * Encodes the specified Pair message.
-         * @param {internal.Pair|Object} message Pair message or plain object to encode
+         * Encodes the specified Pair message. Does not implicitly {@link internal.Pair.verify|verify} messages.
+         * @param {internal.Pair$Properties} message Pair message or plain object to encode
          * @param {$protobuf.Writer} [writer] Writer to encode to
          * @returns {$protobuf.Writer} Writer
          */
-        static encode(message: (internal.Pair|Object), writer?: $protobuf.Writer): $protobuf.Writer;
+        public static encode(message: internal.Pair$Properties, writer?: $protobuf.Writer): $protobuf.Writer;
 
         /**
-         * Encodes the specified Pair message, length delimited.
-         * @param {internal.Pair|Object} message Pair message or plain object to encode
+         * Encodes the specified Pair message, length delimited. Does not implicitly {@link internal.Pair.verify|verify} messages.
+         * @param {internal.Pair$Properties} message Pair message or plain object to encode
          * @param {$protobuf.Writer} [writer] Writer to encode to
          * @returns {$protobuf.Writer} Writer
          */
-        static encodeDelimited(message: (internal.Pair|Object), writer?: $protobuf.Writer): $protobuf.Writer;
+        public static encodeDelimited(message: internal.Pair$Properties, writer?: $protobuf.Writer): $protobuf.Writer;
 
         /**
          * Decodes a Pair message from the specified reader or buffer.
          * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
          * @param {number} [length] Message length if known beforehand
          * @returns {internal.Pair} Pair
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
          */
-        static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): internal.Pair;
+        public static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): internal.Pair;
 
         /**
          * Decodes a Pair message from the specified reader or buffer, length delimited.
          * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
          * @returns {internal.Pair} Pair
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
          */
-        static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): internal.Pair;
+        public static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): internal.Pair;
 
         /**
          * Verifies a Pair message.
-         * @param {internal.Pair|Object} message Pair message or plain object to verify
+         * @param {Object.<string,*>} message Plain object to verify
          * @returns {?string} `null` if valid, otherwise the reason why it is not
          */
-        static verify(message: (internal.Pair|Object)): string;
+        public static verify(message: { [k: string]: any }): string;
 
         /**
          * Creates a Pair message from a plain object. Also converts values to their respective internal types.
          * @param {Object.<string,*>} object Plain object
          * @returns {internal.Pair} Pair
          */
-        static fromObject(object: { [k: string]: any }): internal.Pair;
+        public static fromObject(object: { [k: string]: any }): internal.Pair;
 
         /**
          * Creates a Pair message from a plain object. Also converts values to their respective internal types.
@@ -427,7 +463,7 @@ export namespace internal {
          * @param {Object.<string,*>} object Plain object
          * @returns {internal.Pair} Pair
          */
-        static from(object: { [k: string]: any }): internal.Pair;
+        public static from(object: { [k: string]: any }): internal.Pair;
 
         /**
          * Creates a plain object from a Pair message. Also converts values to other types if specified.
@@ -435,27 +471,33 @@ export namespace internal {
          * @param {$protobuf.ConversionOptions} [options] Conversion options
          * @returns {Object.<string,*>} Plain object
          */
-        static toObject(message: internal.Pair, options?: $protobuf.ConversionOptions): { [k: string]: any };
+        public static toObject(message: internal.Pair, options?: $protobuf.ConversionOptions): { [k: string]: any };
 
         /**
          * Creates a plain object from this Pair message. Also converts values to other types if specified.
          * @param {$protobuf.ConversionOptions} [options] Conversion options
          * @returns {Object.<string,*>} Plain object
          */
-        toObject(options?: $protobuf.ConversionOptions): { [k: string]: any };
+        public toObject(options?: $protobuf.ConversionOptions): { [k: string]: any };
 
         /**
          * Converts this Pair to JSON.
          * @returns {Object.<string,*>} JSON object
          */
-        toJSON(): { [k: string]: any };
+        public toJSON(): { [k: string]: any };
     }
+
+    type Bit$Properties = {
+        BitmapID?: (number|Long);
+        ProfileID?: (number|Long);
+        Timestamp?: (number|Long);
+    };
 
     /**
      * Constructs a new Bit.
      * @exports internal.Bit
      * @constructor
-     * @param {Object} [properties] Properties to set
+     * @param {internal.Bit$Properties=} [properties] Properties to set
      */
     class Bit {
 
@@ -463,79 +505,83 @@ export namespace internal {
          * Constructs a new Bit.
          * @exports internal.Bit
          * @constructor
-         * @param {Object} [properties] Properties to set
+         * @param {internal.Bit$Properties=} [properties] Properties to set
          */
-        constructor(properties?: Object);
+        constructor(properties?: internal.Bit$Properties);
 
         /**
          * Bit BitmapID.
-         * @type {number|$protobuf.Long|undefined}
+         * @type {number|Long}
          */
-        BitmapID?: (number|$protobuf.Long);
+        public BitmapID: (number|Long);
 
         /**
          * Bit ProfileID.
-         * @type {number|$protobuf.Long|undefined}
+         * @type {number|Long}
          */
-        ProfileID?: (number|$protobuf.Long);
+        public ProfileID: (number|Long);
 
         /**
          * Bit Timestamp.
-         * @type {number|$protobuf.Long|undefined}
+         * @type {number|Long}
          */
-        Timestamp?: (number|$protobuf.Long);
+        public Timestamp: (number|Long);
 
         /**
          * Creates a new Bit instance using the specified properties.
-         * @param {Object} [properties] Properties to set
+         * @param {internal.Bit$Properties=} [properties] Properties to set
          * @returns {internal.Bit} Bit instance
          */
-        static create(properties?: Object): internal.Bit;
+        public static create(properties?: internal.Bit$Properties): internal.Bit;
 
         /**
-         * Encodes the specified Bit message.
-         * @param {internal.Bit|Object} message Bit message or plain object to encode
+         * Encodes the specified Bit message. Does not implicitly {@link internal.Bit.verify|verify} messages.
+         * @param {internal.Bit$Properties} message Bit message or plain object to encode
          * @param {$protobuf.Writer} [writer] Writer to encode to
          * @returns {$protobuf.Writer} Writer
          */
-        static encode(message: (internal.Bit|Object), writer?: $protobuf.Writer): $protobuf.Writer;
+        public static encode(message: internal.Bit$Properties, writer?: $protobuf.Writer): $protobuf.Writer;
 
         /**
-         * Encodes the specified Bit message, length delimited.
-         * @param {internal.Bit|Object} message Bit message or plain object to encode
+         * Encodes the specified Bit message, length delimited. Does not implicitly {@link internal.Bit.verify|verify} messages.
+         * @param {internal.Bit$Properties} message Bit message or plain object to encode
          * @param {$protobuf.Writer} [writer] Writer to encode to
          * @returns {$protobuf.Writer} Writer
          */
-        static encodeDelimited(message: (internal.Bit|Object), writer?: $protobuf.Writer): $protobuf.Writer;
+        public static encodeDelimited(message: internal.Bit$Properties, writer?: $protobuf.Writer): $protobuf.Writer;
 
         /**
          * Decodes a Bit message from the specified reader or buffer.
          * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
          * @param {number} [length] Message length if known beforehand
          * @returns {internal.Bit} Bit
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
          */
-        static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): internal.Bit;
+        public static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): internal.Bit;
 
         /**
          * Decodes a Bit message from the specified reader or buffer, length delimited.
          * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
          * @returns {internal.Bit} Bit
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
          */
-        static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): internal.Bit;
+        public static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): internal.Bit;
 
         /**
          * Verifies a Bit message.
-         * @param {internal.Bit|Object} message Bit message or plain object to verify
+         * @param {Object.<string,*>} message Plain object to verify
          * @returns {?string} `null` if valid, otherwise the reason why it is not
          */
-        static verify(message: (internal.Bit|Object)): string;
+        public static verify(message: { [k: string]: any }): string;
 
         /**
          * Creates a Bit message from a plain object. Also converts values to their respective internal types.
          * @param {Object.<string,*>} object Plain object
          * @returns {internal.Bit} Bit
          */
-        static fromObject(object: { [k: string]: any }): internal.Bit;
+        public static fromObject(object: { [k: string]: any }): internal.Bit;
 
         /**
          * Creates a Bit message from a plain object. Also converts values to their respective internal types.
@@ -544,7 +590,7 @@ export namespace internal {
          * @param {Object.<string,*>} object Plain object
          * @returns {internal.Bit} Bit
          */
-        static from(object: { [k: string]: any }): internal.Bit;
+        public static from(object: { [k: string]: any }): internal.Bit;
 
         /**
          * Creates a plain object from a Bit message. Also converts values to other types if specified.
@@ -552,27 +598,32 @@ export namespace internal {
          * @param {$protobuf.ConversionOptions} [options] Conversion options
          * @returns {Object.<string,*>} Plain object
          */
-        static toObject(message: internal.Bit, options?: $protobuf.ConversionOptions): { [k: string]: any };
+        public static toObject(message: internal.Bit, options?: $protobuf.ConversionOptions): { [k: string]: any };
 
         /**
          * Creates a plain object from this Bit message. Also converts values to other types if specified.
          * @param {$protobuf.ConversionOptions} [options] Conversion options
          * @returns {Object.<string,*>} Plain object
          */
-        toObject(options?: $protobuf.ConversionOptions): { [k: string]: any };
+        public toObject(options?: $protobuf.ConversionOptions): { [k: string]: any };
 
         /**
          * Converts this Bit to JSON.
          * @returns {Object.<string,*>} JSON object
          */
-        toJSON(): { [k: string]: any };
+        public toJSON(): { [k: string]: any };
     }
+
+    type Profile$Properties = {
+        ID?: (number|Long);
+        Attrs?: internal.Attr$Properties[];
+    };
 
     /**
      * Constructs a new Profile.
      * @exports internal.Profile
      * @constructor
-     * @param {Object} [properties] Properties to set
+     * @param {internal.Profile$Properties=} [properties] Properties to set
      */
     class Profile {
 
@@ -580,73 +631,77 @@ export namespace internal {
          * Constructs a new Profile.
          * @exports internal.Profile
          * @constructor
-         * @param {Object} [properties] Properties to set
+         * @param {internal.Profile$Properties=} [properties] Properties to set
          */
-        constructor(properties?: Object);
+        constructor(properties?: internal.Profile$Properties);
 
         /**
          * Profile ID.
-         * @type {number|$protobuf.Long|undefined}
+         * @type {number|Long}
          */
-        ID?: (number|$protobuf.Long);
+        public ID: (number|Long);
 
         /**
          * Profile Attrs.
-         * @type {Array.<internal.Attr>|undefined}
+         * @type {Array.<internal.Attr$Properties>}
          */
-        Attrs?: internal.Attr[];
+        public Attrs: internal.Attr$Properties[];
 
         /**
          * Creates a new Profile instance using the specified properties.
-         * @param {Object} [properties] Properties to set
+         * @param {internal.Profile$Properties=} [properties] Properties to set
          * @returns {internal.Profile} Profile instance
          */
-        static create(properties?: Object): internal.Profile;
+        public static create(properties?: internal.Profile$Properties): internal.Profile;
 
         /**
-         * Encodes the specified Profile message.
-         * @param {internal.Profile|Object} message Profile message or plain object to encode
+         * Encodes the specified Profile message. Does not implicitly {@link internal.Profile.verify|verify} messages.
+         * @param {internal.Profile$Properties} message Profile message or plain object to encode
          * @param {$protobuf.Writer} [writer] Writer to encode to
          * @returns {$protobuf.Writer} Writer
          */
-        static encode(message: (internal.Profile|Object), writer?: $protobuf.Writer): $protobuf.Writer;
+        public static encode(message: internal.Profile$Properties, writer?: $protobuf.Writer): $protobuf.Writer;
 
         /**
-         * Encodes the specified Profile message, length delimited.
-         * @param {internal.Profile|Object} message Profile message or plain object to encode
+         * Encodes the specified Profile message, length delimited. Does not implicitly {@link internal.Profile.verify|verify} messages.
+         * @param {internal.Profile$Properties} message Profile message or plain object to encode
          * @param {$protobuf.Writer} [writer] Writer to encode to
          * @returns {$protobuf.Writer} Writer
          */
-        static encodeDelimited(message: (internal.Profile|Object), writer?: $protobuf.Writer): $protobuf.Writer;
+        public static encodeDelimited(message: internal.Profile$Properties, writer?: $protobuf.Writer): $protobuf.Writer;
 
         /**
          * Decodes a Profile message from the specified reader or buffer.
          * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
          * @param {number} [length] Message length if known beforehand
          * @returns {internal.Profile} Profile
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
          */
-        static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): internal.Profile;
+        public static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): internal.Profile;
 
         /**
          * Decodes a Profile message from the specified reader or buffer, length delimited.
          * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
          * @returns {internal.Profile} Profile
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
          */
-        static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): internal.Profile;
+        public static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): internal.Profile;
 
         /**
          * Verifies a Profile message.
-         * @param {internal.Profile|Object} message Profile message or plain object to verify
+         * @param {Object.<string,*>} message Plain object to verify
          * @returns {?string} `null` if valid, otherwise the reason why it is not
          */
-        static verify(message: (internal.Profile|Object)): string;
+        public static verify(message: { [k: string]: any }): string;
 
         /**
          * Creates a Profile message from a plain object. Also converts values to their respective internal types.
          * @param {Object.<string,*>} object Plain object
          * @returns {internal.Profile} Profile
          */
-        static fromObject(object: { [k: string]: any }): internal.Profile;
+        public static fromObject(object: { [k: string]: any }): internal.Profile;
 
         /**
          * Creates a Profile message from a plain object. Also converts values to their respective internal types.
@@ -655,7 +710,7 @@ export namespace internal {
          * @param {Object.<string,*>} object Plain object
          * @returns {internal.Profile} Profile
          */
-        static from(object: { [k: string]: any }): internal.Profile;
+        public static from(object: { [k: string]: any }): internal.Profile;
 
         /**
          * Creates a plain object from a Profile message. Also converts values to other types if specified.
@@ -663,27 +718,36 @@ export namespace internal {
          * @param {$protobuf.ConversionOptions} [options] Conversion options
          * @returns {Object.<string,*>} Plain object
          */
-        static toObject(message: internal.Profile, options?: $protobuf.ConversionOptions): { [k: string]: any };
+        public static toObject(message: internal.Profile, options?: $protobuf.ConversionOptions): { [k: string]: any };
 
         /**
          * Creates a plain object from this Profile message. Also converts values to other types if specified.
          * @param {$protobuf.ConversionOptions} [options] Conversion options
          * @returns {Object.<string,*>} Plain object
          */
-        toObject(options?: $protobuf.ConversionOptions): { [k: string]: any };
+        public toObject(options?: $protobuf.ConversionOptions): { [k: string]: any };
 
         /**
          * Converts this Profile to JSON.
          * @returns {Object.<string,*>} JSON object
          */
-        toJSON(): { [k: string]: any };
+        public toJSON(): { [k: string]: any };
     }
+
+    type Attr$Properties = {
+        Key?: string;
+        Type?: (number|Long);
+        StringValue?: string;
+        UintValue?: (number|Long);
+        BoolValue?: boolean;
+        FloatValue?: number;
+    };
 
     /**
      * Constructs a new Attr.
      * @exports internal.Attr
      * @constructor
-     * @param {Object} [properties] Properties to set
+     * @param {internal.Attr$Properties=} [properties] Properties to set
      */
     class Attr {
 
@@ -691,97 +755,101 @@ export namespace internal {
          * Constructs a new Attr.
          * @exports internal.Attr
          * @constructor
-         * @param {Object} [properties] Properties to set
+         * @param {internal.Attr$Properties=} [properties] Properties to set
          */
-        constructor(properties?: Object);
+        constructor(properties?: internal.Attr$Properties);
 
         /**
          * Attr Key.
-         * @type {string|undefined}
+         * @type {string}
          */
-        Key?: string;
+        public Key: string;
 
         /**
          * Attr Type.
-         * @type {number|$protobuf.Long|undefined}
+         * @type {number|Long}
          */
-        Type?: (number|$protobuf.Long);
+        public Type: (number|Long);
 
         /**
          * Attr StringValue.
-         * @type {string|undefined}
+         * @type {string}
          */
-        StringValue?: string;
+        public StringValue: string;
 
         /**
          * Attr UintValue.
-         * @type {number|$protobuf.Long|undefined}
+         * @type {number|Long}
          */
-        UintValue?: (number|$protobuf.Long);
+        public UintValue: (number|Long);
 
         /**
          * Attr BoolValue.
-         * @type {boolean|undefined}
+         * @type {boolean}
          */
-        BoolValue?: boolean;
+        public BoolValue: boolean;
 
         /**
          * Attr FloatValue.
-         * @type {number|undefined}
+         * @type {number}
          */
-        FloatValue?: number;
+        public FloatValue: number;
 
         /**
          * Creates a new Attr instance using the specified properties.
-         * @param {Object} [properties] Properties to set
+         * @param {internal.Attr$Properties=} [properties] Properties to set
          * @returns {internal.Attr} Attr instance
          */
-        static create(properties?: Object): internal.Attr;
+        public static create(properties?: internal.Attr$Properties): internal.Attr;
 
         /**
-         * Encodes the specified Attr message.
-         * @param {internal.Attr|Object} message Attr message or plain object to encode
+         * Encodes the specified Attr message. Does not implicitly {@link internal.Attr.verify|verify} messages.
+         * @param {internal.Attr$Properties} message Attr message or plain object to encode
          * @param {$protobuf.Writer} [writer] Writer to encode to
          * @returns {$protobuf.Writer} Writer
          */
-        static encode(message: (internal.Attr|Object), writer?: $protobuf.Writer): $protobuf.Writer;
+        public static encode(message: internal.Attr$Properties, writer?: $protobuf.Writer): $protobuf.Writer;
 
         /**
-         * Encodes the specified Attr message, length delimited.
-         * @param {internal.Attr|Object} message Attr message or plain object to encode
+         * Encodes the specified Attr message, length delimited. Does not implicitly {@link internal.Attr.verify|verify} messages.
+         * @param {internal.Attr$Properties} message Attr message or plain object to encode
          * @param {$protobuf.Writer} [writer] Writer to encode to
          * @returns {$protobuf.Writer} Writer
          */
-        static encodeDelimited(message: (internal.Attr|Object), writer?: $protobuf.Writer): $protobuf.Writer;
+        public static encodeDelimited(message: internal.Attr$Properties, writer?: $protobuf.Writer): $protobuf.Writer;
 
         /**
          * Decodes an Attr message from the specified reader or buffer.
          * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
          * @param {number} [length] Message length if known beforehand
          * @returns {internal.Attr} Attr
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
          */
-        static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): internal.Attr;
+        public static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): internal.Attr;
 
         /**
          * Decodes an Attr message from the specified reader or buffer, length delimited.
          * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
          * @returns {internal.Attr} Attr
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
          */
-        static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): internal.Attr;
+        public static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): internal.Attr;
 
         /**
          * Verifies an Attr message.
-         * @param {internal.Attr|Object} message Attr message or plain object to verify
+         * @param {Object.<string,*>} message Plain object to verify
          * @returns {?string} `null` if valid, otherwise the reason why it is not
          */
-        static verify(message: (internal.Attr|Object)): string;
+        public static verify(message: { [k: string]: any }): string;
 
         /**
          * Creates an Attr message from a plain object. Also converts values to their respective internal types.
          * @param {Object.<string,*>} object Plain object
          * @returns {internal.Attr} Attr
          */
-        static fromObject(object: { [k: string]: any }): internal.Attr;
+        public static fromObject(object: { [k: string]: any }): internal.Attr;
 
         /**
          * Creates an Attr message from a plain object. Also converts values to their respective internal types.
@@ -790,7 +858,7 @@ export namespace internal {
          * @param {Object.<string,*>} object Plain object
          * @returns {internal.Attr} Attr
          */
-        static from(object: { [k: string]: any }): internal.Attr;
+        public static from(object: { [k: string]: any }): internal.Attr;
 
         /**
          * Creates a plain object from an Attr message. Also converts values to other types if specified.
@@ -798,27 +866,31 @@ export namespace internal {
          * @param {$protobuf.ConversionOptions} [options] Conversion options
          * @returns {Object.<string,*>} Plain object
          */
-        static toObject(message: internal.Attr, options?: $protobuf.ConversionOptions): { [k: string]: any };
+        public static toObject(message: internal.Attr, options?: $protobuf.ConversionOptions): { [k: string]: any };
 
         /**
          * Creates a plain object from this Attr message. Also converts values to other types if specified.
          * @param {$protobuf.ConversionOptions} [options] Conversion options
          * @returns {Object.<string,*>} Plain object
          */
-        toObject(options?: $protobuf.ConversionOptions): { [k: string]: any };
+        public toObject(options?: $protobuf.ConversionOptions): { [k: string]: any };
 
         /**
          * Converts this Attr to JSON.
          * @returns {Object.<string,*>} JSON object
          */
-        toJSON(): { [k: string]: any };
+        public toJSON(): { [k: string]: any };
     }
+
+    type AttrMap$Properties = {
+        Attrs?: internal.Attr$Properties[];
+    };
 
     /**
      * Constructs a new AttrMap.
      * @exports internal.AttrMap
      * @constructor
-     * @param {Object} [properties] Properties to set
+     * @param {internal.AttrMap$Properties=} [properties] Properties to set
      */
     class AttrMap {
 
@@ -826,67 +898,71 @@ export namespace internal {
          * Constructs a new AttrMap.
          * @exports internal.AttrMap
          * @constructor
-         * @param {Object} [properties] Properties to set
+         * @param {internal.AttrMap$Properties=} [properties] Properties to set
          */
-        constructor(properties?: Object);
+        constructor(properties?: internal.AttrMap$Properties);
 
         /**
          * AttrMap Attrs.
-         * @type {Array.<internal.Attr>|undefined}
+         * @type {Array.<internal.Attr$Properties>}
          */
-        Attrs?: internal.Attr[];
+        public Attrs: internal.Attr$Properties[];
 
         /**
          * Creates a new AttrMap instance using the specified properties.
-         * @param {Object} [properties] Properties to set
+         * @param {internal.AttrMap$Properties=} [properties] Properties to set
          * @returns {internal.AttrMap} AttrMap instance
          */
-        static create(properties?: Object): internal.AttrMap;
+        public static create(properties?: internal.AttrMap$Properties): internal.AttrMap;
 
         /**
-         * Encodes the specified AttrMap message.
-         * @param {internal.AttrMap|Object} message AttrMap message or plain object to encode
+         * Encodes the specified AttrMap message. Does not implicitly {@link internal.AttrMap.verify|verify} messages.
+         * @param {internal.AttrMap$Properties} message AttrMap message or plain object to encode
          * @param {$protobuf.Writer} [writer] Writer to encode to
          * @returns {$protobuf.Writer} Writer
          */
-        static encode(message: (internal.AttrMap|Object), writer?: $protobuf.Writer): $protobuf.Writer;
+        public static encode(message: internal.AttrMap$Properties, writer?: $protobuf.Writer): $protobuf.Writer;
 
         /**
-         * Encodes the specified AttrMap message, length delimited.
-         * @param {internal.AttrMap|Object} message AttrMap message or plain object to encode
+         * Encodes the specified AttrMap message, length delimited. Does not implicitly {@link internal.AttrMap.verify|verify} messages.
+         * @param {internal.AttrMap$Properties} message AttrMap message or plain object to encode
          * @param {$protobuf.Writer} [writer] Writer to encode to
          * @returns {$protobuf.Writer} Writer
          */
-        static encodeDelimited(message: (internal.AttrMap|Object), writer?: $protobuf.Writer): $protobuf.Writer;
+        public static encodeDelimited(message: internal.AttrMap$Properties, writer?: $protobuf.Writer): $protobuf.Writer;
 
         /**
          * Decodes an AttrMap message from the specified reader or buffer.
          * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
          * @param {number} [length] Message length if known beforehand
          * @returns {internal.AttrMap} AttrMap
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
          */
-        static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): internal.AttrMap;
+        public static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): internal.AttrMap;
 
         /**
          * Decodes an AttrMap message from the specified reader or buffer, length delimited.
          * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
          * @returns {internal.AttrMap} AttrMap
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
          */
-        static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): internal.AttrMap;
+        public static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): internal.AttrMap;
 
         /**
          * Verifies an AttrMap message.
-         * @param {internal.AttrMap|Object} message AttrMap message or plain object to verify
+         * @param {Object.<string,*>} message Plain object to verify
          * @returns {?string} `null` if valid, otherwise the reason why it is not
          */
-        static verify(message: (internal.AttrMap|Object)): string;
+        public static verify(message: { [k: string]: any }): string;
 
         /**
          * Creates an AttrMap message from a plain object. Also converts values to their respective internal types.
          * @param {Object.<string,*>} object Plain object
          * @returns {internal.AttrMap} AttrMap
          */
-        static fromObject(object: { [k: string]: any }): internal.AttrMap;
+        public static fromObject(object: { [k: string]: any }): internal.AttrMap;
 
         /**
          * Creates an AttrMap message from a plain object. Also converts values to their respective internal types.
@@ -895,7 +971,7 @@ export namespace internal {
          * @param {Object.<string,*>} object Plain object
          * @returns {internal.AttrMap} AttrMap
          */
-        static from(object: { [k: string]: any }): internal.AttrMap;
+        public static from(object: { [k: string]: any }): internal.AttrMap;
 
         /**
          * Creates a plain object from an AttrMap message. Also converts values to other types if specified.
@@ -903,27 +979,36 @@ export namespace internal {
          * @param {$protobuf.ConversionOptions} [options] Conversion options
          * @returns {Object.<string,*>} Plain object
          */
-        static toObject(message: internal.AttrMap, options?: $protobuf.ConversionOptions): { [k: string]: any };
+        public static toObject(message: internal.AttrMap, options?: $protobuf.ConversionOptions): { [k: string]: any };
 
         /**
          * Creates a plain object from this AttrMap message. Also converts values to other types if specified.
          * @param {$protobuf.ConversionOptions} [options] Conversion options
          * @returns {Object.<string,*>} Plain object
          */
-        toObject(options?: $protobuf.ConversionOptions): { [k: string]: any };
+        public toObject(options?: $protobuf.ConversionOptions): { [k: string]: any };
 
         /**
          * Converts this AttrMap to JSON.
          * @returns {Object.<string,*>} JSON object
          */
-        toJSON(): { [k: string]: any };
+        public toJSON(): { [k: string]: any };
     }
+
+    type QueryRequest$Properties = {
+        DB?: string;
+        Query?: string;
+        Slices?: (number|Long)[];
+        Profiles?: boolean;
+        Quantum?: string;
+        Remote?: boolean;
+    };
 
     /**
      * Constructs a new QueryRequest.
      * @exports internal.QueryRequest
      * @constructor
-     * @param {Object} [properties] Properties to set
+     * @param {internal.QueryRequest$Properties=} [properties] Properties to set
      */
     class QueryRequest {
 
@@ -931,97 +1016,101 @@ export namespace internal {
          * Constructs a new QueryRequest.
          * @exports internal.QueryRequest
          * @constructor
-         * @param {Object} [properties] Properties to set
+         * @param {internal.QueryRequest$Properties=} [properties] Properties to set
          */
-        constructor(properties?: Object);
+        constructor(properties?: internal.QueryRequest$Properties);
 
         /**
          * QueryRequest DB.
-         * @type {string|undefined}
+         * @type {string}
          */
-        DB?: string;
+        public DB: string;
 
         /**
          * QueryRequest Query.
-         * @type {string|undefined}
+         * @type {string}
          */
-        Query?: string;
+        public Query: string;
 
         /**
          * QueryRequest Slices.
-         * @type {Array.<number|$protobuf.Long>|undefined}
+         * @type {Array.<number|Long>}
          */
-        Slices?: (number|$protobuf.Long)[];
+        public Slices: (number|Long)[];
 
         /**
          * QueryRequest Profiles.
-         * @type {boolean|undefined}
+         * @type {boolean}
          */
-        Profiles?: boolean;
+        public Profiles: boolean;
 
         /**
          * QueryRequest Quantum.
-         * @type {string|undefined}
+         * @type {string}
          */
-        Quantum?: string;
+        public Quantum: string;
 
         /**
          * QueryRequest Remote.
-         * @type {boolean|undefined}
+         * @type {boolean}
          */
-        Remote?: boolean;
+        public Remote: boolean;
 
         /**
          * Creates a new QueryRequest instance using the specified properties.
-         * @param {Object} [properties] Properties to set
+         * @param {internal.QueryRequest$Properties=} [properties] Properties to set
          * @returns {internal.QueryRequest} QueryRequest instance
          */
-        static create(properties?: Object): internal.QueryRequest;
+        public static create(properties?: internal.QueryRequest$Properties): internal.QueryRequest;
 
         /**
-         * Encodes the specified QueryRequest message.
-         * @param {internal.QueryRequest|Object} message QueryRequest message or plain object to encode
+         * Encodes the specified QueryRequest message. Does not implicitly {@link internal.QueryRequest.verify|verify} messages.
+         * @param {internal.QueryRequest$Properties} message QueryRequest message or plain object to encode
          * @param {$protobuf.Writer} [writer] Writer to encode to
          * @returns {$protobuf.Writer} Writer
          */
-        static encode(message: (internal.QueryRequest|Object), writer?: $protobuf.Writer): $protobuf.Writer;
+        public static encode(message: internal.QueryRequest$Properties, writer?: $protobuf.Writer): $protobuf.Writer;
 
         /**
-         * Encodes the specified QueryRequest message, length delimited.
-         * @param {internal.QueryRequest|Object} message QueryRequest message or plain object to encode
+         * Encodes the specified QueryRequest message, length delimited. Does not implicitly {@link internal.QueryRequest.verify|verify} messages.
+         * @param {internal.QueryRequest$Properties} message QueryRequest message or plain object to encode
          * @param {$protobuf.Writer} [writer] Writer to encode to
          * @returns {$protobuf.Writer} Writer
          */
-        static encodeDelimited(message: (internal.QueryRequest|Object), writer?: $protobuf.Writer): $protobuf.Writer;
+        public static encodeDelimited(message: internal.QueryRequest$Properties, writer?: $protobuf.Writer): $protobuf.Writer;
 
         /**
          * Decodes a QueryRequest message from the specified reader or buffer.
          * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
          * @param {number} [length] Message length if known beforehand
          * @returns {internal.QueryRequest} QueryRequest
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
          */
-        static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): internal.QueryRequest;
+        public static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): internal.QueryRequest;
 
         /**
          * Decodes a QueryRequest message from the specified reader or buffer, length delimited.
          * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
          * @returns {internal.QueryRequest} QueryRequest
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
          */
-        static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): internal.QueryRequest;
+        public static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): internal.QueryRequest;
 
         /**
          * Verifies a QueryRequest message.
-         * @param {internal.QueryRequest|Object} message QueryRequest message or plain object to verify
+         * @param {Object.<string,*>} message Plain object to verify
          * @returns {?string} `null` if valid, otherwise the reason why it is not
          */
-        static verify(message: (internal.QueryRequest|Object)): string;
+        public static verify(message: { [k: string]: any }): string;
 
         /**
          * Creates a QueryRequest message from a plain object. Also converts values to their respective internal types.
          * @param {Object.<string,*>} object Plain object
          * @returns {internal.QueryRequest} QueryRequest
          */
-        static fromObject(object: { [k: string]: any }): internal.QueryRequest;
+        public static fromObject(object: { [k: string]: any }): internal.QueryRequest;
 
         /**
          * Creates a QueryRequest message from a plain object. Also converts values to their respective internal types.
@@ -1030,7 +1119,7 @@ export namespace internal {
          * @param {Object.<string,*>} object Plain object
          * @returns {internal.QueryRequest} QueryRequest
          */
-        static from(object: { [k: string]: any }): internal.QueryRequest;
+        public static from(object: { [k: string]: any }): internal.QueryRequest;
 
         /**
          * Creates a plain object from a QueryRequest message. Also converts values to other types if specified.
@@ -1038,27 +1127,33 @@ export namespace internal {
          * @param {$protobuf.ConversionOptions} [options] Conversion options
          * @returns {Object.<string,*>} Plain object
          */
-        static toObject(message: internal.QueryRequest, options?: $protobuf.ConversionOptions): { [k: string]: any };
+        public static toObject(message: internal.QueryRequest, options?: $protobuf.ConversionOptions): { [k: string]: any };
 
         /**
          * Creates a plain object from this QueryRequest message. Also converts values to other types if specified.
          * @param {$protobuf.ConversionOptions} [options] Conversion options
          * @returns {Object.<string,*>} Plain object
          */
-        toObject(options?: $protobuf.ConversionOptions): { [k: string]: any };
+        public toObject(options?: $protobuf.ConversionOptions): { [k: string]: any };
 
         /**
          * Converts this QueryRequest to JSON.
          * @returns {Object.<string,*>} JSON object
          */
-        toJSON(): { [k: string]: any };
+        public toJSON(): { [k: string]: any };
     }
+
+    type QueryResponse$Properties = {
+        Err?: string;
+        Results?: internal.QueryResult$Properties[];
+        Profiles?: internal.Profile$Properties[];
+    };
 
     /**
      * Constructs a new QueryResponse.
      * @exports internal.QueryResponse
      * @constructor
-     * @param {Object} [properties] Properties to set
+     * @param {internal.QueryResponse$Properties=} [properties] Properties to set
      */
     class QueryResponse {
 
@@ -1066,79 +1161,83 @@ export namespace internal {
          * Constructs a new QueryResponse.
          * @exports internal.QueryResponse
          * @constructor
-         * @param {Object} [properties] Properties to set
+         * @param {internal.QueryResponse$Properties=} [properties] Properties to set
          */
-        constructor(properties?: Object);
+        constructor(properties?: internal.QueryResponse$Properties);
 
         /**
          * QueryResponse Err.
-         * @type {string|undefined}
+         * @type {string}
          */
-        Err?: string;
+        public Err: string;
 
         /**
          * QueryResponse Results.
-         * @type {Array.<internal.QueryResult>|undefined}
+         * @type {Array.<internal.QueryResult$Properties>}
          */
-        Results?: internal.QueryResult[];
+        public Results: internal.QueryResult$Properties[];
 
         /**
          * QueryResponse Profiles.
-         * @type {Array.<internal.Profile>|undefined}
+         * @type {Array.<internal.Profile$Properties>}
          */
-        Profiles?: internal.Profile[];
+        public Profiles: internal.Profile$Properties[];
 
         /**
          * Creates a new QueryResponse instance using the specified properties.
-         * @param {Object} [properties] Properties to set
+         * @param {internal.QueryResponse$Properties=} [properties] Properties to set
          * @returns {internal.QueryResponse} QueryResponse instance
          */
-        static create(properties?: Object): internal.QueryResponse;
+        public static create(properties?: internal.QueryResponse$Properties): internal.QueryResponse;
 
         /**
-         * Encodes the specified QueryResponse message.
-         * @param {internal.QueryResponse|Object} message QueryResponse message or plain object to encode
+         * Encodes the specified QueryResponse message. Does not implicitly {@link internal.QueryResponse.verify|verify} messages.
+         * @param {internal.QueryResponse$Properties} message QueryResponse message or plain object to encode
          * @param {$protobuf.Writer} [writer] Writer to encode to
          * @returns {$protobuf.Writer} Writer
          */
-        static encode(message: (internal.QueryResponse|Object), writer?: $protobuf.Writer): $protobuf.Writer;
+        public static encode(message: internal.QueryResponse$Properties, writer?: $protobuf.Writer): $protobuf.Writer;
 
         /**
-         * Encodes the specified QueryResponse message, length delimited.
-         * @param {internal.QueryResponse|Object} message QueryResponse message or plain object to encode
+         * Encodes the specified QueryResponse message, length delimited. Does not implicitly {@link internal.QueryResponse.verify|verify} messages.
+         * @param {internal.QueryResponse$Properties} message QueryResponse message or plain object to encode
          * @param {$protobuf.Writer} [writer] Writer to encode to
          * @returns {$protobuf.Writer} Writer
          */
-        static encodeDelimited(message: (internal.QueryResponse|Object), writer?: $protobuf.Writer): $protobuf.Writer;
+        public static encodeDelimited(message: internal.QueryResponse$Properties, writer?: $protobuf.Writer): $protobuf.Writer;
 
         /**
          * Decodes a QueryResponse message from the specified reader or buffer.
          * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
          * @param {number} [length] Message length if known beforehand
          * @returns {internal.QueryResponse} QueryResponse
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
          */
-        static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): internal.QueryResponse;
+        public static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): internal.QueryResponse;
 
         /**
          * Decodes a QueryResponse message from the specified reader or buffer, length delimited.
          * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
          * @returns {internal.QueryResponse} QueryResponse
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
          */
-        static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): internal.QueryResponse;
+        public static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): internal.QueryResponse;
 
         /**
          * Verifies a QueryResponse message.
-         * @param {internal.QueryResponse|Object} message QueryResponse message or plain object to verify
+         * @param {Object.<string,*>} message Plain object to verify
          * @returns {?string} `null` if valid, otherwise the reason why it is not
          */
-        static verify(message: (internal.QueryResponse|Object)): string;
+        public static verify(message: { [k: string]: any }): string;
 
         /**
          * Creates a QueryResponse message from a plain object. Also converts values to their respective internal types.
          * @param {Object.<string,*>} object Plain object
          * @returns {internal.QueryResponse} QueryResponse
          */
-        static fromObject(object: { [k: string]: any }): internal.QueryResponse;
+        public static fromObject(object: { [k: string]: any }): internal.QueryResponse;
 
         /**
          * Creates a QueryResponse message from a plain object. Also converts values to their respective internal types.
@@ -1147,7 +1246,7 @@ export namespace internal {
          * @param {Object.<string,*>} object Plain object
          * @returns {internal.QueryResponse} QueryResponse
          */
-        static from(object: { [k: string]: any }): internal.QueryResponse;
+        public static from(object: { [k: string]: any }): internal.QueryResponse;
 
         /**
          * Creates a plain object from a QueryResponse message. Also converts values to other types if specified.
@@ -1155,27 +1254,34 @@ export namespace internal {
          * @param {$protobuf.ConversionOptions} [options] Conversion options
          * @returns {Object.<string,*>} Plain object
          */
-        static toObject(message: internal.QueryResponse, options?: $protobuf.ConversionOptions): { [k: string]: any };
+        public static toObject(message: internal.QueryResponse, options?: $protobuf.ConversionOptions): { [k: string]: any };
 
         /**
          * Creates a plain object from this QueryResponse message. Also converts values to other types if specified.
          * @param {$protobuf.ConversionOptions} [options] Conversion options
          * @returns {Object.<string,*>} Plain object
          */
-        toObject(options?: $protobuf.ConversionOptions): { [k: string]: any };
+        public toObject(options?: $protobuf.ConversionOptions): { [k: string]: any };
 
         /**
          * Converts this QueryResponse to JSON.
          * @returns {Object.<string,*>} JSON object
          */
-        toJSON(): { [k: string]: any };
+        public toJSON(): { [k: string]: any };
     }
+
+    type QueryResult$Properties = {
+        Bitmap?: internal.Bitmap$Properties;
+        N?: (number|Long);
+        Pairs?: internal.Pair$Properties[];
+        Changed?: boolean;
+    };
 
     /**
      * Constructs a new QueryResult.
      * @exports internal.QueryResult
      * @constructor
-     * @param {Object} [properties] Properties to set
+     * @param {internal.QueryResult$Properties=} [properties] Properties to set
      */
     class QueryResult {
 
@@ -1183,85 +1289,89 @@ export namespace internal {
          * Constructs a new QueryResult.
          * @exports internal.QueryResult
          * @constructor
-         * @param {Object} [properties] Properties to set
+         * @param {internal.QueryResult$Properties=} [properties] Properties to set
          */
-        constructor(properties?: Object);
+        constructor(properties?: internal.QueryResult$Properties);
 
         /**
          * QueryResult Bitmap.
-         * @type {internal.Bitmap|undefined}
+         * @type {(internal.Bitmap$Properties|null)}
          */
-        Bitmap?: internal.Bitmap;
+        public Bitmap: (internal.Bitmap$Properties|null);
 
         /**
          * QueryResult N.
-         * @type {number|$protobuf.Long|undefined}
+         * @type {number|Long}
          */
-        N?: (number|$protobuf.Long);
+        public N: (number|Long);
 
         /**
          * QueryResult Pairs.
-         * @type {Array.<internal.Pair>|undefined}
+         * @type {Array.<internal.Pair$Properties>}
          */
-        Pairs?: internal.Pair[];
+        public Pairs: internal.Pair$Properties[];
 
         /**
          * QueryResult Changed.
-         * @type {boolean|undefined}
+         * @type {boolean}
          */
-        Changed?: boolean;
+        public Changed: boolean;
 
         /**
          * Creates a new QueryResult instance using the specified properties.
-         * @param {Object} [properties] Properties to set
+         * @param {internal.QueryResult$Properties=} [properties] Properties to set
          * @returns {internal.QueryResult} QueryResult instance
          */
-        static create(properties?: Object): internal.QueryResult;
+        public static create(properties?: internal.QueryResult$Properties): internal.QueryResult;
 
         /**
-         * Encodes the specified QueryResult message.
-         * @param {internal.QueryResult|Object} message QueryResult message or plain object to encode
+         * Encodes the specified QueryResult message. Does not implicitly {@link internal.QueryResult.verify|verify} messages.
+         * @param {internal.QueryResult$Properties} message QueryResult message or plain object to encode
          * @param {$protobuf.Writer} [writer] Writer to encode to
          * @returns {$protobuf.Writer} Writer
          */
-        static encode(message: (internal.QueryResult|Object), writer?: $protobuf.Writer): $protobuf.Writer;
+        public static encode(message: internal.QueryResult$Properties, writer?: $protobuf.Writer): $protobuf.Writer;
 
         /**
-         * Encodes the specified QueryResult message, length delimited.
-         * @param {internal.QueryResult|Object} message QueryResult message or plain object to encode
+         * Encodes the specified QueryResult message, length delimited. Does not implicitly {@link internal.QueryResult.verify|verify} messages.
+         * @param {internal.QueryResult$Properties} message QueryResult message or plain object to encode
          * @param {$protobuf.Writer} [writer] Writer to encode to
          * @returns {$protobuf.Writer} Writer
          */
-        static encodeDelimited(message: (internal.QueryResult|Object), writer?: $protobuf.Writer): $protobuf.Writer;
+        public static encodeDelimited(message: internal.QueryResult$Properties, writer?: $protobuf.Writer): $protobuf.Writer;
 
         /**
          * Decodes a QueryResult message from the specified reader or buffer.
          * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
          * @param {number} [length] Message length if known beforehand
          * @returns {internal.QueryResult} QueryResult
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
          */
-        static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): internal.QueryResult;
+        public static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): internal.QueryResult;
 
         /**
          * Decodes a QueryResult message from the specified reader or buffer, length delimited.
          * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
          * @returns {internal.QueryResult} QueryResult
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
          */
-        static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): internal.QueryResult;
+        public static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): internal.QueryResult;
 
         /**
          * Verifies a QueryResult message.
-         * @param {internal.QueryResult|Object} message QueryResult message or plain object to verify
+         * @param {Object.<string,*>} message Plain object to verify
          * @returns {?string} `null` if valid, otherwise the reason why it is not
          */
-        static verify(message: (internal.QueryResult|Object)): string;
+        public static verify(message: { [k: string]: any }): string;
 
         /**
          * Creates a QueryResult message from a plain object. Also converts values to their respective internal types.
          * @param {Object.<string,*>} object Plain object
          * @returns {internal.QueryResult} QueryResult
          */
-        static fromObject(object: { [k: string]: any }): internal.QueryResult;
+        public static fromObject(object: { [k: string]: any }): internal.QueryResult;
 
         /**
          * Creates a QueryResult message from a plain object. Also converts values to their respective internal types.
@@ -1270,7 +1380,7 @@ export namespace internal {
          * @param {Object.<string,*>} object Plain object
          * @returns {internal.QueryResult} QueryResult
          */
-        static from(object: { [k: string]: any }): internal.QueryResult;
+        public static from(object: { [k: string]: any }): internal.QueryResult;
 
         /**
          * Creates a plain object from a QueryResult message. Also converts values to other types if specified.
@@ -1278,27 +1388,36 @@ export namespace internal {
          * @param {$protobuf.ConversionOptions} [options] Conversion options
          * @returns {Object.<string,*>} Plain object
          */
-        static toObject(message: internal.QueryResult, options?: $protobuf.ConversionOptions): { [k: string]: any };
+        public static toObject(message: internal.QueryResult, options?: $protobuf.ConversionOptions): { [k: string]: any };
 
         /**
          * Creates a plain object from this QueryResult message. Also converts values to other types if specified.
          * @param {$protobuf.ConversionOptions} [options] Conversion options
          * @returns {Object.<string,*>} Plain object
          */
-        toObject(options?: $protobuf.ConversionOptions): { [k: string]: any };
+        public toObject(options?: $protobuf.ConversionOptions): { [k: string]: any };
 
         /**
          * Converts this QueryResult to JSON.
          * @returns {Object.<string,*>} JSON object
          */
-        toJSON(): { [k: string]: any };
+        public toJSON(): { [k: string]: any };
     }
+
+    type ImportRequest$Properties = {
+        DB?: string;
+        Frame?: string;
+        Slice?: (number|Long);
+        BitmapIDs?: (number|Long)[];
+        ProfileIDs?: (number|Long)[];
+        Timestamps?: (number|Long)[];
+    };
 
     /**
      * Constructs a new ImportRequest.
      * @exports internal.ImportRequest
      * @constructor
-     * @param {Object} [properties] Properties to set
+     * @param {internal.ImportRequest$Properties=} [properties] Properties to set
      */
     class ImportRequest {
 
@@ -1306,97 +1425,101 @@ export namespace internal {
          * Constructs a new ImportRequest.
          * @exports internal.ImportRequest
          * @constructor
-         * @param {Object} [properties] Properties to set
+         * @param {internal.ImportRequest$Properties=} [properties] Properties to set
          */
-        constructor(properties?: Object);
+        constructor(properties?: internal.ImportRequest$Properties);
 
         /**
          * ImportRequest DB.
-         * @type {string|undefined}
+         * @type {string}
          */
-        DB?: string;
+        public DB: string;
 
         /**
          * ImportRequest Frame.
-         * @type {string|undefined}
+         * @type {string}
          */
-        Frame?: string;
+        public Frame: string;
 
         /**
          * ImportRequest Slice.
-         * @type {number|$protobuf.Long|undefined}
+         * @type {number|Long}
          */
-        Slice?: (number|$protobuf.Long);
+        public Slice: (number|Long);
 
         /**
          * ImportRequest BitmapIDs.
-         * @type {Array.<number|$protobuf.Long>|undefined}
+         * @type {Array.<number|Long>}
          */
-        BitmapIDs?: (number|$protobuf.Long)[];
+        public BitmapIDs: (number|Long)[];
 
         /**
          * ImportRequest ProfileIDs.
-         * @type {Array.<number|$protobuf.Long>|undefined}
+         * @type {Array.<number|Long>}
          */
-        ProfileIDs?: (number|$protobuf.Long)[];
+        public ProfileIDs: (number|Long)[];
 
         /**
          * ImportRequest Timestamps.
-         * @type {Array.<number|$protobuf.Long>|undefined}
+         * @type {Array.<number|Long>}
          */
-        Timestamps?: (number|$protobuf.Long)[];
+        public Timestamps: (number|Long)[];
 
         /**
          * Creates a new ImportRequest instance using the specified properties.
-         * @param {Object} [properties] Properties to set
+         * @param {internal.ImportRequest$Properties=} [properties] Properties to set
          * @returns {internal.ImportRequest} ImportRequest instance
          */
-        static create(properties?: Object): internal.ImportRequest;
+        public static create(properties?: internal.ImportRequest$Properties): internal.ImportRequest;
 
         /**
-         * Encodes the specified ImportRequest message.
-         * @param {internal.ImportRequest|Object} message ImportRequest message or plain object to encode
+         * Encodes the specified ImportRequest message. Does not implicitly {@link internal.ImportRequest.verify|verify} messages.
+         * @param {internal.ImportRequest$Properties} message ImportRequest message or plain object to encode
          * @param {$protobuf.Writer} [writer] Writer to encode to
          * @returns {$protobuf.Writer} Writer
          */
-        static encode(message: (internal.ImportRequest|Object), writer?: $protobuf.Writer): $protobuf.Writer;
+        public static encode(message: internal.ImportRequest$Properties, writer?: $protobuf.Writer): $protobuf.Writer;
 
         /**
-         * Encodes the specified ImportRequest message, length delimited.
-         * @param {internal.ImportRequest|Object} message ImportRequest message or plain object to encode
+         * Encodes the specified ImportRequest message, length delimited. Does not implicitly {@link internal.ImportRequest.verify|verify} messages.
+         * @param {internal.ImportRequest$Properties} message ImportRequest message or plain object to encode
          * @param {$protobuf.Writer} [writer] Writer to encode to
          * @returns {$protobuf.Writer} Writer
          */
-        static encodeDelimited(message: (internal.ImportRequest|Object), writer?: $protobuf.Writer): $protobuf.Writer;
+        public static encodeDelimited(message: internal.ImportRequest$Properties, writer?: $protobuf.Writer): $protobuf.Writer;
 
         /**
          * Decodes an ImportRequest message from the specified reader or buffer.
          * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
          * @param {number} [length] Message length if known beforehand
          * @returns {internal.ImportRequest} ImportRequest
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
          */
-        static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): internal.ImportRequest;
+        public static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): internal.ImportRequest;
 
         /**
          * Decodes an ImportRequest message from the specified reader or buffer, length delimited.
          * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
          * @returns {internal.ImportRequest} ImportRequest
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
          */
-        static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): internal.ImportRequest;
+        public static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): internal.ImportRequest;
 
         /**
          * Verifies an ImportRequest message.
-         * @param {internal.ImportRequest|Object} message ImportRequest message or plain object to verify
+         * @param {Object.<string,*>} message Plain object to verify
          * @returns {?string} `null` if valid, otherwise the reason why it is not
          */
-        static verify(message: (internal.ImportRequest|Object)): string;
+        public static verify(message: { [k: string]: any }): string;
 
         /**
          * Creates an ImportRequest message from a plain object. Also converts values to their respective internal types.
          * @param {Object.<string,*>} object Plain object
          * @returns {internal.ImportRequest} ImportRequest
          */
-        static fromObject(object: { [k: string]: any }): internal.ImportRequest;
+        public static fromObject(object: { [k: string]: any }): internal.ImportRequest;
 
         /**
          * Creates an ImportRequest message from a plain object. Also converts values to their respective internal types.
@@ -1405,7 +1528,7 @@ export namespace internal {
          * @param {Object.<string,*>} object Plain object
          * @returns {internal.ImportRequest} ImportRequest
          */
-        static from(object: { [k: string]: any }): internal.ImportRequest;
+        public static from(object: { [k: string]: any }): internal.ImportRequest;
 
         /**
          * Creates a plain object from an ImportRequest message. Also converts values to other types if specified.
@@ -1413,27 +1536,31 @@ export namespace internal {
          * @param {$protobuf.ConversionOptions} [options] Conversion options
          * @returns {Object.<string,*>} Plain object
          */
-        static toObject(message: internal.ImportRequest, options?: $protobuf.ConversionOptions): { [k: string]: any };
+        public static toObject(message: internal.ImportRequest, options?: $protobuf.ConversionOptions): { [k: string]: any };
 
         /**
          * Creates a plain object from this ImportRequest message. Also converts values to other types if specified.
          * @param {$protobuf.ConversionOptions} [options] Conversion options
          * @returns {Object.<string,*>} Plain object
          */
-        toObject(options?: $protobuf.ConversionOptions): { [k: string]: any };
+        public toObject(options?: $protobuf.ConversionOptions): { [k: string]: any };
 
         /**
          * Converts this ImportRequest to JSON.
          * @returns {Object.<string,*>} JSON object
          */
-        toJSON(): { [k: string]: any };
+        public toJSON(): { [k: string]: any };
     }
+
+    type ImportResponse$Properties = {
+        Err?: string;
+    };
 
     /**
      * Constructs a new ImportResponse.
      * @exports internal.ImportResponse
      * @constructor
-     * @param {Object} [properties] Properties to set
+     * @param {internal.ImportResponse$Properties=} [properties] Properties to set
      */
     class ImportResponse {
 
@@ -1441,67 +1568,71 @@ export namespace internal {
          * Constructs a new ImportResponse.
          * @exports internal.ImportResponse
          * @constructor
-         * @param {Object} [properties] Properties to set
+         * @param {internal.ImportResponse$Properties=} [properties] Properties to set
          */
-        constructor(properties?: Object);
+        constructor(properties?: internal.ImportResponse$Properties);
 
         /**
          * ImportResponse Err.
-         * @type {string|undefined}
+         * @type {string}
          */
-        Err?: string;
+        public Err: string;
 
         /**
          * Creates a new ImportResponse instance using the specified properties.
-         * @param {Object} [properties] Properties to set
+         * @param {internal.ImportResponse$Properties=} [properties] Properties to set
          * @returns {internal.ImportResponse} ImportResponse instance
          */
-        static create(properties?: Object): internal.ImportResponse;
+        public static create(properties?: internal.ImportResponse$Properties): internal.ImportResponse;
 
         /**
-         * Encodes the specified ImportResponse message.
-         * @param {internal.ImportResponse|Object} message ImportResponse message or plain object to encode
+         * Encodes the specified ImportResponse message. Does not implicitly {@link internal.ImportResponse.verify|verify} messages.
+         * @param {internal.ImportResponse$Properties} message ImportResponse message or plain object to encode
          * @param {$protobuf.Writer} [writer] Writer to encode to
          * @returns {$protobuf.Writer} Writer
          */
-        static encode(message: (internal.ImportResponse|Object), writer?: $protobuf.Writer): $protobuf.Writer;
+        public static encode(message: internal.ImportResponse$Properties, writer?: $protobuf.Writer): $protobuf.Writer;
 
         /**
-         * Encodes the specified ImportResponse message, length delimited.
-         * @param {internal.ImportResponse|Object} message ImportResponse message or plain object to encode
+         * Encodes the specified ImportResponse message, length delimited. Does not implicitly {@link internal.ImportResponse.verify|verify} messages.
+         * @param {internal.ImportResponse$Properties} message ImportResponse message or plain object to encode
          * @param {$protobuf.Writer} [writer] Writer to encode to
          * @returns {$protobuf.Writer} Writer
          */
-        static encodeDelimited(message: (internal.ImportResponse|Object), writer?: $protobuf.Writer): $protobuf.Writer;
+        public static encodeDelimited(message: internal.ImportResponse$Properties, writer?: $protobuf.Writer): $protobuf.Writer;
 
         /**
          * Decodes an ImportResponse message from the specified reader or buffer.
          * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
          * @param {number} [length] Message length if known beforehand
          * @returns {internal.ImportResponse} ImportResponse
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
          */
-        static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): internal.ImportResponse;
+        public static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): internal.ImportResponse;
 
         /**
          * Decodes an ImportResponse message from the specified reader or buffer, length delimited.
          * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
          * @returns {internal.ImportResponse} ImportResponse
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
          */
-        static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): internal.ImportResponse;
+        public static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): internal.ImportResponse;
 
         /**
          * Verifies an ImportResponse message.
-         * @param {internal.ImportResponse|Object} message ImportResponse message or plain object to verify
+         * @param {Object.<string,*>} message Plain object to verify
          * @returns {?string} `null` if valid, otherwise the reason why it is not
          */
-        static verify(message: (internal.ImportResponse|Object)): string;
+        public static verify(message: { [k: string]: any }): string;
 
         /**
          * Creates an ImportResponse message from a plain object. Also converts values to their respective internal types.
          * @param {Object.<string,*>} object Plain object
          * @returns {internal.ImportResponse} ImportResponse
          */
-        static fromObject(object: { [k: string]: any }): internal.ImportResponse;
+        public static fromObject(object: { [k: string]: any }): internal.ImportResponse;
 
         /**
          * Creates an ImportResponse message from a plain object. Also converts values to their respective internal types.
@@ -1510,7 +1641,7 @@ export namespace internal {
          * @param {Object.<string,*>} object Plain object
          * @returns {internal.ImportResponse} ImportResponse
          */
-        static from(object: { [k: string]: any }): internal.ImportResponse;
+        public static from(object: { [k: string]: any }): internal.ImportResponse;
 
         /**
          * Creates a plain object from an ImportResponse message. Also converts values to other types if specified.
@@ -1518,27 +1649,34 @@ export namespace internal {
          * @param {$protobuf.ConversionOptions} [options] Conversion options
          * @returns {Object.<string,*>} Plain object
          */
-        static toObject(message: internal.ImportResponse, options?: $protobuf.ConversionOptions): { [k: string]: any };
+        public static toObject(message: internal.ImportResponse, options?: $protobuf.ConversionOptions): { [k: string]: any };
 
         /**
          * Creates a plain object from this ImportResponse message. Also converts values to other types if specified.
          * @param {$protobuf.ConversionOptions} [options] Conversion options
          * @returns {Object.<string,*>} Plain object
          */
-        toObject(options?: $protobuf.ConversionOptions): { [k: string]: any };
+        public toObject(options?: $protobuf.ConversionOptions): { [k: string]: any };
 
         /**
          * Converts this ImportResponse to JSON.
          * @returns {Object.<string,*>} JSON object
          */
-        toJSON(): { [k: string]: any };
+        public toJSON(): { [k: string]: any };
     }
+
+    type BlockDataRequest$Properties = {
+        DB?: string;
+        Frame?: string;
+        Slice?: (number|Long);
+        Block?: (number|Long);
+    };
 
     /**
      * Constructs a new BlockDataRequest.
      * @exports internal.BlockDataRequest
      * @constructor
-     * @param {Object} [properties] Properties to set
+     * @param {internal.BlockDataRequest$Properties=} [properties] Properties to set
      */
     class BlockDataRequest {
 
@@ -1546,85 +1684,89 @@ export namespace internal {
          * Constructs a new BlockDataRequest.
          * @exports internal.BlockDataRequest
          * @constructor
-         * @param {Object} [properties] Properties to set
+         * @param {internal.BlockDataRequest$Properties=} [properties] Properties to set
          */
-        constructor(properties?: Object);
+        constructor(properties?: internal.BlockDataRequest$Properties);
 
         /**
          * BlockDataRequest DB.
-         * @type {string|undefined}
+         * @type {string}
          */
-        DB?: string;
+        public DB: string;
 
         /**
          * BlockDataRequest Frame.
-         * @type {string|undefined}
+         * @type {string}
          */
-        Frame?: string;
+        public Frame: string;
 
         /**
          * BlockDataRequest Slice.
-         * @type {number|$protobuf.Long|undefined}
+         * @type {number|Long}
          */
-        Slice?: (number|$protobuf.Long);
+        public Slice: (number|Long);
 
         /**
          * BlockDataRequest Block.
-         * @type {number|$protobuf.Long|undefined}
+         * @type {number|Long}
          */
-        Block?: (number|$protobuf.Long);
+        public Block: (number|Long);
 
         /**
          * Creates a new BlockDataRequest instance using the specified properties.
-         * @param {Object} [properties] Properties to set
+         * @param {internal.BlockDataRequest$Properties=} [properties] Properties to set
          * @returns {internal.BlockDataRequest} BlockDataRequest instance
          */
-        static create(properties?: Object): internal.BlockDataRequest;
+        public static create(properties?: internal.BlockDataRequest$Properties): internal.BlockDataRequest;
 
         /**
-         * Encodes the specified BlockDataRequest message.
-         * @param {internal.BlockDataRequest|Object} message BlockDataRequest message or plain object to encode
+         * Encodes the specified BlockDataRequest message. Does not implicitly {@link internal.BlockDataRequest.verify|verify} messages.
+         * @param {internal.BlockDataRequest$Properties} message BlockDataRequest message or plain object to encode
          * @param {$protobuf.Writer} [writer] Writer to encode to
          * @returns {$protobuf.Writer} Writer
          */
-        static encode(message: (internal.BlockDataRequest|Object), writer?: $protobuf.Writer): $protobuf.Writer;
+        public static encode(message: internal.BlockDataRequest$Properties, writer?: $protobuf.Writer): $protobuf.Writer;
 
         /**
-         * Encodes the specified BlockDataRequest message, length delimited.
-         * @param {internal.BlockDataRequest|Object} message BlockDataRequest message or plain object to encode
+         * Encodes the specified BlockDataRequest message, length delimited. Does not implicitly {@link internal.BlockDataRequest.verify|verify} messages.
+         * @param {internal.BlockDataRequest$Properties} message BlockDataRequest message or plain object to encode
          * @param {$protobuf.Writer} [writer] Writer to encode to
          * @returns {$protobuf.Writer} Writer
          */
-        static encodeDelimited(message: (internal.BlockDataRequest|Object), writer?: $protobuf.Writer): $protobuf.Writer;
+        public static encodeDelimited(message: internal.BlockDataRequest$Properties, writer?: $protobuf.Writer): $protobuf.Writer;
 
         /**
          * Decodes a BlockDataRequest message from the specified reader or buffer.
          * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
          * @param {number} [length] Message length if known beforehand
          * @returns {internal.BlockDataRequest} BlockDataRequest
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
          */
-        static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): internal.BlockDataRequest;
+        public static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): internal.BlockDataRequest;
 
         /**
          * Decodes a BlockDataRequest message from the specified reader or buffer, length delimited.
          * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
          * @returns {internal.BlockDataRequest} BlockDataRequest
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
          */
-        static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): internal.BlockDataRequest;
+        public static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): internal.BlockDataRequest;
 
         /**
          * Verifies a BlockDataRequest message.
-         * @param {internal.BlockDataRequest|Object} message BlockDataRequest message or plain object to verify
+         * @param {Object.<string,*>} message Plain object to verify
          * @returns {?string} `null` if valid, otherwise the reason why it is not
          */
-        static verify(message: (internal.BlockDataRequest|Object)): string;
+        public static verify(message: { [k: string]: any }): string;
 
         /**
          * Creates a BlockDataRequest message from a plain object. Also converts values to their respective internal types.
          * @param {Object.<string,*>} object Plain object
          * @returns {internal.BlockDataRequest} BlockDataRequest
          */
-        static fromObject(object: { [k: string]: any }): internal.BlockDataRequest;
+        public static fromObject(object: { [k: string]: any }): internal.BlockDataRequest;
 
         /**
          * Creates a BlockDataRequest message from a plain object. Also converts values to their respective internal types.
@@ -1633,7 +1775,7 @@ export namespace internal {
          * @param {Object.<string,*>} object Plain object
          * @returns {internal.BlockDataRequest} BlockDataRequest
          */
-        static from(object: { [k: string]: any }): internal.BlockDataRequest;
+        public static from(object: { [k: string]: any }): internal.BlockDataRequest;
 
         /**
          * Creates a plain object from a BlockDataRequest message. Also converts values to other types if specified.
@@ -1641,27 +1783,32 @@ export namespace internal {
          * @param {$protobuf.ConversionOptions} [options] Conversion options
          * @returns {Object.<string,*>} Plain object
          */
-        static toObject(message: internal.BlockDataRequest, options?: $protobuf.ConversionOptions): { [k: string]: any };
+        public static toObject(message: internal.BlockDataRequest, options?: $protobuf.ConversionOptions): { [k: string]: any };
 
         /**
          * Creates a plain object from this BlockDataRequest message. Also converts values to other types if specified.
          * @param {$protobuf.ConversionOptions} [options] Conversion options
          * @returns {Object.<string,*>} Plain object
          */
-        toObject(options?: $protobuf.ConversionOptions): { [k: string]: any };
+        public toObject(options?: $protobuf.ConversionOptions): { [k: string]: any };
 
         /**
          * Converts this BlockDataRequest to JSON.
          * @returns {Object.<string,*>} JSON object
          */
-        toJSON(): { [k: string]: any };
+        public toJSON(): { [k: string]: any };
     }
+
+    type BlockDataResponse$Properties = {
+        BitmapIDs?: (number|Long)[];
+        ProfileIDs?: (number|Long)[];
+    };
 
     /**
      * Constructs a new BlockDataResponse.
      * @exports internal.BlockDataResponse
      * @constructor
-     * @param {Object} [properties] Properties to set
+     * @param {internal.BlockDataResponse$Properties=} [properties] Properties to set
      */
     class BlockDataResponse {
 
@@ -1669,73 +1816,77 @@ export namespace internal {
          * Constructs a new BlockDataResponse.
          * @exports internal.BlockDataResponse
          * @constructor
-         * @param {Object} [properties] Properties to set
+         * @param {internal.BlockDataResponse$Properties=} [properties] Properties to set
          */
-        constructor(properties?: Object);
+        constructor(properties?: internal.BlockDataResponse$Properties);
 
         /**
          * BlockDataResponse BitmapIDs.
-         * @type {Array.<number|$protobuf.Long>|undefined}
+         * @type {Array.<number|Long>}
          */
-        BitmapIDs?: (number|$protobuf.Long)[];
+        public BitmapIDs: (number|Long)[];
 
         /**
          * BlockDataResponse ProfileIDs.
-         * @type {Array.<number|$protobuf.Long>|undefined}
+         * @type {Array.<number|Long>}
          */
-        ProfileIDs?: (number|$protobuf.Long)[];
+        public ProfileIDs: (number|Long)[];
 
         /**
          * Creates a new BlockDataResponse instance using the specified properties.
-         * @param {Object} [properties] Properties to set
+         * @param {internal.BlockDataResponse$Properties=} [properties] Properties to set
          * @returns {internal.BlockDataResponse} BlockDataResponse instance
          */
-        static create(properties?: Object): internal.BlockDataResponse;
+        public static create(properties?: internal.BlockDataResponse$Properties): internal.BlockDataResponse;
 
         /**
-         * Encodes the specified BlockDataResponse message.
-         * @param {internal.BlockDataResponse|Object} message BlockDataResponse message or plain object to encode
+         * Encodes the specified BlockDataResponse message. Does not implicitly {@link internal.BlockDataResponse.verify|verify} messages.
+         * @param {internal.BlockDataResponse$Properties} message BlockDataResponse message or plain object to encode
          * @param {$protobuf.Writer} [writer] Writer to encode to
          * @returns {$protobuf.Writer} Writer
          */
-        static encode(message: (internal.BlockDataResponse|Object), writer?: $protobuf.Writer): $protobuf.Writer;
+        public static encode(message: internal.BlockDataResponse$Properties, writer?: $protobuf.Writer): $protobuf.Writer;
 
         /**
-         * Encodes the specified BlockDataResponse message, length delimited.
-         * @param {internal.BlockDataResponse|Object} message BlockDataResponse message or plain object to encode
+         * Encodes the specified BlockDataResponse message, length delimited. Does not implicitly {@link internal.BlockDataResponse.verify|verify} messages.
+         * @param {internal.BlockDataResponse$Properties} message BlockDataResponse message or plain object to encode
          * @param {$protobuf.Writer} [writer] Writer to encode to
          * @returns {$protobuf.Writer} Writer
          */
-        static encodeDelimited(message: (internal.BlockDataResponse|Object), writer?: $protobuf.Writer): $protobuf.Writer;
+        public static encodeDelimited(message: internal.BlockDataResponse$Properties, writer?: $protobuf.Writer): $protobuf.Writer;
 
         /**
          * Decodes a BlockDataResponse message from the specified reader or buffer.
          * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
          * @param {number} [length] Message length if known beforehand
          * @returns {internal.BlockDataResponse} BlockDataResponse
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
          */
-        static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): internal.BlockDataResponse;
+        public static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): internal.BlockDataResponse;
 
         /**
          * Decodes a BlockDataResponse message from the specified reader or buffer, length delimited.
          * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
          * @returns {internal.BlockDataResponse} BlockDataResponse
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
          */
-        static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): internal.BlockDataResponse;
+        public static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): internal.BlockDataResponse;
 
         /**
          * Verifies a BlockDataResponse message.
-         * @param {internal.BlockDataResponse|Object} message BlockDataResponse message or plain object to verify
+         * @param {Object.<string,*>} message Plain object to verify
          * @returns {?string} `null` if valid, otherwise the reason why it is not
          */
-        static verify(message: (internal.BlockDataResponse|Object)): string;
+        public static verify(message: { [k: string]: any }): string;
 
         /**
          * Creates a BlockDataResponse message from a plain object. Also converts values to their respective internal types.
          * @param {Object.<string,*>} object Plain object
          * @returns {internal.BlockDataResponse} BlockDataResponse
          */
-        static fromObject(object: { [k: string]: any }): internal.BlockDataResponse;
+        public static fromObject(object: { [k: string]: any }): internal.BlockDataResponse;
 
         /**
          * Creates a BlockDataResponse message from a plain object. Also converts values to their respective internal types.
@@ -1744,7 +1895,7 @@ export namespace internal {
          * @param {Object.<string,*>} object Plain object
          * @returns {internal.BlockDataResponse} BlockDataResponse
          */
-        static from(object: { [k: string]: any }): internal.BlockDataResponse;
+        public static from(object: { [k: string]: any }): internal.BlockDataResponse;
 
         /**
          * Creates a plain object from a BlockDataResponse message. Also converts values to other types if specified.
@@ -1752,27 +1903,31 @@ export namespace internal {
          * @param {$protobuf.ConversionOptions} [options] Conversion options
          * @returns {Object.<string,*>} Plain object
          */
-        static toObject(message: internal.BlockDataResponse, options?: $protobuf.ConversionOptions): { [k: string]: any };
+        public static toObject(message: internal.BlockDataResponse, options?: $protobuf.ConversionOptions): { [k: string]: any };
 
         /**
          * Creates a plain object from this BlockDataResponse message. Also converts values to other types if specified.
          * @param {$protobuf.ConversionOptions} [options] Conversion options
          * @returns {Object.<string,*>} Plain object
          */
-        toObject(options?: $protobuf.ConversionOptions): { [k: string]: any };
+        public toObject(options?: $protobuf.ConversionOptions): { [k: string]: any };
 
         /**
          * Converts this BlockDataResponse to JSON.
          * @returns {Object.<string,*>} JSON object
          */
-        toJSON(): { [k: string]: any };
+        public toJSON(): { [k: string]: any };
     }
+
+    type Cache$Properties = {
+        BitmapIDs?: (number|Long)[];
+    };
 
     /**
      * Constructs a new Cache.
      * @exports internal.Cache
      * @constructor
-     * @param {Object} [properties] Properties to set
+     * @param {internal.Cache$Properties=} [properties] Properties to set
      */
     class Cache {
 
@@ -1780,67 +1935,71 @@ export namespace internal {
          * Constructs a new Cache.
          * @exports internal.Cache
          * @constructor
-         * @param {Object} [properties] Properties to set
+         * @param {internal.Cache$Properties=} [properties] Properties to set
          */
-        constructor(properties?: Object);
+        constructor(properties?: internal.Cache$Properties);
 
         /**
          * Cache BitmapIDs.
-         * @type {Array.<number|$protobuf.Long>|undefined}
+         * @type {Array.<number|Long>}
          */
-        BitmapIDs?: (number|$protobuf.Long)[];
+        public BitmapIDs: (number|Long)[];
 
         /**
          * Creates a new Cache instance using the specified properties.
-         * @param {Object} [properties] Properties to set
+         * @param {internal.Cache$Properties=} [properties] Properties to set
          * @returns {internal.Cache} Cache instance
          */
-        static create(properties?: Object): internal.Cache;
+        public static create(properties?: internal.Cache$Properties): internal.Cache;
 
         /**
-         * Encodes the specified Cache message.
-         * @param {internal.Cache|Object} message Cache message or plain object to encode
+         * Encodes the specified Cache message. Does not implicitly {@link internal.Cache.verify|verify} messages.
+         * @param {internal.Cache$Properties} message Cache message or plain object to encode
          * @param {$protobuf.Writer} [writer] Writer to encode to
          * @returns {$protobuf.Writer} Writer
          */
-        static encode(message: (internal.Cache|Object), writer?: $protobuf.Writer): $protobuf.Writer;
+        public static encode(message: internal.Cache$Properties, writer?: $protobuf.Writer): $protobuf.Writer;
 
         /**
-         * Encodes the specified Cache message, length delimited.
-         * @param {internal.Cache|Object} message Cache message or plain object to encode
+         * Encodes the specified Cache message, length delimited. Does not implicitly {@link internal.Cache.verify|verify} messages.
+         * @param {internal.Cache$Properties} message Cache message or plain object to encode
          * @param {$protobuf.Writer} [writer] Writer to encode to
          * @returns {$protobuf.Writer} Writer
          */
-        static encodeDelimited(message: (internal.Cache|Object), writer?: $protobuf.Writer): $protobuf.Writer;
+        public static encodeDelimited(message: internal.Cache$Properties, writer?: $protobuf.Writer): $protobuf.Writer;
 
         /**
          * Decodes a Cache message from the specified reader or buffer.
          * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
          * @param {number} [length] Message length if known beforehand
          * @returns {internal.Cache} Cache
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
          */
-        static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): internal.Cache;
+        public static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): internal.Cache;
 
         /**
          * Decodes a Cache message from the specified reader or buffer, length delimited.
          * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
          * @returns {internal.Cache} Cache
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
          */
-        static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): internal.Cache;
+        public static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): internal.Cache;
 
         /**
          * Verifies a Cache message.
-         * @param {internal.Cache|Object} message Cache message or plain object to verify
+         * @param {Object.<string,*>} message Plain object to verify
          * @returns {?string} `null` if valid, otherwise the reason why it is not
          */
-        static verify(message: (internal.Cache|Object)): string;
+        public static verify(message: { [k: string]: any }): string;
 
         /**
          * Creates a Cache message from a plain object. Also converts values to their respective internal types.
          * @param {Object.<string,*>} object Plain object
          * @returns {internal.Cache} Cache
          */
-        static fromObject(object: { [k: string]: any }): internal.Cache;
+        public static fromObject(object: { [k: string]: any }): internal.Cache;
 
         /**
          * Creates a Cache message from a plain object. Also converts values to their respective internal types.
@@ -1849,7 +2008,7 @@ export namespace internal {
          * @param {Object.<string,*>} object Plain object
          * @returns {internal.Cache} Cache
          */
-        static from(object: { [k: string]: any }): internal.Cache;
+        public static from(object: { [k: string]: any }): internal.Cache;
 
         /**
          * Creates a plain object from a Cache message. Also converts values to other types if specified.
@@ -1857,27 +2016,31 @@ export namespace internal {
          * @param {$protobuf.ConversionOptions} [options] Conversion options
          * @returns {Object.<string,*>} Plain object
          */
-        static toObject(message: internal.Cache, options?: $protobuf.ConversionOptions): { [k: string]: any };
+        public static toObject(message: internal.Cache, options?: $protobuf.ConversionOptions): { [k: string]: any };
 
         /**
          * Creates a plain object from this Cache message. Also converts values to other types if specified.
          * @param {$protobuf.ConversionOptions} [options] Conversion options
          * @returns {Object.<string,*>} Plain object
          */
-        toObject(options?: $protobuf.ConversionOptions): { [k: string]: any };
+        public toObject(options?: $protobuf.ConversionOptions): { [k: string]: any };
 
         /**
          * Converts this Cache to JSON.
          * @returns {Object.<string,*>} JSON object
          */
-        toJSON(): { [k: string]: any };
+        public toJSON(): { [k: string]: any };
     }
+
+    type MaxSlicesResponse$Properties = {
+        MaxSlices?: { [k: string]: (number|Long) };
+    };
 
     /**
      * Constructs a new MaxSlicesResponse.
      * @exports internal.MaxSlicesResponse
      * @constructor
-     * @param {Object} [properties] Properties to set
+     * @param {internal.MaxSlicesResponse$Properties=} [properties] Properties to set
      */
     class MaxSlicesResponse {
 
@@ -1885,67 +2048,71 @@ export namespace internal {
          * Constructs a new MaxSlicesResponse.
          * @exports internal.MaxSlicesResponse
          * @constructor
-         * @param {Object} [properties] Properties to set
+         * @param {internal.MaxSlicesResponse$Properties=} [properties] Properties to set
          */
-        constructor(properties?: Object);
+        constructor(properties?: internal.MaxSlicesResponse$Properties);
 
         /**
          * MaxSlicesResponse MaxSlices.
-         * @type {Object.<string,number|$protobuf.Long>|undefined}
+         * @type {Object.<string,number|Long>}
          */
-        MaxSlices?: { [k: string]: (number|$protobuf.Long) };
+        public MaxSlices: { [k: string]: (number|Long) };
 
         /**
          * Creates a new MaxSlicesResponse instance using the specified properties.
-         * @param {Object} [properties] Properties to set
+         * @param {internal.MaxSlicesResponse$Properties=} [properties] Properties to set
          * @returns {internal.MaxSlicesResponse} MaxSlicesResponse instance
          */
-        static create(properties?: Object): internal.MaxSlicesResponse;
+        public static create(properties?: internal.MaxSlicesResponse$Properties): internal.MaxSlicesResponse;
 
         /**
-         * Encodes the specified MaxSlicesResponse message.
-         * @param {internal.MaxSlicesResponse|Object} message MaxSlicesResponse message or plain object to encode
+         * Encodes the specified MaxSlicesResponse message. Does not implicitly {@link internal.MaxSlicesResponse.verify|verify} messages.
+         * @param {internal.MaxSlicesResponse$Properties} message MaxSlicesResponse message or plain object to encode
          * @param {$protobuf.Writer} [writer] Writer to encode to
          * @returns {$protobuf.Writer} Writer
          */
-        static encode(message: (internal.MaxSlicesResponse|Object), writer?: $protobuf.Writer): $protobuf.Writer;
+        public static encode(message: internal.MaxSlicesResponse$Properties, writer?: $protobuf.Writer): $protobuf.Writer;
 
         /**
-         * Encodes the specified MaxSlicesResponse message, length delimited.
-         * @param {internal.MaxSlicesResponse|Object} message MaxSlicesResponse message or plain object to encode
+         * Encodes the specified MaxSlicesResponse message, length delimited. Does not implicitly {@link internal.MaxSlicesResponse.verify|verify} messages.
+         * @param {internal.MaxSlicesResponse$Properties} message MaxSlicesResponse message or plain object to encode
          * @param {$protobuf.Writer} [writer] Writer to encode to
          * @returns {$protobuf.Writer} Writer
          */
-        static encodeDelimited(message: (internal.MaxSlicesResponse|Object), writer?: $protobuf.Writer): $protobuf.Writer;
+        public static encodeDelimited(message: internal.MaxSlicesResponse$Properties, writer?: $protobuf.Writer): $protobuf.Writer;
 
         /**
          * Decodes a MaxSlicesResponse message from the specified reader or buffer.
          * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
          * @param {number} [length] Message length if known beforehand
          * @returns {internal.MaxSlicesResponse} MaxSlicesResponse
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
          */
-        static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): internal.MaxSlicesResponse;
+        public static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): internal.MaxSlicesResponse;
 
         /**
          * Decodes a MaxSlicesResponse message from the specified reader or buffer, length delimited.
          * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
          * @returns {internal.MaxSlicesResponse} MaxSlicesResponse
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
          */
-        static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): internal.MaxSlicesResponse;
+        public static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): internal.MaxSlicesResponse;
 
         /**
          * Verifies a MaxSlicesResponse message.
-         * @param {internal.MaxSlicesResponse|Object} message MaxSlicesResponse message or plain object to verify
+         * @param {Object.<string,*>} message Plain object to verify
          * @returns {?string} `null` if valid, otherwise the reason why it is not
          */
-        static verify(message: (internal.MaxSlicesResponse|Object)): string;
+        public static verify(message: { [k: string]: any }): string;
 
         /**
          * Creates a MaxSlicesResponse message from a plain object. Also converts values to their respective internal types.
          * @param {Object.<string,*>} object Plain object
          * @returns {internal.MaxSlicesResponse} MaxSlicesResponse
          */
-        static fromObject(object: { [k: string]: any }): internal.MaxSlicesResponse;
+        public static fromObject(object: { [k: string]: any }): internal.MaxSlicesResponse;
 
         /**
          * Creates a MaxSlicesResponse message from a plain object. Also converts values to their respective internal types.
@@ -1954,7 +2121,7 @@ export namespace internal {
          * @param {Object.<string,*>} object Plain object
          * @returns {internal.MaxSlicesResponse} MaxSlicesResponse
          */
-        static from(object: { [k: string]: any }): internal.MaxSlicesResponse;
+        public static from(object: { [k: string]: any }): internal.MaxSlicesResponse;
 
         /**
          * Creates a plain object from a MaxSlicesResponse message. Also converts values to other types if specified.
@@ -1962,19 +2129,19 @@ export namespace internal {
          * @param {$protobuf.ConversionOptions} [options] Conversion options
          * @returns {Object.<string,*>} Plain object
          */
-        static toObject(message: internal.MaxSlicesResponse, options?: $protobuf.ConversionOptions): { [k: string]: any };
+        public static toObject(message: internal.MaxSlicesResponse, options?: $protobuf.ConversionOptions): { [k: string]: any };
 
         /**
          * Creates a plain object from this MaxSlicesResponse message. Also converts values to other types if specified.
          * @param {$protobuf.ConversionOptions} [options] Conversion options
          * @returns {Object.<string,*>} Plain object
          */
-        toObject(options?: $protobuf.ConversionOptions): { [k: string]: any };
+        public toObject(options?: $protobuf.ConversionOptions): { [k: string]: any };
 
         /**
          * Converts this MaxSlicesResponse to JSON.
          * @returns {Object.<string,*>} JSON object
          */
-        toJSON(): { [k: string]: any };
+        public toJSON(): { [k: string]: any };
     }
 }

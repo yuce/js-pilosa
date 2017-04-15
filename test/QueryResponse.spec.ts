@@ -1,6 +1,6 @@
 import {expect} from 'chai';
-import {QueryResponse} from '../src/index';
-import {BitmapResult, __testing_triggerUnknownType, __testing_QueryResponseWithError, __testing_empty_Bitmap} from '../src/response';
+import {QueryResponse, BitmapResult} from '../src/index';
+import {__testing_QueryResponseWithError, __testing_triggerUnknownType} from '../src/response';
 
 class TestableQueryResponse extends QueryResponse {
     static withDefaults(): QueryResponse {
@@ -28,12 +28,10 @@ describe('BitmapResult', () => {
     it('should fail if it recieves an attribute with an unknown type', () => {
         expect(() => __testing_triggerUnknownType()).throws();
     });
+
     it ('should have attributes and bits set to defaults', () => {
-        // Bits and Attrs of internal.Bitmap are never null, this test exists for 100% coverage
-        const bitmap = __testing_empty_Bitmap();
-        bitmap.Attrs = undefined;
-        const br = BitmapResult.fromInternal(bitmap);
-        expect(br.attributes).eql({});
-        expect(br.bits).eql([]);
-    })
+        const b = BitmapResult.fromInternal({});
+        expect(b.attributes).eql({});
+        expect(b.bits).eql([]);
+    });
 });

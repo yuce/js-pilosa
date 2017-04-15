@@ -2,6 +2,7 @@
 import {internal} from "../internal/internal";
 import {PilosaError} from "./error";
 import {AttributeMap} from "./common";
+import * as Long from "long";
 
 export class QueryResponse {
     readonly results: QueryResult[] = [];
@@ -69,7 +70,7 @@ export class QueryResult {
 
     private constructor() {}
 
-    static fromInternal(obj: internal.QueryResult): QueryResult {
+    static fromInternal(obj: internal.QueryResult$Properties): QueryResult {
         const result = new QueryResult();
         if (obj.Bitmap) {
             result._bitmapResult = BitmapResult.fromInternal(obj.Bitmap);
@@ -105,7 +106,8 @@ export class BitmapResult {
         this._bits = bits;
     }
 
-    static fromInternal(b: internal.Bitmap): BitmapResult {
+    /* @internal */
+    static fromInternal(b: internal.Bitmap$Properties): BitmapResult {
         if (b.Bits && b.Attrs) {
             let bits = b.Bits.map((bit: Long) => bit.toNumber());
             return new BitmapResult(Util.internalAttrsToMap(b.Attrs), bits);
@@ -125,7 +127,7 @@ export class BitmapResult {
 export class CountResultItem {
     private constructor(readonly id: number, readonly count: number) {}
 
-    static fromInternal(obj: internal.Pair) {
+    static fromInternal(obj: internal.Pair$Properties) {
         return new CountResultItem((obj.Key as Long).toNumber(), (obj.Count as Long).toNumber());
     }
 }
@@ -143,15 +145,10 @@ export function __testing_QueryResponseWithError(errorMessage: string) {
     return QueryResponse.fromProtobuf(data);
 }
 
-/** @internal */
-export function __testing_empty_Bitmap() {
-    return new internal.Bitmap();
-}
-
 export class ProfileItem {
     private constructor(readonly id: number, readonly attributes: AttributeMap) {}
 
-    static fromInternal(obj: internal.Profile) {
+    static fromInternal(obj: internal.Profile$Properties) {
         const attrs = (obj.Attrs)? Util.internalAttrsToMap(obj.Attrs) : {};
         return new ProfileItem((obj.ID as Long).toNumber(), attrs);
     }
@@ -165,7 +162,7 @@ namespace Util {
     const PROTOBUF_BOOL_TYPE = 3;
     const PROTOBUF_DOUBLE_TYPE = 4;
 
-    export function internalAttrsToMap(attrs: Array<internal.Attr>): AttributeMap {
+    export function internalAttrsToMap(attrs: internal.Attr$Properties[]): AttributeMap {
         const r: any = new Object();
         for (let attr of attrs) {
             if (attr.Key) {

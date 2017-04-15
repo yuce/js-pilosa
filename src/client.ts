@@ -23,6 +23,9 @@ export class Client {
                 this.cluster = new Cluster(URI.address(clusterUriString));
             }
         }
+        else {
+            this.cluster = new Cluster(new URI());
+        }
     }
 
     query(query: PqlQuery, queryOptions?: QueryOptions): Promise<QueryResponse> {
@@ -283,7 +286,7 @@ export class Cluster {
 }
 
 class QueryRequest {
-    constructor(private database: Database, private query?: string,
+    constructor(private database: Database, private query: string,
             private options?: QueryOptions) {}
 
     toProtoBuf() {
