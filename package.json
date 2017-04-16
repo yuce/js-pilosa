@@ -5,10 +5,9 @@
   "main": "./lib/index.js",
   "types": "./lib/index.d.ts",
   "scripts": {
-    "test": "NODE_ENV=test mocha --recursive --compilers ts:ts-node/register --bail test/*.spec.ts",
-    "integration-test": "NODE_ENV=test mocha --recursive --compilers ts:ts-node/register --bail --timeout 4000 integration-test/*.it.ts",
-    "test-all": "NODE_ENV=test mocha --recursive --compilers ts:ts-node/register --bail --timeout 4000 test/*.spec.ts integration-test/*.it.ts",
-    "cover": "NODE_ENV=test nyc npm run test-all",
+    "test": "cross-env NODE_ENV=test mocha --recursive --compilers ts:ts-node/register --bail test/*.spec.ts",
+    "test-all": "cross-env NODE_ENV=test mocha --recursive --compilers ts:ts-node/register --bail --timeout 4000 test/*.spec.ts integration-test/*.it.ts",
+    "cover": "cross-env NODE_ENV=test nyc npm run test-all",
     "generate-proto": "pbjs -t static-module -w commonjs -o internal/internal.js internal/internal.proto && pbts -o internal/internal.d.ts internal/internal.js"
   },
   "keywords": [],
@@ -25,6 +24,7 @@
     "@types/nock": "^8.2.1",
     "@types/node": "^7.0.8",
     "chai": "^3.5.0",
+    "cross-env": "^4.0.0",
     "mocha": "^3.2.0",
     "nock": "^9.0.9",
     "nyc": "^10.1.2",
