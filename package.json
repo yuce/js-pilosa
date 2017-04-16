@@ -2,7 +2,8 @@
   "name": "pilosa",
   "version": "0.1.0",
   "description": "",
-  "main": "lib/index.js",
+  "main": "./lib/index.js",
+  "types": "./lib/index.d.ts",
   "scripts": {
     "test": "NODE_ENV=test mocha --recursive --compilers ts:ts-node/register --bail test/*.spec.ts",
     "integration-test": "NODE_ENV=test mocha --recursive --compilers ts:ts-node/register --bail --timeout 4000 integration-test/*.it.ts",
