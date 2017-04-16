@@ -165,8 +165,6 @@ export class PqlBatchQuery implements PqlQuery {
     }
 }
 
-// export type TimeQuantum = "" | "Y" | "M" | "D" | "H" | "YM" | "MD" | "DH" | "YMD" | "MDH" | "YMDH";
-
 export class TimeQuantum {
     private constructor(private value: string) {}
 
