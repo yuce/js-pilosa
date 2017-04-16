@@ -64,36 +64,18 @@ export class QueryResponse {
 }
 
 export class QueryResult {
-    private _bitmapResult: BitmapResult;
-    private _countItems: Array<CountResultItem>;
-    private _count: number = 0;
-
-    private constructor() {}
+    private constructor(readonly bitmap: BitmapResult,
+            readonly countItems: CountResultItem[], readonly count: number) {}
 
     static fromInternal(obj: internal.QueryResult$Properties): QueryResult {
-        const result = new QueryResult();
-        if (obj.Bitmap) {
-            result._bitmapResult = BitmapResult.fromInternal(obj.Bitmap);
-        }
+        const bitmap = (obj.Bitmap)?
+            BitmapResult.fromInternal(obj.Bitmap)
+            : BitmapResult.fromInternal({Bits: undefined, Attrs: undefined});
         const countItems = new Array<CountResultItem>();
         for (let item of obj.Pairs || []) {
             countItems.push(CountResultItem.fromInternal(item));
         }
-        result._countItems = countItems;
-        result._count = (obj.N as Long).toNumber();
-        return result;
-    }
-
-    get bitmap() {
-        return this._bitmapResult;
-    }
-
-    get countItems() {
-        return this._countItems;
-    }
-
-    get count() {
-        return this._count;
+        return new QueryResult(bitmap, countItems, (obj.N as Long).toNumber());
     }
 }
 
