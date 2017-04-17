@@ -1,5 +1,5 @@
 
-.PHONY: all build clean generate-proto test
+.PHONY: all build clean cover generate-proto test test-all
 
 all: build
 
@@ -10,6 +10,9 @@ build:
 clean:
 	rm -r lib/*
 
+cover:
+	npm run cover
+
 generate-proto:
 	npm run generate-proto
 
@@ -18,6 +21,3 @@ test:
 
 test-all:
 	npm run test-all
-
-cover:
-	npm run cover
