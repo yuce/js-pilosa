@@ -1,5 +1,39 @@
+/*
+Copyright 2017 Yuce Tekol
+
+Redistribution and use in source and binary forms, with or without
+modification, are permitted provided that the following conditions
+are met:
+
+1. Redistributions of source code must retain the above copyright
+notice, this list of conditions and the following disclaimer.
+
+2. Redistributions in binary form must reproduce the above copyright
+notice, this list of conditions and the following disclaimer in the
+documentation and/or other materials provided with the distribution.
+
+3. Neither the name of the copyright holder nor the names of its
+contributors may be used to endorse or promote products derived
+from this software without specific prior written permission.
+
+THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND
+CONTRIBUTORS "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES,
+INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF
+MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
+DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR
+CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,
+SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING,
+BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR
+SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
+INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY,
+WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
+NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
+OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH
+DAMAGE.
+*/
+
 import {expect} from 'chai';
-import {Index} from '../src/orm';
+import {Index, CacheType, FrameOptions, TimeQuantum} from '../src/index';
 
 const sampleDb = new Index("sample-db");
 const sampleFrame = sampleDb.frame("sample-frame");
@@ -88,3 +122,39 @@ describe('Frame', () => {
         expect(q3.serialize()).equal("TopN(Bitmap(project=7, frame='collaboration'), frame='sample-frame', n=12, field='category', [80,81])");
     });
 });
+
+describe('FrameOptions', () => {
+    it('can return options for HTTP request', () => {
+        const options: FrameOptions = {
+            rowLabel: "stargazer_id",
+            timeQuantum: TimeQuantum.DAY_HOUR,
+            inverseEnabled: true,
+            cacheType: CacheType.RANKED,
+            cacheSize: 1000
+        }
+        const index = new Index("myindex");
+        const frame = index.frame("myframe", options);
+        const target = {
+            options: {
+                rowLabel: "stargazer_id",
+                timeQuantum: "DH",
+                inverseEnabled: true,
+                cacheType: "ranked",
+                cacheSize: 1000
+            }
+        }
+        expect(frame.optionsForRequest).eql(target);
+    });
+});
+
+describe('CacheType', () => {
+    it('can set value', () => {
+        const ct = CacheType.LRU;
+        expect(ct.toString()).equal("lru");
+    });
+
+    it('can compare equality', () => {
+        expect(CacheType.RANKED.equals(CacheType.RANKED)).true;
+        expect(CacheType.RANKED.equals(CacheType.LRU)).false;
+    });
+})

@@ -1,3 +1,36 @@
+/*
+Copyright 2017 Yuce Tekol
+
+Redistribution and use in source and binary forms, with or without
+modification, are permitted provided that the following conditions
+are met:
+
+1. Redistributions of source code must retain the above copyright
+notice, this list of conditions and the following disclaimer.
+
+2. Redistributions in binary form must reproduce the above copyright
+notice, this list of conditions and the following disclaimer in the
+documentation and/or other materials provided with the distribution.
+
+3. Neither the name of the copyright holder nor the names of its
+contributors may be used to endorse or promote products derived
+from this software without specific prior written permission.
+
+THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND
+CONTRIBUTORS "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES,
+INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF
+MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
+DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR
+CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,
+SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING,
+BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR
+SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
+INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY,
+WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
+NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
+OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH
+DAMAGE.
+*/
 
 import {Validator} from "./validator";
 import {AttributeMap} from "./common";
@@ -10,8 +43,12 @@ export class Index {
     }
 
     frame(name: string, options: FrameOptions={}) {
-        return _Frame.create(this, name, options.rowLabel || "id",
-            options.timeQuantum || TimeQuantum.NONE);
+        return _Frame.create(this, name,
+            options.rowLabel || "id",
+            options.timeQuantum || TimeQuantum.NONE,
+            options.inverseEnabled || false,
+            options.cacheType || CacheType.DEFAULT,
+            options.cacheSize || 0);
     }
 
     rawQuery(query: string) {
@@ -55,7 +92,9 @@ export class Index {
 export class Frame {
     private columnLabel: string;
     protected constructor(readonly index: Index, readonly name: string,
-            readonly rowLabel: string, readonly timeQuantum: TimeQuantum) {
+            readonly rowLabel: string, readonly timeQuantum: TimeQuantum,
+            readonly inverseEnabled: boolean,
+            readonly cacheType: CacheType, readonly cacheSize: number) {
         this.columnLabel = index.columnLabel;
     }
 
@@ -118,13 +157,31 @@ export class Frame {
         return new PqlBitmapQuery(`SetRowAttrs(frame='${this.name}',
             ${this.rowLabel}=${rowID}, ${attrsStr})`, this.index);
     }
+
+    get optionsForRequest(): any {
+        const data: AttributeMap = {rowLabel: this.rowLabel};
+        if (this.timeQuantum != TimeQuantum.NONE) {
+            data['timeQuantum'] = this.timeQuantum.toString();
+        }
+        if (this.inverseEnabled) {
+            data['inverseEnabled'] = this.inverseEnabled;
+        }
+        if (this.cacheType != CacheType.DEFAULT) {
+            data['cacheType'] = this.cacheType.toString();
+        }
+        if (this.cacheSize > 0) {
+            data['cacheSize'] = this.cacheSize;
+        }
+        return {options: data};
+    }
 }
 
 // simulates module private Frame creation
 class _Frame extends Frame {
-    static create(index: Index, name: string, rowLabel: string, timeQuantum: TimeQuantum) {
+    static create(index: Index, name: string, rowLabel: string, timeQuantum: TimeQuantum,
+            inverseEnabled: boolean, cacheType: CacheType, cacheSize: number) {
         Validator.validateFrameName(name);
-        return new Frame(index, name, rowLabel, timeQuantum);
+        return new Frame(index, name, rowLabel, timeQuantum, inverseEnabled, cacheType, cacheSize);
     }
 }
 
@@ -136,6 +193,9 @@ export interface IndexOptions {
 export interface FrameOptions {
     readonly rowLabel?: string;
     readonly timeQuantum?: TimeQuantum;
+    readonly inverseEnabled?: boolean;
+    readonly cacheType?: CacheType;
+    readonly cacheSize?: number;
 }
 
 export interface PqlQuery {
@@ -187,6 +247,22 @@ export class TimeQuantum {
     static readonly YEAR_MONTH_DAY = new TimeQuantum("YMD");
     static readonly MONTH_DAY_HOUR = new TimeQuantum("MDH");
     static readonly YEAR_MONTH_DAY_HOUR = new TimeQuantum("YMDH");
+}
+
+export class CacheType {
+    private constructor(private value: string) {}
+
+    equals(other: CacheType): boolean {
+        return this.value == other.value;
+    }
+
+    toString(): string {
+        return this.value;
+    }
+
+    static readonly DEFAULT = new CacheType("");
+    static readonly LRU = new CacheType("lru");
+    static readonly RANKED = new CacheType("ranked");
 }
 
 
