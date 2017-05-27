@@ -8,9 +8,9 @@ Javascript/Typescript client for Pilosa high performance distributed bitmap inde
 
 ## Change Log
 
-* **v0.3.1**:
+* **v0.3.2**:
     * Initial version.
-    * Supports Pilosa Server v0.3.1.
+    * Supports Pilosa Server v0.3.2.
 
 ## Requirements
 
