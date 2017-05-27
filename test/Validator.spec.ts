@@ -2,29 +2,29 @@ import {expect} from 'chai';
 import {Validator} from '../src/validator';
 
 describe('Validator', () => {
-    it('should validate database names', () => {
-        const validDatabaseNames = [
-            "a", "ab", "ab1", "1", "_", "-", "b-c", "d_e",
+    it('should validate index names', () => {
+        const validIndexNames = [
+            "a", "ab", "ab1", "b-c", "d_e",
             "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
         ];
-        for (let name of validDatabaseNames) {
-            expect(Validator.validDatabaseName(name)).true;
-            expect(() => Validator.validateDatabaseName(name)).not.throws();
+        for (let name of validIndexNames) {
+            expect(Validator.validIndexName(name)).true;
+            expect(() => Validator.validateIndexName(name)).not.throws();
         }
 
-        const invalidDatabaseNames = [
+        const invalidIndexNames = [
             "", "'", "^", "/", "\\", "A", "*", "a:b", "valid?no", "yüce",
             "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa1"
         ];
-        for (let name of invalidDatabaseNames) {
-            expect(Validator.validDatabaseName(name)).false;
-            expect(() => Validator.validateDatabaseName(name)).throws();
+        for (let name of invalidIndexNames) {
+            expect(Validator.validIndexName(name)).false;
+            expect(() => Validator.validateIndexName(name)).throws();
         }
     });
 
     it ('should validate frame names', () => {
         const validFrameNames = [
-            "a", "ab", "ab1", "b-c", "d_e", "d.e", "1",
+            "a", "ab", "ab1", "b-c", "d_e",
             "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
         ];
         for (let name of validFrameNames) {
@@ -33,7 +33,7 @@ describe('Validator', () => {
         }
 
         const invalidFrameNames = [
-            "", "'", "^", "/", "\\", "A", "*", "a:b", "valid?no", "yüce", "_", "-", ".data",
+            "", "'", "^", "/", "\\", "A", "*", "a:b", "valid?no", "yüce", "_", "-", ".data", "d.e", "1",
             "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa1"
         ];
         for (let name of invalidFrameNames) {
@@ -45,7 +45,7 @@ describe('Validator', () => {
 
     it ('should validate labels', () => {
         const validLabels = [
-            "a", "ab", "ab1", "d_e", "A", "Bc", "B1", "aB",
+            "a", "ab", "ab1", "d_e", "A", "Bc", "B1", "aB", "b-c",
             "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
         ];
         for (let label of validLabels) {
@@ -54,7 +54,7 @@ describe('Validator', () => {
         }
 
         const invalidLabels = [
-            "", "1", "_", "-", "b-c", "'", "^", "/", "\\", "*", "a:b", "valid?no", "yüce",
+            "", "1", "_", "-", "'", "^", "/", "\\", "*", "a:b", "valid?no", "yüce",
             "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa1"
         ];
         for (let label of invalidLabels) {

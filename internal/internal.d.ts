@@ -248,8 +248,8 @@ export namespace internal {
     }
 
     type Bit$Properties = {
-        BitmapID?: (number|Long);
-        ProfileID?: (number|Long);
+        RowID?: (number|Long);
+        ColumnID?: (number|Long);
         Timestamp?: (number|Long);
     };
 
@@ -270,16 +270,16 @@ export namespace internal {
         constructor(properties?: internal.Bit$Properties);
 
         /**
-         * Bit BitmapID.
+         * Bit RowID.
          * @type {number|Long}
          */
-        public BitmapID: (number|Long);
+        public RowID: (number|Long);
 
         /**
-         * Bit ProfileID.
+         * Bit ColumnID.
          * @type {number|Long}
          */
-        public ProfileID: (number|Long);
+        public ColumnID: (number|Long);
 
         /**
          * Bit Timestamp.
@@ -374,121 +374,121 @@ export namespace internal {
         public toJSON(): { [k: string]: any };
     }
 
-    type Profile$Properties = {
+    type ColumnAttrSet$Properties = {
         ID?: (number|Long);
         Attrs?: internal.Attr$Properties[];
     };
 
     /**
-     * Constructs a new Profile.
-     * @exports internal.Profile
+     * Constructs a new ColumnAttrSet.
+     * @exports internal.ColumnAttrSet
      * @constructor
-     * @param {internal.Profile$Properties=} [properties] Properties to set
+     * @param {internal.ColumnAttrSet$Properties=} [properties] Properties to set
      */
-    class Profile {
+    class ColumnAttrSet {
 
         /**
-         * Constructs a new Profile.
-         * @exports internal.Profile
+         * Constructs a new ColumnAttrSet.
+         * @exports internal.ColumnAttrSet
          * @constructor
-         * @param {internal.Profile$Properties=} [properties] Properties to set
+         * @param {internal.ColumnAttrSet$Properties=} [properties] Properties to set
          */
-        constructor(properties?: internal.Profile$Properties);
+        constructor(properties?: internal.ColumnAttrSet$Properties);
 
         /**
-         * Profile ID.
+         * ColumnAttrSet ID.
          * @type {number|Long}
          */
         public ID: (number|Long);
 
         /**
-         * Profile Attrs.
+         * ColumnAttrSet Attrs.
          * @type {Array.<internal.Attr$Properties>}
          */
         public Attrs: internal.Attr$Properties[];
 
         /**
-         * Creates a new Profile instance using the specified properties.
-         * @param {internal.Profile$Properties=} [properties] Properties to set
-         * @returns {internal.Profile} Profile instance
+         * Creates a new ColumnAttrSet instance using the specified properties.
+         * @param {internal.ColumnAttrSet$Properties=} [properties] Properties to set
+         * @returns {internal.ColumnAttrSet} ColumnAttrSet instance
          */
-        public static create(properties?: internal.Profile$Properties): internal.Profile;
+        public static create(properties?: internal.ColumnAttrSet$Properties): internal.ColumnAttrSet;
 
         /**
-         * Encodes the specified Profile message. Does not implicitly {@link internal.Profile.verify|verify} messages.
-         * @param {internal.Profile$Properties} message Profile message or plain object to encode
+         * Encodes the specified ColumnAttrSet message. Does not implicitly {@link internal.ColumnAttrSet.verify|verify} messages.
+         * @param {internal.ColumnAttrSet$Properties} message ColumnAttrSet message or plain object to encode
          * @param {$protobuf.Writer} [writer] Writer to encode to
          * @returns {$protobuf.Writer} Writer
          */
-        public static encode(message: internal.Profile$Properties, writer?: $protobuf.Writer): $protobuf.Writer;
+        public static encode(message: internal.ColumnAttrSet$Properties, writer?: $protobuf.Writer): $protobuf.Writer;
 
         /**
-         * Encodes the specified Profile message, length delimited. Does not implicitly {@link internal.Profile.verify|verify} messages.
-         * @param {internal.Profile$Properties} message Profile message or plain object to encode
+         * Encodes the specified ColumnAttrSet message, length delimited. Does not implicitly {@link internal.ColumnAttrSet.verify|verify} messages.
+         * @param {internal.ColumnAttrSet$Properties} message ColumnAttrSet message or plain object to encode
          * @param {$protobuf.Writer} [writer] Writer to encode to
          * @returns {$protobuf.Writer} Writer
          */
-        public static encodeDelimited(message: internal.Profile$Properties, writer?: $protobuf.Writer): $protobuf.Writer;
+        public static encodeDelimited(message: internal.ColumnAttrSet$Properties, writer?: $protobuf.Writer): $protobuf.Writer;
 
         /**
-         * Decodes a Profile message from the specified reader or buffer.
+         * Decodes a ColumnAttrSet message from the specified reader or buffer.
          * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
          * @param {number} [length] Message length if known beforehand
-         * @returns {internal.Profile} Profile
+         * @returns {internal.ColumnAttrSet} ColumnAttrSet
          * @throws {Error} If the payload is not a reader or valid buffer
          * @throws {$protobuf.util.ProtocolError} If required fields are missing
          */
-        public static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): internal.Profile;
+        public static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): internal.ColumnAttrSet;
 
         /**
-         * Decodes a Profile message from the specified reader or buffer, length delimited.
+         * Decodes a ColumnAttrSet message from the specified reader or buffer, length delimited.
          * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
-         * @returns {internal.Profile} Profile
+         * @returns {internal.ColumnAttrSet} ColumnAttrSet
          * @throws {Error} If the payload is not a reader or valid buffer
          * @throws {$protobuf.util.ProtocolError} If required fields are missing
          */
-        public static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): internal.Profile;
+        public static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): internal.ColumnAttrSet;
 
         /**
-         * Verifies a Profile message.
+         * Verifies a ColumnAttrSet message.
          * @param {Object.<string,*>} message Plain object to verify
          * @returns {?string} `null` if valid, otherwise the reason why it is not
          */
         public static verify(message: { [k: string]: any }): string;
 
         /**
-         * Creates a Profile message from a plain object. Also converts values to their respective internal types.
+         * Creates a ColumnAttrSet message from a plain object. Also converts values to their respective internal types.
          * @param {Object.<string,*>} object Plain object
-         * @returns {internal.Profile} Profile
+         * @returns {internal.ColumnAttrSet} ColumnAttrSet
          */
-        public static fromObject(object: { [k: string]: any }): internal.Profile;
+        public static fromObject(object: { [k: string]: any }): internal.ColumnAttrSet;
 
         /**
-         * Creates a Profile message from a plain object. Also converts values to their respective internal types.
-         * This is an alias of {@link internal.Profile.fromObject}.
+         * Creates a ColumnAttrSet message from a plain object. Also converts values to their respective internal types.
+         * This is an alias of {@link internal.ColumnAttrSet.fromObject}.
          * @function
          * @param {Object.<string,*>} object Plain object
-         * @returns {internal.Profile} Profile
+         * @returns {internal.ColumnAttrSet} ColumnAttrSet
          */
-        public static from(object: { [k: string]: any }): internal.Profile;
+        public static from(object: { [k: string]: any }): internal.ColumnAttrSet;
 
         /**
-         * Creates a plain object from a Profile message. Also converts values to other types if specified.
-         * @param {internal.Profile} message Profile
+         * Creates a plain object from a ColumnAttrSet message. Also converts values to other types if specified.
+         * @param {internal.ColumnAttrSet} message ColumnAttrSet
          * @param {$protobuf.ConversionOptions} [options] Conversion options
          * @returns {Object.<string,*>} Plain object
          */
-        public static toObject(message: internal.Profile, options?: $protobuf.ConversionOptions): { [k: string]: any };
+        public static toObject(message: internal.ColumnAttrSet, options?: $protobuf.ConversionOptions): { [k: string]: any };
 
         /**
-         * Creates a plain object from this Profile message. Also converts values to other types if specified.
+         * Creates a plain object from this ColumnAttrSet message. Also converts values to other types if specified.
          * @param {$protobuf.ConversionOptions} [options] Conversion options
          * @returns {Object.<string,*>} Plain object
          */
         public toObject(options?: $protobuf.ConversionOptions): { [k: string]: any };
 
         /**
-         * Converts this Profile to JSON.
+         * Converts this ColumnAttrSet to JSON.
          * @returns {Object.<string,*>} JSON object
          */
         public toJSON(): { [k: string]: any };
@@ -498,7 +498,7 @@ export namespace internal {
         Key?: string;
         Type?: (number|Long);
         StringValue?: string;
-        UintValue?: (number|Long);
+        IntValue?: (number|Long);
         BoolValue?: boolean;
         FloatValue?: number;
     };
@@ -538,10 +538,10 @@ export namespace internal {
         public StringValue: string;
 
         /**
-         * Attr UintValue.
+         * Attr IntValue.
          * @type {number|Long}
          */
-        public UintValue: (number|Long);
+        public IntValue: (number|Long);
 
         /**
          * Attr BoolValue.
@@ -756,10 +756,9 @@ export namespace internal {
     }
 
     type QueryRequest$Properties = {
-        DB?: string;
         Query?: string;
         Slices?: (number|Long)[];
-        Profiles?: boolean;
+        ColumnAttrs?: boolean;
         Quantum?: string;
         Remote?: boolean;
     };
@@ -781,12 +780,6 @@ export namespace internal {
         constructor(properties?: internal.QueryRequest$Properties);
 
         /**
-         * QueryRequest DB.
-         * @type {string}
-         */
-        public DB: string;
-
-        /**
          * QueryRequest Query.
          * @type {string}
          */
@@ -799,10 +792,10 @@ export namespace internal {
         public Slices: (number|Long)[];
 
         /**
-         * QueryRequest Profiles.
+         * QueryRequest ColumnAttrs.
          * @type {boolean}
          */
-        public Profiles: boolean;
+        public ColumnAttrs: boolean;
 
         /**
          * QueryRequest Quantum.
@@ -906,7 +899,7 @@ export namespace internal {
     type QueryResponse$Properties = {
         Err?: string;
         Results?: internal.QueryResult$Properties[];
-        Profiles?: internal.Profile$Properties[];
+        ColumnAttrSets?: internal.ColumnAttrSet$Properties[];
     };
 
     /**
@@ -938,10 +931,10 @@ export namespace internal {
         public Results: internal.QueryResult$Properties[];
 
         /**
-         * QueryResponse Profiles.
-         * @type {Array.<internal.Profile$Properties>}
+         * QueryResponse ColumnAttrSets.
+         * @type {Array.<internal.ColumnAttrSet$Properties>}
          */
-        public Profiles: internal.Profile$Properties[];
+        public ColumnAttrSets: internal.ColumnAttrSet$Properties[];
 
         /**
          * Creates a new QueryResponse instance using the specified properties.
@@ -1165,11 +1158,11 @@ export namespace internal {
     }
 
     type ImportRequest$Properties = {
-        DB?: string;
+        Index?: string;
         Frame?: string;
         Slice?: (number|Long);
-        BitmapIDs?: (number|Long)[];
-        ProfileIDs?: (number|Long)[];
+        RowIDs?: (number|Long)[];
+        ColumnIDs?: (number|Long)[];
         Timestamps?: (number|Long)[];
     };
 
@@ -1190,10 +1183,10 @@ export namespace internal {
         constructor(properties?: internal.ImportRequest$Properties);
 
         /**
-         * ImportRequest DB.
+         * ImportRequest Index.
          * @type {string}
          */
-        public DB: string;
+        public Index: string;
 
         /**
          * ImportRequest Frame.
@@ -1208,16 +1201,16 @@ export namespace internal {
         public Slice: (number|Long);
 
         /**
-         * ImportRequest BitmapIDs.
+         * ImportRequest RowIDs.
          * @type {Array.<number|Long>}
          */
-        public BitmapIDs: (number|Long)[];
+        public RowIDs: (number|Long)[];
 
         /**
-         * ImportRequest ProfileIDs.
+         * ImportRequest ColumnIDs.
          * @type {Array.<number|Long>}
          */
-        public ProfileIDs: (number|Long)[];
+        public ColumnIDs: (number|Long)[];
 
         /**
          * ImportRequest Timestamps.

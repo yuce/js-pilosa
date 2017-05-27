@@ -3,8 +3,8 @@ import {Validator} from "./validator";
 import {AttributeMap} from "./common";
 
 
-export class Database {
-    constructor(readonly name: string, options: DatabaseOptions={}) {
+export class Index {
+    constructor(readonly name: string, options: IndexOptions={}) {
         this.columnLabel = options.columnLabel || "col_id";
         this.timeQuantum = options.timeQuantum || TimeQuantum.NONE;
     }
@@ -38,9 +38,9 @@ export class Database {
         return new PqlBaseQuery(`Count(${bitmap.serialize()})`, this);
     }
 
-    setProfileAttrs(columnID: number, attrs: AttributeMap): PqlBitmapQuery {
+    setColumnAttrs(columnID: number, attrs: AttributeMap): PqlBitmapQuery {
         let attrsStr = createAttributesString(attrs);
-        return new PqlBitmapQuery(`SetProfileAttrs(${this.columnLabel}=${columnID}, ${attrsStr})`, this);
+        return new PqlBitmapQuery(`SetColumnAttrs(${this.columnLabel}=${columnID}, ${attrsStr})`, this);
     }
 
     private bitmapOperation(name: string, bitmaps: Array<PqlBitmapQuery>): PqlBitmapQuery {
@@ -54,9 +54,9 @@ export class Database {
 
 export class Frame {
     private columnLabel: string;
-    protected constructor(readonly database: Database, readonly name: string,
+    protected constructor(readonly index: Index, readonly name: string,
             readonly rowLabel: string, readonly timeQuantum: TimeQuantum) {
-        this.columnLabel = database.columnLabel;
+        this.columnLabel = index.columnLabel;
     }
 
     /**
@@ -66,29 +66,29 @@ export class Frame {
      * @return a PQL query
      */
     bitmap(rowID: number): PqlBitmapQuery {
-        return new PqlBitmapQuery(`Bitmap(${this.rowLabel}=${rowID}, frame='${this.name}')`, this.database);
+        return new PqlBitmapQuery(`Bitmap(${this.rowLabel}=${rowID}, frame='${this.name}')`, this.index);
     }
 
     /**
      * Creates a SetBit query
      *
      * @param rowID    bitmap ID
-     * @param columnID profile ID
+     * @param columnID column ID
      * @return a PQL query
      */
     setBit(rowID: number, columnID: number): PqlQuery {
-        return new PqlBaseQuery(`SetBit(${this.rowLabel}=${rowID}, frame='${this.name}', ${this.columnLabel}=${columnID})`, this.database);
+        return new PqlBaseQuery(`SetBit(${this.rowLabel}=${rowID}, frame='${this.name}', ${this.columnLabel}=${columnID})`, this.index);
     }
 
     /**
      * Creates a ClearBit query
      *
      * @param rowID    bitmap ID
-     * @param columnID profile ID
+     * @param columnID column ID
      * @return a PQL query
      */
     clearBit(rowID: number, columnID: number): PqlQuery {
-        return new PqlBaseQuery(`ClearBit(${this.rowLabel}=${rowID}, frame='${this.name}', ${this.columnLabel}=${columnID})`, this.database);
+        return new PqlBaseQuery(`ClearBit(${this.rowLabel}=${rowID}, frame='${this.name}', ${this.columnLabel}=${columnID})`, this.index);
     }
 
     /**
@@ -110,25 +110,25 @@ export class Frame {
                 s = `TopN(${bitmap.serialize()}, frame='${this.name}', n=${n})`;
             }
         }
-        return new PqlBitmapQuery(s, this.database);
+        return new PqlBitmapQuery(s, this.index);
     }
 
-    setBitmapAttrs(rowID: number, attrs: AttributeMap): PqlBitmapQuery {
+    setRowAttrs(rowID: number, attrs: AttributeMap): PqlBitmapQuery {
         let attrsStr = createAttributesString(attrs);
-        return new PqlBitmapQuery(`SetBitmapAttrs(frame='${this.name}',
-            ${this.rowLabel}=${rowID}, ${attrsStr})`, this.database);
+        return new PqlBitmapQuery(`SetRowAttrs(frame='${this.name}',
+            ${this.rowLabel}=${rowID}, ${attrsStr})`, this.index);
     }
 }
 
 // simulates module private Frame creation
 class _Frame extends Frame {
-    static create(database: Database, name: string, rowLabel: string, timeQuantum: TimeQuantum) {
+    static create(index: Index, name: string, rowLabel: string, timeQuantum: TimeQuantum) {
         Validator.validateFrameName(name);
-        return new Frame(database, name, rowLabel, timeQuantum);
+        return new Frame(index, name, rowLabel, timeQuantum);
     }
 }
 
-export interface DatabaseOptions {
+export interface IndexOptions {
     readonly columnLabel?: string;
     readonly timeQuantum?: TimeQuantum;
 }
@@ -139,26 +139,26 @@ export interface FrameOptions {
 }
 
 export interface PqlQuery {
-    readonly database: Database;
+    readonly index: Index;
     serialize(): string;
 }
 
 export class PqlBaseQuery implements PqlQuery {
-    constructor(private pql: string, readonly database: Database) {}
+    constructor(private pql: string, readonly index: Index) {}
     serialize() {
         return this.pql;
     }
 }
 
 export class PqlBitmapQuery implements PqlQuery {
-    constructor(private pql: string, readonly database: Database) {}
+    constructor(private pql: string, readonly index: Index) {}
     serialize() {
         return this.pql;
     }
 }
 
 export class PqlBatchQuery implements PqlQuery {
-    constructor(private queries: Array<PqlQuery>, readonly database: Database) {}
+    constructor(private queries: Array<PqlQuery>, readonly index: Index) {}
 
     serialize() {
         return this.queries.map(q => q.serialize()).join("");

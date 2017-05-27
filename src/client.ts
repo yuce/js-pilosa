@@ -3,7 +3,7 @@ import {internal} from "../internal/internal";
 import * as http from 'http';
 import {QueryResponse} from './response';
 import {PilosaError} from './error';
-import {Database, Frame, PqlQuery, TimeQuantum} from './orm';
+import {Index, Frame, PqlQuery, TimeQuantum} from './orm';
 
 export type HttpMethod = "POST" | "DELETE" | "GET" | "PATCH";
 
@@ -29,24 +29,23 @@ export class Client {
     }
 
     query(query: PqlQuery, queryOptions?: QueryOptions): Promise<QueryResponse> {
-        const request = new QueryRequest(query.database, query.serialize(), queryOptions);
+        const request = new QueryRequest(query.index, query.serialize(), queryOptions);
         return this.queryPath(request);
     }
 
-    createDatabase(database: Database): Promise<void> {
+    createIndex(index: Index): Promise<void> {
         const data = this.encodeRequestData({
-            db: database.name,
             options: {
-                columnLabel: database.columnLabel
+                columnLabel: index.columnLabel
             }
         });
         return new Promise<void>((resolve, reject) => {
-            this.httpRequest("POST", "/db", data).then(_ => {
-                if (database.timeQuantum.equals(TimeQuantum.NONE)) {
+            this.httpRequest("POST", `/index/${index.name}`, data).then(_ => {
+                if (index.timeQuantum.equals(TimeQuantum.NONE)) {
                     resolve();
                 }
                 else {
-                    this.patchDatabaseTimeQuantum(database)
+                    this.patchIndexTimeQuantum(index)
                         .then(resolve)
                         .catch(reject);
                 }
@@ -56,33 +55,24 @@ export class Client {
 
     createFrame(frame: Frame): Promise<void> {
         const data = this.encodeRequestData({
-            db: frame.database.name,
-            frame: frame.name,
             options: {
-                rowLabel: frame.rowLabel
+                rowLabel: frame.rowLabel,
+                timeQuantum: frame.timeQuantum.toString()
             }
         });
         return new Promise<void>((resolve, reject) => {
-            this.httpRequest("POST", "/frame", data).then(_ => {
-                if (frame.timeQuantum.equals(TimeQuantum.NONE)) {
-                    resolve();
-                }
-                else {
-                    this.patchFrameTimeQuantum(frame)
-                        .then(resolve)
-                        .catch(reject);
-                }
-            }).catch(reject);
+            this.httpRequest("POST", `/index/${frame.index.name}/frame/${frame.name}`, data)
+                .then(_ => resolve())
+                .catch(reject);
         });
-
     }
 
-    ensureDatabase(database: Database): Promise<void> {
+    ensureIndex(index: Index): Promise<void> {
         return new Promise<void>((resolve, reject) => {
-            this.createDatabase(database).
+            this.createIndex(index).
                 then(resolve).
                 catch(err => {
-                    if (PilosaError.equals(err, PilosaError.DATABASE_EXISTS)) {
+                    if (PilosaError.equals(err, PilosaError.INDEX_EXISTS)) {
                         resolve();
                     }
                     else {
@@ -107,45 +97,28 @@ export class Client {
         });
     }
 
-    deleteDatabase(database: Database): Promise<void> {
-        const data = this.encodeRequestData({db: database.name});
+    deleteIndex(index: Index): Promise<void> {
         return new Promise<void>((resolve, reject) => {
-            this.httpRequest("DELETE", "/db", data)
+            this.httpRequest("DELETE", `/index/${index.name}`)
                 .then(_ => resolve())
                 .catch(reject);
         });
     }
 
     deleteFrame(frame: Frame): Promise<void> {
-        const data = this.encodeRequestData({
-            db: frame.database.name,
-            frame: frame.name
-        });
         return new Promise<void>((resolve, reject) => {
-            this.httpRequest("DELETE", "/frame", data)
+            this.httpRequest("DELETE", `/index/${frame.index.name}/frame/${frame.name}`)
                 .then(_ => resolve())
                 .catch(reject);
         });
     }
 
-    private patchDatabaseTimeQuantum(database: Database): Promise<void> {
-        const data = this.encodeRequestData({db: database.name,
-                time_quantum: database.timeQuantum.toString()});
-        return new Promise<void>((resolve, reject) => {
-            this.httpRequest("PATCH", "/db/time_quantum", data)
-                .then(_ => resolve())
-                .catch(reject);
-        });
-    }
-
-    private patchFrameTimeQuantum(frame: Frame): Promise<void> {
+    private patchIndexTimeQuantum(index: Index): Promise<void> {
         const data = this.encodeRequestData({
-            db: frame.database.name,
-            frame: frame.name,
-            time_quantum: frame.timeQuantum.toString()
+            timeQuantum: index.timeQuantum.toString()
         });
         return new Promise<void>((resolve, reject) => {
-            this.httpRequest("PATCH", "/frame/time_quantum", data)
+            this.httpRequest("PATCH", `/index/${index.name}/time-quantum`, data)
                 .then(_ => resolve())
                 .catch(reject);
         });
@@ -158,7 +131,7 @@ export class Client {
                 "Content-Type": "application/x-protobuf",
                 "Accept": "application/x-protobuf"
             }
-            this.httpRequest("POST", "/query", data, headers, true).then(r => {
+            this.httpRequest("POST", `/index/${request.index.name}/query`, data, headers, true).then(r => {
                 try {
                     resolve(QueryResponse.fromProtobuf(r))
                 }
@@ -211,8 +184,8 @@ export class Client {
                     res.on('end', () => {
                         let msg = Buffer.concat(chunks, dataSize).toString();
                         switch (msg) {
-                            case "database already exists\n":
-                                return reject(PilosaError.DATABASE_EXISTS);
+                            case "index already exists\n":
+                                return reject(PilosaError.INDEX_EXISTS);
                             case "frame already exists\n":
                                 return reject(PilosaError.FRAME_EXISTS);
                             default:
@@ -286,14 +259,13 @@ export class Cluster {
 }
 
 class QueryRequest {
-    constructor(private database: Database, private query: string,
+    constructor(readonly index: Index, private query: string,
             private options?: QueryOptions) {}
 
     toProtoBuf() {
         const request = new internal.QueryRequest();
-        request.DB = this.database.name;
         request.Query = this.query;
-        request.Profiles = (this.options && this.options.profiles === true)? true : false;
+        request.ColumnAttrs = (this.options && this.options.columns === true)? true : false;
         return internal.QueryRequest.encode(request).finish();
     }
 }
@@ -341,5 +313,5 @@ export class URI {
 }
 
 export interface QueryOptions {
-    profiles: boolean;
+    columns: boolean;
 }

@@ -1,5 +1,5 @@
 
-type ErrorType = "GENERIC" | "URI" | "VALIDATION" | "DATABASE_EXISTS" | "FRAME_EXISTS";
+type ErrorType = "GENERIC" | "URI" | "VALIDATION" | "INDEX_EXISTS" | "FRAME_EXISTS";
 
 export class PilosaError {
     private static error(e: ErrorType, msg?: string): Error {
@@ -20,8 +20,8 @@ export class PilosaError {
         return PilosaError.error("VALIDATION", msg);
     }
 
-    static databaseExists(msg?: string) {
-        return PilosaError.error("DATABASE_EXISTS", msg);
+    static indexExists(msg?: string) {
+        return PilosaError.error("INDEX_EXISTS", msg);
     }
 
     static frameExists(msg?: string) {
@@ -34,6 +34,6 @@ export class PilosaError {
     static GENERIC = PilosaError.generic();
     static URI = PilosaError.uri();
     static VALIDATION = PilosaError.validation();
-    static DATABASE_EXISTS = PilosaError.databaseExists();
+    static INDEX_EXISTS = PilosaError.indexExists();
     static FRAME_EXISTS = PilosaError.frameExists();
 }

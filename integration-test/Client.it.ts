@@ -1,6 +1,6 @@
 
 import {expect} from 'chai';
-import {Client, Cluster, Database, URI, TimeQuantum} from '../src/index';
+import {Client, Cluster, Index, URI, TimeQuantum} from '../src/index';
 import * as nock from 'nock';
 
 const SERVER_ADDRESS = "http://localhost:10101";
@@ -10,14 +10,14 @@ class Util {
     static getClient() {
         return new Client(SERVER_ADDRESS);
     }
-    static getRandomDatabase() {
-        return new Database(`testdb-${Util.counter++}`);
+    static getRandomIndex() {
+        return new Index(`testdb-${Util.counter++}`);
     }
 }
 
 
 describe('Client', () => {
-    let db = Util.getRandomDatabase();
+    let db = Util.getRandomIndex();
     const frameNames = [
         "foo", "query-test", "another-frame", "test",
         "count-test", "importframe", "topn_test"
@@ -27,7 +27,7 @@ describe('Client', () => {
 
 
     beforeEach(done => {
-        client.ensureDatabase(db).then(() => {
+        client.ensureIndex(db).then(() => {
             let ensureFramesList = [];
             for (let name of frameNames) {
                 ensureFramesList.push(client.ensureFrame(db.frame(name)));
@@ -39,8 +39,8 @@ describe('Client', () => {
 
     afterEach(done => {
         nock.cleanAll();
-        const client = Util.getClient();
-        client.deleteDatabase(db)
+        const client = Util.getClient()
+        client.deleteIndex(db)
             .then(done)
             .catch(done);
     });
@@ -51,12 +51,12 @@ describe('Client', () => {
             done();
         }).catch(done);
     });
-    it('should create and delete a database', done => {
-        const tempdb = new Database("to-be-deleted-" + db.name);
-        client.createDatabase(tempdb).then(() =>
+    it('should create and delete an index', done => {
+        const tempdb = new Index("to-be-deleted-" + db.name);
+        client.createIndex(tempdb).then(() =>
         client.createFrame(tempdb.frame("delframe"))).then(() =>
         client.query(tempdb.frame("delframe").setBit(1, 2))).then(() =>
-        client.deleteDatabase(tempdb))
+        client.deleteIndex(tempdb))
             .then(done)
             .catch(done);
     });
@@ -96,8 +96,8 @@ describe('Client', () => {
         }).catch(done);
     });
 
-    it('should fail when creating existing database', done => {
-        client.createDatabase(db)
+    it('should fail when creating existing index', done => {
+        client.createIndex(db)
             .then(() => done(new Error("should have failed")))
             .catch(_e => done());
     });
@@ -108,16 +108,16 @@ describe('Client', () => {
             .catch(_e => done());
     });
 
-    it('should fail if it cannot delete a database', done => {
+    it('should fail if it cannot delete an index', done => {
         const client = new Client("http://non-existent-sub.pilosa.com:22222");
-        client.deleteDatabase(new Database("non-existent"))
+        client.deleteIndex(new Index("non-existent"))
             .then(() => done(new Error("should have failed")))
             .catch(_e => done());
     });
 
-    it('should fail if it cannot ensure database existence', done => {
+    it('should fail if it cannot ensure index existence', done => {
         const client = new Client("http://non-existent-sub.pilosa.com:22222");
-        client.ensureDatabase(db)
+        client.ensureIndex(db)
             .then(() => done(new Error("should have failed")))
             .catch(_e => done());
     });
@@ -129,12 +129,12 @@ describe('Client', () => {
             .catch(_e => done());
     });
 
-    it('can ensure database exists', done => {
-        const tempdb = new Database(db.name + "-ensure");
-        client.ensureDatabase(tempdb).then(() =>
+    it('can ensure index exists', done => {
+        const tempdb = new Index(db.name + "-ensure");
+        client.ensureIndex(tempdb).then(() =>
         client.ensureFrame(tempdb.frame("frm"))).then(() =>
-        client.ensureDatabase(tempdb)).then(() =>
-        client.deleteDatabase(tempdb))
+        client.ensureIndex(tempdb)).then(() =>
+        client.deleteIndex(tempdb))
             .then(done)
             .catch(done);
     });
@@ -149,12 +149,12 @@ describe('Client', () => {
             .catch(done);
     });
 
-    it('can create a database with time quantum', done => {
-        const db = new Database("db-with-timequantum", {
+    it('can create an index with time quantum', done => {
+        const db = new Index("db-with-timequantum", {
             timeQuantum: TimeQuantum.YEAR
         });
-        client.ensureDatabase(db).then(() =>
-        client.deleteDatabase(db))
+        client.ensureIndex(db).then(() =>
+        client.deleteIndex(db))
             .then(done)
             .catch(done);
     });
@@ -197,6 +197,7 @@ describe('Client', () => {
     });
 
     it('can query topn', done => {
+        let frame = db.frame("topn_test");``
         client.query(db.batchQuery(
             frame.setBit(10, 5),
             frame.setBit(10, 10),
@@ -223,7 +224,7 @@ describe('Client', () => {
         };
         client.query(db.batchQuery(
             frame.setBit(10, 44),
-            frame.setBitmapAttrs(10, attrs))).then(_ =>
+            frame.setRowAttrs(10, attrs))).then(_ =>
         client.query(frame.bitmap(10))).then(r => {
             expect(r.result).not.null;
             if (r.result) {
@@ -238,30 +239,30 @@ describe('Client', () => {
         }).catch(done);
     });
 
-    it('can query with profiles', done => {
+    it('can query with columns', done => {
         const frame = db.frame("query-test");
         client.ensureFrame(frame).then(() =>
         client.query(frame.setBit(100, 1000))).then(() =>
         client.query(frame.setBit(100, 1000))).then(() =>
-        client.query(db.setProfileAttrs(1000, {name: "bombo"}))).then(() =>
-        client.query(frame.bitmap(100), {profiles: true})).then(r => {
+        client.query(db.setColumnAttrs(1000, {name: "bombo"}))).then(() =>
+        client.query(frame.bitmap(100), {columns: true})).then(r => {
             expect(r).not.null;
-            expect(r.profile).not.null;
-            if (r.profile) {
-                expect(r.profile.id).equal(1000);
-                expect(r.profile.attributes).eql({name: "bombo"});
+            expect(r.column).not.null;
+            if (r.column) {
+                expect(r.column.id).equal(1000);
+                expect(r.column.attributes).eql({name: "bombo"});
             }
         }).then(() =>
         client.query(frame.bitmap(300))).then(r => {
             expect(r).not.null;
-            expect(r.profile).null;
+            expect(r.column).null;
             done();
         }).catch(done);
     });
 
     it('should throw an expection if the response was not decoded', done => {
         nock(SERVER_ADDRESS).
-            post("/query").
+            post(`/index/${db.name}/query`).
             reply(200, () => "bad-reply");
         client.query(db.frame("foo").bitmap(1))
             .then(_ => done(new Error("should have failed")))

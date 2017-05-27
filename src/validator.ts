@@ -3,23 +3,23 @@ import {PilosaError} from './error';
 
 
 export namespace Validator {
-    const DATABASE_NAME = /^[a-z0-9_-]+$/;
-    const FRAME_NAME = /^[a-z0-9][.a-z0-9_-]*$/;
-    const LABEL = /^[a-zA-Z][a-zA-Z0-9_]*$/;
-    const MAX_DATABASE_NAME = 64;
+    const INDEX_NAME = /^[a-z][a-z0-9_-]*$/;
+    const FRAME_NAME = /^[a-z][a-z0-9_-]*$/;
+    const LABEL = /^[a-zA-Z][a-zA-Z0-9_-]*$/;
+    const MAX_INDEX_NAME = 64;
     const MAX_FRAME_NAME = 64;
     const MAX_LABEL = 64;
 
-    export function validDatabaseName(databaseName: string): boolean {
-        if (!databaseName || databaseName.length > MAX_DATABASE_NAME) {
+    export function validIndexName(indexName: string): boolean {
+        if (!indexName || indexName.length > MAX_INDEX_NAME) {
             return false;
         }
-        return DATABASE_NAME.test(databaseName);
+        return INDEX_NAME.test(indexName);
     }
 
-    export function validateDatabaseName(databaseName: string): void {
-        if (!validDatabaseName(databaseName)) {
-            throw PilosaError.validation(`Invalid database name: ${databaseName}`);
+    export function validateIndexName(indexName: string): void {
+        if (!validIndexName(indexName)) {
+            throw PilosaError.validation(`Invalid index name: ${indexName}`);
         }
     }
 

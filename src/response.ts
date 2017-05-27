@@ -6,7 +6,7 @@ import * as Long from "long";
 
 export class QueryResponse {
     readonly results: QueryResult[] = [];
-    readonly profiles: ProfileItem[] = [];
+    readonly columns: ColumnItem[] = [];
     private _errorMessage: string = "";
     private _isSuccess: boolean = false;
 
@@ -19,9 +19,9 @@ export class QueryResponse {
         return null;
     }
 
-    get profile(): ProfileItem | null {
-        if (this.profiles.length > 0) {
-            return this.profiles[0];
+    get column(): ColumnItem | null {
+        if (this.columns.length > 0) {
+            return this.columns[0];
         }
         return null;
     }
@@ -56,9 +56,9 @@ export class QueryResponse {
             results.push(QueryResult.fromInternal(result));
         }
 
-        const profiles = this.profiles;
-        for (let profile of response.Profiles || []) {
-            profiles.push(ProfileItem.fromInternal(profile));
+        const columns = this.columns;
+        for (let column of response.ColumnAttrSets || []) {
+            columns.push(ColumnItem.fromInternal(column));
         }
     }
 }
@@ -127,12 +127,12 @@ export function __testing_QueryResponseWithError(errorMessage: string) {
     return QueryResponse.fromProtobuf(data);
 }
 
-export class ProfileItem {
+export class ColumnItem {
     private constructor(readonly id: number, readonly attributes: AttributeMap) {}
 
-    static fromInternal(obj: internal.Profile$Properties) {
+    static fromInternal(obj: internal.ColumnAttrSet$Properties) {
         const attrs = (obj.Attrs)? Util.internalAttrsToMap(obj.Attrs) : {};
-        return new ProfileItem((obj.ID as Long).toNumber(), attrs);
+        return new ColumnItem((obj.ID as Long).toNumber(), attrs);
     }
 }
 
@@ -153,7 +153,7 @@ namespace Util {
                         r[attr.Key] = attr.StringValue;
                         break;
                     case PROTOBUF_UINT_TYPE:
-                        r[attr.Key] = (attr.UintValue as Long).toNumber();
+                        r[attr.Key] = (attr.IntValue as Long).toNumber();
                         break;
                     case PROTOBUF_BOOL_TYPE:
                         r[attr.Key] = attr.BoolValue;

@@ -13,7 +13,7 @@ clean:
 cover:
 	npm run cover
 
-generate-proto:
+generate:
 	npm run generate-proto
 
 test:

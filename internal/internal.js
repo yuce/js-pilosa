@@ -497,8 +497,8 @@ $root.internal = (function() {
          * Properties of a Bit.
          * @typedef internal.Bit$Properties
          * @type {Object}
-         * @property {number|Long} [BitmapID] Bit BitmapID.
-         * @property {number|Long} [ProfileID] Bit ProfileID.
+         * @property {number|Long} [RowID] Bit RowID.
+         * @property {number|Long} [ColumnID] Bit ColumnID.
          * @property {number|Long} [Timestamp] Bit Timestamp.
          */
 
@@ -516,16 +516,16 @@ $root.internal = (function() {
         }
 
         /**
-         * Bit BitmapID.
+         * Bit RowID.
          * @type {number|Long}
          */
-        Bit.prototype.BitmapID = $util.Long ? $util.Long.fromBits(0,0,true) : 0;
+        Bit.prototype.RowID = $util.Long ? $util.Long.fromBits(0,0,true) : 0;
 
         /**
-         * Bit ProfileID.
+         * Bit ColumnID.
          * @type {number|Long}
          */
-        Bit.prototype.ProfileID = $util.Long ? $util.Long.fromBits(0,0,true) : 0;
+        Bit.prototype.ColumnID = $util.Long ? $util.Long.fromBits(0,0,true) : 0;
 
         /**
          * Bit Timestamp.
@@ -551,10 +551,10 @@ $root.internal = (function() {
         Bit.encode = function encode(message, writer) {
             if (!writer)
                 writer = $Writer.create();
-            if (message.BitmapID != null && message.hasOwnProperty("BitmapID"))
-                writer.uint32(/* id 1, wireType 0 =*/8).uint64(message.BitmapID);
-            if (message.ProfileID != null && message.hasOwnProperty("ProfileID"))
-                writer.uint32(/* id 2, wireType 0 =*/16).uint64(message.ProfileID);
+            if (message.RowID != null && message.hasOwnProperty("RowID"))
+                writer.uint32(/* id 1, wireType 0 =*/8).uint64(message.RowID);
+            if (message.ColumnID != null && message.hasOwnProperty("ColumnID"))
+                writer.uint32(/* id 2, wireType 0 =*/16).uint64(message.ColumnID);
             if (message.Timestamp != null && message.hasOwnProperty("Timestamp"))
                 writer.uint32(/* id 3, wireType 0 =*/24).int64(message.Timestamp);
             return writer;
@@ -586,10 +586,10 @@ $root.internal = (function() {
                 var tag = reader.uint32();
                 switch (tag >>> 3) {
                 case 1:
-                    message.BitmapID = reader.uint64();
+                    message.RowID = reader.uint64();
                     break;
                 case 2:
-                    message.ProfileID = reader.uint64();
+                    message.ColumnID = reader.uint64();
                     break;
                 case 3:
                     message.Timestamp = reader.int64();
@@ -623,12 +623,12 @@ $root.internal = (function() {
         Bit.verify = function verify(message) {
             if (typeof message !== "object" || message === null)
                 return "object expected";
-            if (message.BitmapID != null && message.hasOwnProperty("BitmapID"))
-                if (!$util.isInteger(message.BitmapID) && !(message.BitmapID && $util.isInteger(message.BitmapID.low) && $util.isInteger(message.BitmapID.high)))
-                    return "BitmapID: integer|Long expected";
-            if (message.ProfileID != null && message.hasOwnProperty("ProfileID"))
-                if (!$util.isInteger(message.ProfileID) && !(message.ProfileID && $util.isInteger(message.ProfileID.low) && $util.isInteger(message.ProfileID.high)))
-                    return "ProfileID: integer|Long expected";
+            if (message.RowID != null && message.hasOwnProperty("RowID"))
+                if (!$util.isInteger(message.RowID) && !(message.RowID && $util.isInteger(message.RowID.low) && $util.isInteger(message.RowID.high)))
+                    return "RowID: integer|Long expected";
+            if (message.ColumnID != null && message.hasOwnProperty("ColumnID"))
+                if (!$util.isInteger(message.ColumnID) && !(message.ColumnID && $util.isInteger(message.ColumnID.low) && $util.isInteger(message.ColumnID.high)))
+                    return "ColumnID: integer|Long expected";
             if (message.Timestamp != null && message.hasOwnProperty("Timestamp"))
                 if (!$util.isInteger(message.Timestamp) && !(message.Timestamp && $util.isInteger(message.Timestamp.low) && $util.isInteger(message.Timestamp.high)))
                     return "Timestamp: integer|Long expected";
@@ -644,24 +644,24 @@ $root.internal = (function() {
             if (object instanceof $root.internal.Bit)
                 return object;
             var message = new $root.internal.Bit();
-            if (object.BitmapID != null)
+            if (object.RowID != null)
                 if ($util.Long)
-                    (message.BitmapID = $util.Long.fromValue(object.BitmapID)).unsigned = true;
-                else if (typeof object.BitmapID === "string")
-                    message.BitmapID = parseInt(object.BitmapID, 10);
-                else if (typeof object.BitmapID === "number")
-                    message.BitmapID = object.BitmapID;
-                else if (typeof object.BitmapID === "object")
-                    message.BitmapID = new $util.LongBits(object.BitmapID.low >>> 0, object.BitmapID.high >>> 0).toNumber(true);
-            if (object.ProfileID != null)
+                    (message.RowID = $util.Long.fromValue(object.RowID)).unsigned = true;
+                else if (typeof object.RowID === "string")
+                    message.RowID = parseInt(object.RowID, 10);
+                else if (typeof object.RowID === "number")
+                    message.RowID = object.RowID;
+                else if (typeof object.RowID === "object")
+                    message.RowID = new $util.LongBits(object.RowID.low >>> 0, object.RowID.high >>> 0).toNumber(true);
+            if (object.ColumnID != null)
                 if ($util.Long)
-                    (message.ProfileID = $util.Long.fromValue(object.ProfileID)).unsigned = true;
-                else if (typeof object.ProfileID === "string")
-                    message.ProfileID = parseInt(object.ProfileID, 10);
-                else if (typeof object.ProfileID === "number")
-                    message.ProfileID = object.ProfileID;
-                else if (typeof object.ProfileID === "object")
-                    message.ProfileID = new $util.LongBits(object.ProfileID.low >>> 0, object.ProfileID.high >>> 0).toNumber(true);
+                    (message.ColumnID = $util.Long.fromValue(object.ColumnID)).unsigned = true;
+                else if (typeof object.ColumnID === "string")
+                    message.ColumnID = parseInt(object.ColumnID, 10);
+                else if (typeof object.ColumnID === "number")
+                    message.ColumnID = object.ColumnID;
+                else if (typeof object.ColumnID === "object")
+                    message.ColumnID = new $util.LongBits(object.ColumnID.low >>> 0, object.ColumnID.high >>> 0).toNumber(true);
             if (object.Timestamp != null)
                 if ($util.Long)
                     (message.Timestamp = $util.Long.fromValue(object.Timestamp)).unsigned = false;
@@ -696,30 +696,30 @@ $root.internal = (function() {
             if (options.defaults) {
                 if ($util.Long) {
                     var long = new $util.Long(0, 0, true);
-                    object.BitmapID = options.longs === String ? long.toString() : options.longs === Number ? long.toNumber() : long;
+                    object.RowID = options.longs === String ? long.toString() : options.longs === Number ? long.toNumber() : long;
                 } else
-                    object.BitmapID = options.longs === String ? "0" : 0;
+                    object.RowID = options.longs === String ? "0" : 0;
                 if ($util.Long) {
                     var long = new $util.Long(0, 0, true);
-                    object.ProfileID = options.longs === String ? long.toString() : options.longs === Number ? long.toNumber() : long;
+                    object.ColumnID = options.longs === String ? long.toString() : options.longs === Number ? long.toNumber() : long;
                 } else
-                    object.ProfileID = options.longs === String ? "0" : 0;
+                    object.ColumnID = options.longs === String ? "0" : 0;
                 if ($util.Long) {
                     var long = new $util.Long(0, 0, false);
                     object.Timestamp = options.longs === String ? long.toString() : options.longs === Number ? long.toNumber() : long;
                 } else
                     object.Timestamp = options.longs === String ? "0" : 0;
             }
-            if (message.BitmapID != null && message.hasOwnProperty("BitmapID"))
-                if (typeof message.BitmapID === "number")
-                    object.BitmapID = options.longs === String ? String(message.BitmapID) : message.BitmapID;
+            if (message.RowID != null && message.hasOwnProperty("RowID"))
+                if (typeof message.RowID === "number")
+                    object.RowID = options.longs === String ? String(message.RowID) : message.RowID;
                 else
-                    object.BitmapID = options.longs === String ? $util.Long.prototype.toString.call(message.BitmapID) : options.longs === Number ? new $util.LongBits(message.BitmapID.low >>> 0, message.BitmapID.high >>> 0).toNumber(true) : message.BitmapID;
-            if (message.ProfileID != null && message.hasOwnProperty("ProfileID"))
-                if (typeof message.ProfileID === "number")
-                    object.ProfileID = options.longs === String ? String(message.ProfileID) : message.ProfileID;
+                    object.RowID = options.longs === String ? $util.Long.prototype.toString.call(message.RowID) : options.longs === Number ? new $util.LongBits(message.RowID.low >>> 0, message.RowID.high >>> 0).toNumber(true) : message.RowID;
+            if (message.ColumnID != null && message.hasOwnProperty("ColumnID"))
+                if (typeof message.ColumnID === "number")
+                    object.ColumnID = options.longs === String ? String(message.ColumnID) : message.ColumnID;
                 else
-                    object.ProfileID = options.longs === String ? $util.Long.prototype.toString.call(message.ProfileID) : options.longs === Number ? new $util.LongBits(message.ProfileID.low >>> 0, message.ProfileID.high >>> 0).toNumber(true) : message.ProfileID;
+                    object.ColumnID = options.longs === String ? $util.Long.prototype.toString.call(message.ColumnID) : options.longs === Number ? new $util.LongBits(message.ColumnID.low >>> 0, message.ColumnID.high >>> 0).toNumber(true) : message.ColumnID;
             if (message.Timestamp != null && message.hasOwnProperty("Timestamp"))
                 if (typeof message.Timestamp === "number")
                     object.Timestamp = options.longs === String ? String(message.Timestamp) : message.Timestamp;
@@ -748,23 +748,23 @@ $root.internal = (function() {
         return Bit;
     })();
 
-    internal.Profile = (function() {
+    internal.ColumnAttrSet = (function() {
 
         /**
-         * Properties of a Profile.
-         * @typedef internal.Profile$Properties
+         * Properties of a ColumnAttrSet.
+         * @typedef internal.ColumnAttrSet$Properties
          * @type {Object}
-         * @property {number|Long} [ID] Profile ID.
-         * @property {Array.<internal.Attr$Properties>} [Attrs] Profile Attrs.
+         * @property {number|Long} [ID] ColumnAttrSet ID.
+         * @property {Array.<internal.Attr$Properties>} [Attrs] ColumnAttrSet Attrs.
          */
 
         /**
-         * Constructs a new Profile.
-         * @exports internal.Profile
+         * Constructs a new ColumnAttrSet.
+         * @exports internal.ColumnAttrSet
          * @constructor
-         * @param {internal.Profile$Properties=} [properties] Properties to set
+         * @param {internal.ColumnAttrSet$Properties=} [properties] Properties to set
          */
-        function Profile(properties) {
+        function ColumnAttrSet(properties) {
             this.Attrs = [];
             if (properties)
                 for (var keys = Object.keys(properties), i = 0; i < keys.length; ++i)
@@ -773,33 +773,33 @@ $root.internal = (function() {
         }
 
         /**
-         * Profile ID.
+         * ColumnAttrSet ID.
          * @type {number|Long}
          */
-        Profile.prototype.ID = $util.Long ? $util.Long.fromBits(0,0,true) : 0;
+        ColumnAttrSet.prototype.ID = $util.Long ? $util.Long.fromBits(0,0,true) : 0;
 
         /**
-         * Profile Attrs.
+         * ColumnAttrSet Attrs.
          * @type {Array.<internal.Attr$Properties>}
          */
-        Profile.prototype.Attrs = $util.emptyArray;
+        ColumnAttrSet.prototype.Attrs = $util.emptyArray;
 
         /**
-         * Creates a new Profile instance using the specified properties.
-         * @param {internal.Profile$Properties=} [properties] Properties to set
-         * @returns {internal.Profile} Profile instance
+         * Creates a new ColumnAttrSet instance using the specified properties.
+         * @param {internal.ColumnAttrSet$Properties=} [properties] Properties to set
+         * @returns {internal.ColumnAttrSet} ColumnAttrSet instance
          */
-        Profile.create = function create(properties) {
-            return new Profile(properties);
+        ColumnAttrSet.create = function create(properties) {
+            return new ColumnAttrSet(properties);
         };
 
         /**
-         * Encodes the specified Profile message. Does not implicitly {@link internal.Profile.verify|verify} messages.
-         * @param {internal.Profile$Properties} message Profile message or plain object to encode
+         * Encodes the specified ColumnAttrSet message. Does not implicitly {@link internal.ColumnAttrSet.verify|verify} messages.
+         * @param {internal.ColumnAttrSet$Properties} message ColumnAttrSet message or plain object to encode
          * @param {$protobuf.Writer} [writer] Writer to encode to
          * @returns {$protobuf.Writer} Writer
          */
-        Profile.encode = function encode(message, writer) {
+        ColumnAttrSet.encode = function encode(message, writer) {
             if (!writer)
                 writer = $Writer.create();
             if (message.ID != null && message.hasOwnProperty("ID"))
@@ -811,27 +811,27 @@ $root.internal = (function() {
         };
 
         /**
-         * Encodes the specified Profile message, length delimited. Does not implicitly {@link internal.Profile.verify|verify} messages.
-         * @param {internal.Profile$Properties} message Profile message or plain object to encode
+         * Encodes the specified ColumnAttrSet message, length delimited. Does not implicitly {@link internal.ColumnAttrSet.verify|verify} messages.
+         * @param {internal.ColumnAttrSet$Properties} message ColumnAttrSet message or plain object to encode
          * @param {$protobuf.Writer} [writer] Writer to encode to
          * @returns {$protobuf.Writer} Writer
          */
-        Profile.encodeDelimited = function encodeDelimited(message, writer) {
+        ColumnAttrSet.encodeDelimited = function encodeDelimited(message, writer) {
             return this.encode(message, writer).ldelim();
         };
 
         /**
-         * Decodes a Profile message from the specified reader or buffer.
+         * Decodes a ColumnAttrSet message from the specified reader or buffer.
          * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
          * @param {number} [length] Message length if known beforehand
-         * @returns {internal.Profile} Profile
+         * @returns {internal.ColumnAttrSet} ColumnAttrSet
          * @throws {Error} If the payload is not a reader or valid buffer
          * @throws {$protobuf.util.ProtocolError} If required fields are missing
          */
-        Profile.decode = function decode(reader, length) {
+        ColumnAttrSet.decode = function decode(reader, length) {
             if (!(reader instanceof $Reader))
                 reader = $Reader.create(reader);
-            var end = length === undefined ? reader.len : reader.pos + length, message = new $root.internal.Profile();
+            var end = length === undefined ? reader.len : reader.pos + length, message = new $root.internal.ColumnAttrSet();
             while (reader.pos < end) {
                 var tag = reader.uint32();
                 switch (tag >>> 3) {
@@ -852,24 +852,24 @@ $root.internal = (function() {
         };
 
         /**
-         * Decodes a Profile message from the specified reader or buffer, length delimited.
+         * Decodes a ColumnAttrSet message from the specified reader or buffer, length delimited.
          * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
-         * @returns {internal.Profile} Profile
+         * @returns {internal.ColumnAttrSet} ColumnAttrSet
          * @throws {Error} If the payload is not a reader or valid buffer
          * @throws {$protobuf.util.ProtocolError} If required fields are missing
          */
-        Profile.decodeDelimited = function decodeDelimited(reader) {
+        ColumnAttrSet.decodeDelimited = function decodeDelimited(reader) {
             if (!(reader instanceof $Reader))
                 reader = $Reader(reader);
             return this.decode(reader, reader.uint32());
         };
 
         /**
-         * Verifies a Profile message.
+         * Verifies a ColumnAttrSet message.
          * @param {Object.<string,*>} message Plain object to verify
          * @returns {?string} `null` if valid, otherwise the reason why it is not
          */
-        Profile.verify = function verify(message) {
+        ColumnAttrSet.verify = function verify(message) {
             if (typeof message !== "object" || message === null)
                 return "object expected";
             if (message.ID != null && message.hasOwnProperty("ID"))
@@ -888,14 +888,14 @@ $root.internal = (function() {
         };
 
         /**
-         * Creates a Profile message from a plain object. Also converts values to their respective internal types.
+         * Creates a ColumnAttrSet message from a plain object. Also converts values to their respective internal types.
          * @param {Object.<string,*>} object Plain object
-         * @returns {internal.Profile} Profile
+         * @returns {internal.ColumnAttrSet} ColumnAttrSet
          */
-        Profile.fromObject = function fromObject(object) {
-            if (object instanceof $root.internal.Profile)
+        ColumnAttrSet.fromObject = function fromObject(object) {
+            if (object instanceof $root.internal.ColumnAttrSet)
                 return object;
-            var message = new $root.internal.Profile();
+            var message = new $root.internal.ColumnAttrSet();
             if (object.ID != null)
                 if ($util.Long)
                     (message.ID = $util.Long.fromValue(object.ID)).unsigned = true;
@@ -907,11 +907,11 @@ $root.internal = (function() {
                     message.ID = new $util.LongBits(object.ID.low >>> 0, object.ID.high >>> 0).toNumber(true);
             if (object.Attrs) {
                 if (!Array.isArray(object.Attrs))
-                    throw TypeError(".internal.Profile.Attrs: array expected");
+                    throw TypeError(".internal.ColumnAttrSet.Attrs: array expected");
                 message.Attrs = [];
                 for (var i = 0; i < object.Attrs.length; ++i) {
                     if (typeof object.Attrs[i] !== "object")
-                        throw TypeError(".internal.Profile.Attrs: object expected");
+                        throw TypeError(".internal.ColumnAttrSet.Attrs: object expected");
                     message.Attrs[i] = $root.internal.Attr.fromObject(object.Attrs[i]);
                 }
             }
@@ -919,21 +919,21 @@ $root.internal = (function() {
         };
 
         /**
-         * Creates a Profile message from a plain object. Also converts values to their respective internal types.
-         * This is an alias of {@link internal.Profile.fromObject}.
+         * Creates a ColumnAttrSet message from a plain object. Also converts values to their respective internal types.
+         * This is an alias of {@link internal.ColumnAttrSet.fromObject}.
          * @function
          * @param {Object.<string,*>} object Plain object
-         * @returns {internal.Profile} Profile
+         * @returns {internal.ColumnAttrSet} ColumnAttrSet
          */
-        Profile.from = Profile.fromObject;
+        ColumnAttrSet.from = ColumnAttrSet.fromObject;
 
         /**
-         * Creates a plain object from a Profile message. Also converts values to other types if specified.
-         * @param {internal.Profile} message Profile
+         * Creates a plain object from a ColumnAttrSet message. Also converts values to other types if specified.
+         * @param {internal.ColumnAttrSet} message ColumnAttrSet
          * @param {$protobuf.ConversionOptions} [options] Conversion options
          * @returns {Object.<string,*>} Plain object
          */
-        Profile.toObject = function toObject(message, options) {
+        ColumnAttrSet.toObject = function toObject(message, options) {
             if (!options)
                 options = {};
             var object = {};
@@ -959,23 +959,23 @@ $root.internal = (function() {
         };
 
         /**
-         * Creates a plain object from this Profile message. Also converts values to other types if specified.
+         * Creates a plain object from this ColumnAttrSet message. Also converts values to other types if specified.
          * @param {$protobuf.ConversionOptions} [options] Conversion options
          * @returns {Object.<string,*>} Plain object
          */
-        Profile.prototype.toObject = function toObject(options) {
+        ColumnAttrSet.prototype.toObject = function toObject(options) {
             return this.constructor.toObject(this, options);
         };
 
         /**
-         * Converts this Profile to JSON.
+         * Converts this ColumnAttrSet to JSON.
          * @returns {Object.<string,*>} JSON object
          */
-        Profile.prototype.toJSON = function toJSON() {
+        ColumnAttrSet.prototype.toJSON = function toJSON() {
             return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
         };
 
-        return Profile;
+        return ColumnAttrSet;
     })();
 
     internal.Attr = (function() {
@@ -987,7 +987,7 @@ $root.internal = (function() {
          * @property {string} [Key] Attr Key.
          * @property {number|Long} [Type] Attr Type.
          * @property {string} [StringValue] Attr StringValue.
-         * @property {number|Long} [UintValue] Attr UintValue.
+         * @property {number|Long} [IntValue] Attr IntValue.
          * @property {boolean} [BoolValue] Attr BoolValue.
          * @property {number} [FloatValue] Attr FloatValue.
          */
@@ -1024,10 +1024,10 @@ $root.internal = (function() {
         Attr.prototype.StringValue = "";
 
         /**
-         * Attr UintValue.
+         * Attr IntValue.
          * @type {number|Long}
          */
-        Attr.prototype.UintValue = $util.Long ? $util.Long.fromBits(0,0,true) : 0;
+        Attr.prototype.IntValue = $util.Long ? $util.Long.fromBits(0,0,false) : 0;
 
         /**
          * Attr BoolValue.
@@ -1065,8 +1065,8 @@ $root.internal = (function() {
                 writer.uint32(/* id 2, wireType 0 =*/16).uint64(message.Type);
             if (message.StringValue != null && message.hasOwnProperty("StringValue"))
                 writer.uint32(/* id 3, wireType 2 =*/26).string(message.StringValue);
-            if (message.UintValue != null && message.hasOwnProperty("UintValue"))
-                writer.uint32(/* id 4, wireType 0 =*/32).uint64(message.UintValue);
+            if (message.IntValue != null && message.hasOwnProperty("IntValue"))
+                writer.uint32(/* id 4, wireType 0 =*/32).int64(message.IntValue);
             if (message.BoolValue != null && message.hasOwnProperty("BoolValue"))
                 writer.uint32(/* id 5, wireType 0 =*/40).bool(message.BoolValue);
             if (message.FloatValue != null && message.hasOwnProperty("FloatValue"))
@@ -1109,7 +1109,7 @@ $root.internal = (function() {
                     message.StringValue = reader.string();
                     break;
                 case 4:
-                    message.UintValue = reader.uint64();
+                    message.IntValue = reader.int64();
                     break;
                 case 5:
                     message.BoolValue = reader.bool();
@@ -1155,9 +1155,9 @@ $root.internal = (function() {
             if (message.StringValue != null && message.hasOwnProperty("StringValue"))
                 if (!$util.isString(message.StringValue))
                     return "StringValue: string expected";
-            if (message.UintValue != null && message.hasOwnProperty("UintValue"))
-                if (!$util.isInteger(message.UintValue) && !(message.UintValue && $util.isInteger(message.UintValue.low) && $util.isInteger(message.UintValue.high)))
-                    return "UintValue: integer|Long expected";
+            if (message.IntValue != null && message.hasOwnProperty("IntValue"))
+                if (!$util.isInteger(message.IntValue) && !(message.IntValue && $util.isInteger(message.IntValue.low) && $util.isInteger(message.IntValue.high)))
+                    return "IntValue: integer|Long expected";
             if (message.BoolValue != null && message.hasOwnProperty("BoolValue"))
                 if (typeof message.BoolValue !== "boolean")
                     return "BoolValue: boolean expected";
@@ -1189,15 +1189,15 @@ $root.internal = (function() {
                     message.Type = new $util.LongBits(object.Type.low >>> 0, object.Type.high >>> 0).toNumber(true);
             if (object.StringValue != null)
                 message.StringValue = String(object.StringValue);
-            if (object.UintValue != null)
+            if (object.IntValue != null)
                 if ($util.Long)
-                    (message.UintValue = $util.Long.fromValue(object.UintValue)).unsigned = true;
-                else if (typeof object.UintValue === "string")
-                    message.UintValue = parseInt(object.UintValue, 10);
-                else if (typeof object.UintValue === "number")
-                    message.UintValue = object.UintValue;
-                else if (typeof object.UintValue === "object")
-                    message.UintValue = new $util.LongBits(object.UintValue.low >>> 0, object.UintValue.high >>> 0).toNumber(true);
+                    (message.IntValue = $util.Long.fromValue(object.IntValue)).unsigned = false;
+                else if (typeof object.IntValue === "string")
+                    message.IntValue = parseInt(object.IntValue, 10);
+                else if (typeof object.IntValue === "number")
+                    message.IntValue = object.IntValue;
+                else if (typeof object.IntValue === "object")
+                    message.IntValue = new $util.LongBits(object.IntValue.low >>> 0, object.IntValue.high >>> 0).toNumber();
             if (object.BoolValue != null)
                 message.BoolValue = Boolean(object.BoolValue);
             if (object.FloatValue != null)
@@ -1233,10 +1233,10 @@ $root.internal = (function() {
                     object.Type = options.longs === String ? "0" : 0;
                 object.StringValue = "";
                 if ($util.Long) {
-                    var long = new $util.Long(0, 0, true);
-                    object.UintValue = options.longs === String ? long.toString() : options.longs === Number ? long.toNumber() : long;
+                    var long = new $util.Long(0, 0, false);
+                    object.IntValue = options.longs === String ? long.toString() : options.longs === Number ? long.toNumber() : long;
                 } else
-                    object.UintValue = options.longs === String ? "0" : 0;
+                    object.IntValue = options.longs === String ? "0" : 0;
                 object.BoolValue = false;
                 object.FloatValue = 0;
             }
@@ -1249,11 +1249,11 @@ $root.internal = (function() {
                     object.Type = options.longs === String ? $util.Long.prototype.toString.call(message.Type) : options.longs === Number ? new $util.LongBits(message.Type.low >>> 0, message.Type.high >>> 0).toNumber(true) : message.Type;
             if (message.StringValue != null && message.hasOwnProperty("StringValue"))
                 object.StringValue = message.StringValue;
-            if (message.UintValue != null && message.hasOwnProperty("UintValue"))
-                if (typeof message.UintValue === "number")
-                    object.UintValue = options.longs === String ? String(message.UintValue) : message.UintValue;
+            if (message.IntValue != null && message.hasOwnProperty("IntValue"))
+                if (typeof message.IntValue === "number")
+                    object.IntValue = options.longs === String ? String(message.IntValue) : message.IntValue;
                 else
-                    object.UintValue = options.longs === String ? $util.Long.prototype.toString.call(message.UintValue) : options.longs === Number ? new $util.LongBits(message.UintValue.low >>> 0, message.UintValue.high >>> 0).toNumber(true) : message.UintValue;
+                    object.IntValue = options.longs === String ? $util.Long.prototype.toString.call(message.IntValue) : options.longs === Number ? new $util.LongBits(message.IntValue.low >>> 0, message.IntValue.high >>> 0).toNumber() : message.IntValue;
             if (message.BoolValue != null && message.hasOwnProperty("BoolValue"))
                 object.BoolValue = message.BoolValue;
             if (message.FloatValue != null && message.hasOwnProperty("FloatValue"))
@@ -1482,10 +1482,9 @@ $root.internal = (function() {
          * Properties of a QueryRequest.
          * @typedef internal.QueryRequest$Properties
          * @type {Object}
-         * @property {string} [DB] QueryRequest DB.
          * @property {string} [Query] QueryRequest Query.
          * @property {Array.<number|Long>} [Slices] QueryRequest Slices.
-         * @property {boolean} [Profiles] QueryRequest Profiles.
+         * @property {boolean} [ColumnAttrs] QueryRequest ColumnAttrs.
          * @property {string} [Quantum] QueryRequest Quantum.
          * @property {boolean} [Remote] QueryRequest Remote.
          */
@@ -1505,12 +1504,6 @@ $root.internal = (function() {
         }
 
         /**
-         * QueryRequest DB.
-         * @type {string}
-         */
-        QueryRequest.prototype.DB = "";
-
-        /**
          * QueryRequest Query.
          * @type {string}
          */
@@ -1523,10 +1516,10 @@ $root.internal = (function() {
         QueryRequest.prototype.Slices = $util.emptyArray;
 
         /**
-         * QueryRequest Profiles.
+         * QueryRequest ColumnAttrs.
          * @type {boolean}
          */
-        QueryRequest.prototype.Profiles = false;
+        QueryRequest.prototype.ColumnAttrs = false;
 
         /**
          * QueryRequest Quantum.
@@ -1558,22 +1551,20 @@ $root.internal = (function() {
         QueryRequest.encode = function encode(message, writer) {
             if (!writer)
                 writer = $Writer.create();
-            if (message.DB != null && message.hasOwnProperty("DB"))
-                writer.uint32(/* id 1, wireType 2 =*/10).string(message.DB);
             if (message.Query != null && message.hasOwnProperty("Query"))
-                writer.uint32(/* id 2, wireType 2 =*/18).string(message.Query);
+                writer.uint32(/* id 1, wireType 2 =*/10).string(message.Query);
             if (message.Slices != null && message.Slices.length) {
-                writer.uint32(/* id 3, wireType 2 =*/26).fork();
+                writer.uint32(/* id 2, wireType 2 =*/18).fork();
                 for (var i = 0; i < message.Slices.length; ++i)
                     writer.uint64(message.Slices[i]);
                 writer.ldelim();
             }
-            if (message.Profiles != null && message.hasOwnProperty("Profiles"))
-                writer.uint32(/* id 4, wireType 0 =*/32).bool(message.Profiles);
+            if (message.ColumnAttrs != null && message.hasOwnProperty("ColumnAttrs"))
+                writer.uint32(/* id 3, wireType 0 =*/24).bool(message.ColumnAttrs);
             if (message.Quantum != null && message.hasOwnProperty("Quantum"))
-                writer.uint32(/* id 5, wireType 2 =*/42).string(message.Quantum);
+                writer.uint32(/* id 4, wireType 2 =*/34).string(message.Quantum);
             if (message.Remote != null && message.hasOwnProperty("Remote"))
-                writer.uint32(/* id 6, wireType 0 =*/48).bool(message.Remote);
+                writer.uint32(/* id 5, wireType 0 =*/40).bool(message.Remote);
             return writer;
         };
 
@@ -1603,12 +1594,9 @@ $root.internal = (function() {
                 var tag = reader.uint32();
                 switch (tag >>> 3) {
                 case 1:
-                    message.DB = reader.string();
-                    break;
-                case 2:
                     message.Query = reader.string();
                     break;
-                case 3:
+                case 2:
                     if (!(message.Slices && message.Slices.length))
                         message.Slices = [];
                     if ((tag & 7) === 2) {
@@ -1618,13 +1606,13 @@ $root.internal = (function() {
                     } else
                         message.Slices.push(reader.uint64());
                     break;
-                case 4:
-                    message.Profiles = reader.bool();
+                case 3:
+                    message.ColumnAttrs = reader.bool();
                     break;
-                case 5:
+                case 4:
                     message.Quantum = reader.string();
                     break;
-                case 6:
+                case 5:
                     message.Remote = reader.bool();
                     break;
                 default:
@@ -1656,9 +1644,6 @@ $root.internal = (function() {
         QueryRequest.verify = function verify(message) {
             if (typeof message !== "object" || message === null)
                 return "object expected";
-            if (message.DB != null && message.hasOwnProperty("DB"))
-                if (!$util.isString(message.DB))
-                    return "DB: string expected";
             if (message.Query != null && message.hasOwnProperty("Query"))
                 if (!$util.isString(message.Query))
                     return "Query: string expected";
@@ -1669,9 +1654,9 @@ $root.internal = (function() {
                     if (!$util.isInteger(message.Slices[i]) && !(message.Slices[i] && $util.isInteger(message.Slices[i].low) && $util.isInteger(message.Slices[i].high)))
                         return "Slices: integer|Long[] expected";
             }
-            if (message.Profiles != null && message.hasOwnProperty("Profiles"))
-                if (typeof message.Profiles !== "boolean")
-                    return "Profiles: boolean expected";
+            if (message.ColumnAttrs != null && message.hasOwnProperty("ColumnAttrs"))
+                if (typeof message.ColumnAttrs !== "boolean")
+                    return "ColumnAttrs: boolean expected";
             if (message.Quantum != null && message.hasOwnProperty("Quantum"))
                 if (!$util.isString(message.Quantum))
                     return "Quantum: string expected";
@@ -1690,8 +1675,6 @@ $root.internal = (function() {
             if (object instanceof $root.internal.QueryRequest)
                 return object;
             var message = new $root.internal.QueryRequest();
-            if (object.DB != null)
-                message.DB = String(object.DB);
             if (object.Query != null)
                 message.Query = String(object.Query);
             if (object.Slices) {
@@ -1708,8 +1691,8 @@ $root.internal = (function() {
                     else if (typeof object.Slices[i] === "object")
                         message.Slices[i] = new $util.LongBits(object.Slices[i].low >>> 0, object.Slices[i].high >>> 0).toNumber(true);
             }
-            if (object.Profiles != null)
-                message.Profiles = Boolean(object.Profiles);
+            if (object.ColumnAttrs != null)
+                message.ColumnAttrs = Boolean(object.ColumnAttrs);
             if (object.Quantum != null)
                 message.Quantum = String(object.Quantum);
             if (object.Remote != null)
@@ -1739,14 +1722,11 @@ $root.internal = (function() {
             if (options.arrays || options.defaults)
                 object.Slices = [];
             if (options.defaults) {
-                object.DB = "";
                 object.Query = "";
-                object.Profiles = false;
+                object.ColumnAttrs = false;
                 object.Quantum = "";
                 object.Remote = false;
             }
-            if (message.DB != null && message.hasOwnProperty("DB"))
-                object.DB = message.DB;
             if (message.Query != null && message.hasOwnProperty("Query"))
                 object.Query = message.Query;
             if (message.Slices && message.Slices.length) {
@@ -1757,8 +1737,8 @@ $root.internal = (function() {
                     else
                         object.Slices[j] = options.longs === String ? $util.Long.prototype.toString.call(message.Slices[j]) : options.longs === Number ? new $util.LongBits(message.Slices[j].low >>> 0, message.Slices[j].high >>> 0).toNumber(true) : message.Slices[j];
             }
-            if (message.Profiles != null && message.hasOwnProperty("Profiles"))
-                object.Profiles = message.Profiles;
+            if (message.ColumnAttrs != null && message.hasOwnProperty("ColumnAttrs"))
+                object.ColumnAttrs = message.ColumnAttrs;
             if (message.Quantum != null && message.hasOwnProperty("Quantum"))
                 object.Quantum = message.Quantum;
             if (message.Remote != null && message.hasOwnProperty("Remote"))
@@ -1794,7 +1774,7 @@ $root.internal = (function() {
          * @type {Object}
          * @property {string} [Err] QueryResponse Err.
          * @property {Array.<internal.QueryResult$Properties>} [Results] QueryResponse Results.
-         * @property {Array.<internal.Profile$Properties>} [Profiles] QueryResponse Profiles.
+         * @property {Array.<internal.ColumnAttrSet$Properties>} [ColumnAttrSets] QueryResponse ColumnAttrSets.
          */
 
         /**
@@ -1805,7 +1785,7 @@ $root.internal = (function() {
          */
         function QueryResponse(properties) {
             this.Results = [];
-            this.Profiles = [];
+            this.ColumnAttrSets = [];
             if (properties)
                 for (var keys = Object.keys(properties), i = 0; i < keys.length; ++i)
                     if (properties[keys[i]] != null)
@@ -1825,10 +1805,10 @@ $root.internal = (function() {
         QueryResponse.prototype.Results = $util.emptyArray;
 
         /**
-         * QueryResponse Profiles.
-         * @type {Array.<internal.Profile$Properties>}
+         * QueryResponse ColumnAttrSets.
+         * @type {Array.<internal.ColumnAttrSet$Properties>}
          */
-        QueryResponse.prototype.Profiles = $util.emptyArray;
+        QueryResponse.prototype.ColumnAttrSets = $util.emptyArray;
 
         /**
          * Creates a new QueryResponse instance using the specified properties.
@@ -1853,9 +1833,9 @@ $root.internal = (function() {
             if (message.Results != null && message.Results.length)
                 for (var i = 0; i < message.Results.length; ++i)
                     $root.internal.QueryResult.encode(message.Results[i], writer.uint32(/* id 2, wireType 2 =*/18).fork()).ldelim();
-            if (message.Profiles != null && message.Profiles.length)
-                for (var i = 0; i < message.Profiles.length; ++i)
-                    $root.internal.Profile.encode(message.Profiles[i], writer.uint32(/* id 3, wireType 2 =*/26).fork()).ldelim();
+            if (message.ColumnAttrSets != null && message.ColumnAttrSets.length)
+                for (var i = 0; i < message.ColumnAttrSets.length; ++i)
+                    $root.internal.ColumnAttrSet.encode(message.ColumnAttrSets[i], writer.uint32(/* id 3, wireType 2 =*/26).fork()).ldelim();
             return writer;
         };
 
@@ -1893,9 +1873,9 @@ $root.internal = (function() {
                     message.Results.push($root.internal.QueryResult.decode(reader, reader.uint32()));
                     break;
                 case 3:
-                    if (!(message.Profiles && message.Profiles.length))
-                        message.Profiles = [];
-                    message.Profiles.push($root.internal.Profile.decode(reader, reader.uint32()));
+                    if (!(message.ColumnAttrSets && message.ColumnAttrSets.length))
+                        message.ColumnAttrSets = [];
+                    message.ColumnAttrSets.push($root.internal.ColumnAttrSet.decode(reader, reader.uint32()));
                     break;
                 default:
                     reader.skipType(tag & 7);
@@ -1938,13 +1918,13 @@ $root.internal = (function() {
                         return "Results." + error;
                 }
             }
-            if (message.Profiles != null && message.hasOwnProperty("Profiles")) {
-                if (!Array.isArray(message.Profiles))
-                    return "Profiles: array expected";
-                for (var i = 0; i < message.Profiles.length; ++i) {
-                    var error = $root.internal.Profile.verify(message.Profiles[i]);
+            if (message.ColumnAttrSets != null && message.hasOwnProperty("ColumnAttrSets")) {
+                if (!Array.isArray(message.ColumnAttrSets))
+                    return "ColumnAttrSets: array expected";
+                for (var i = 0; i < message.ColumnAttrSets.length; ++i) {
+                    var error = $root.internal.ColumnAttrSet.verify(message.ColumnAttrSets[i]);
                     if (error)
-                        return "Profiles." + error;
+                        return "ColumnAttrSets." + error;
                 }
             }
             return null;
@@ -1971,14 +1951,14 @@ $root.internal = (function() {
                     message.Results[i] = $root.internal.QueryResult.fromObject(object.Results[i]);
                 }
             }
-            if (object.Profiles) {
-                if (!Array.isArray(object.Profiles))
-                    throw TypeError(".internal.QueryResponse.Profiles: array expected");
-                message.Profiles = [];
-                for (var i = 0; i < object.Profiles.length; ++i) {
-                    if (typeof object.Profiles[i] !== "object")
-                        throw TypeError(".internal.QueryResponse.Profiles: object expected");
-                    message.Profiles[i] = $root.internal.Profile.fromObject(object.Profiles[i]);
+            if (object.ColumnAttrSets) {
+                if (!Array.isArray(object.ColumnAttrSets))
+                    throw TypeError(".internal.QueryResponse.ColumnAttrSets: array expected");
+                message.ColumnAttrSets = [];
+                for (var i = 0; i < object.ColumnAttrSets.length; ++i) {
+                    if (typeof object.ColumnAttrSets[i] !== "object")
+                        throw TypeError(".internal.QueryResponse.ColumnAttrSets: object expected");
+                    message.ColumnAttrSets[i] = $root.internal.ColumnAttrSet.fromObject(object.ColumnAttrSets[i]);
                 }
             }
             return message;
@@ -2005,7 +1985,7 @@ $root.internal = (function() {
             var object = {};
             if (options.arrays || options.defaults) {
                 object.Results = [];
-                object.Profiles = [];
+                object.ColumnAttrSets = [];
             }
             if (options.defaults)
                 object.Err = "";
@@ -2016,10 +1996,10 @@ $root.internal = (function() {
                 for (var j = 0; j < message.Results.length; ++j)
                     object.Results[j] = $root.internal.QueryResult.toObject(message.Results[j], options);
             }
-            if (message.Profiles && message.Profiles.length) {
-                object.Profiles = [];
-                for (var j = 0; j < message.Profiles.length; ++j)
-                    object.Profiles[j] = $root.internal.Profile.toObject(message.Profiles[j], options);
+            if (message.ColumnAttrSets && message.ColumnAttrSets.length) {
+                object.ColumnAttrSets = [];
+                for (var j = 0; j < message.ColumnAttrSets.length; ++j)
+                    object.ColumnAttrSets[j] = $root.internal.ColumnAttrSet.toObject(message.ColumnAttrSets[j], options);
             }
             return object;
         };
@@ -2326,11 +2306,11 @@ $root.internal = (function() {
          * Properties of an ImportRequest.
          * @typedef internal.ImportRequest$Properties
          * @type {Object}
-         * @property {string} [DB] ImportRequest DB.
+         * @property {string} [Index] ImportRequest Index.
          * @property {string} [Frame] ImportRequest Frame.
          * @property {number|Long} [Slice] ImportRequest Slice.
-         * @property {Array.<number|Long>} [BitmapIDs] ImportRequest BitmapIDs.
-         * @property {Array.<number|Long>} [ProfileIDs] ImportRequest ProfileIDs.
+         * @property {Array.<number|Long>} [RowIDs] ImportRequest RowIDs.
+         * @property {Array.<number|Long>} [ColumnIDs] ImportRequest ColumnIDs.
          * @property {Array.<number|Long>} [Timestamps] ImportRequest Timestamps.
          */
 
@@ -2341,8 +2321,8 @@ $root.internal = (function() {
          * @param {internal.ImportRequest$Properties=} [properties] Properties to set
          */
         function ImportRequest(properties) {
-            this.BitmapIDs = [];
-            this.ProfileIDs = [];
+            this.RowIDs = [];
+            this.ColumnIDs = [];
             this.Timestamps = [];
             if (properties)
                 for (var keys = Object.keys(properties), i = 0; i < keys.length; ++i)
@@ -2351,10 +2331,10 @@ $root.internal = (function() {
         }
 
         /**
-         * ImportRequest DB.
+         * ImportRequest Index.
          * @type {string}
          */
-        ImportRequest.prototype.DB = "";
+        ImportRequest.prototype.Index = "";
 
         /**
          * ImportRequest Frame.
@@ -2369,16 +2349,16 @@ $root.internal = (function() {
         ImportRequest.prototype.Slice = $util.Long ? $util.Long.fromBits(0,0,true) : 0;
 
         /**
-         * ImportRequest BitmapIDs.
+         * ImportRequest RowIDs.
          * @type {Array.<number|Long>}
          */
-        ImportRequest.prototype.BitmapIDs = $util.emptyArray;
+        ImportRequest.prototype.RowIDs = $util.emptyArray;
 
         /**
-         * ImportRequest ProfileIDs.
+         * ImportRequest ColumnIDs.
          * @type {Array.<number|Long>}
          */
-        ImportRequest.prototype.ProfileIDs = $util.emptyArray;
+        ImportRequest.prototype.ColumnIDs = $util.emptyArray;
 
         /**
          * ImportRequest Timestamps.
@@ -2404,22 +2384,22 @@ $root.internal = (function() {
         ImportRequest.encode = function encode(message, writer) {
             if (!writer)
                 writer = $Writer.create();
-            if (message.DB != null && message.hasOwnProperty("DB"))
-                writer.uint32(/* id 1, wireType 2 =*/10).string(message.DB);
+            if (message.Index != null && message.hasOwnProperty("Index"))
+                writer.uint32(/* id 1, wireType 2 =*/10).string(message.Index);
             if (message.Frame != null && message.hasOwnProperty("Frame"))
                 writer.uint32(/* id 2, wireType 2 =*/18).string(message.Frame);
             if (message.Slice != null && message.hasOwnProperty("Slice"))
                 writer.uint32(/* id 3, wireType 0 =*/24).uint64(message.Slice);
-            if (message.BitmapIDs != null && message.BitmapIDs.length) {
+            if (message.RowIDs != null && message.RowIDs.length) {
                 writer.uint32(/* id 4, wireType 2 =*/34).fork();
-                for (var i = 0; i < message.BitmapIDs.length; ++i)
-                    writer.uint64(message.BitmapIDs[i]);
+                for (var i = 0; i < message.RowIDs.length; ++i)
+                    writer.uint64(message.RowIDs[i]);
                 writer.ldelim();
             }
-            if (message.ProfileIDs != null && message.ProfileIDs.length) {
+            if (message.ColumnIDs != null && message.ColumnIDs.length) {
                 writer.uint32(/* id 5, wireType 2 =*/42).fork();
-                for (var i = 0; i < message.ProfileIDs.length; ++i)
-                    writer.uint64(message.ProfileIDs[i]);
+                for (var i = 0; i < message.ColumnIDs.length; ++i)
+                    writer.uint64(message.ColumnIDs[i]);
                 writer.ldelim();
             }
             if (message.Timestamps != null && message.Timestamps.length) {
@@ -2457,7 +2437,7 @@ $root.internal = (function() {
                 var tag = reader.uint32();
                 switch (tag >>> 3) {
                 case 1:
-                    message.DB = reader.string();
+                    message.Index = reader.string();
                     break;
                 case 2:
                     message.Frame = reader.string();
@@ -2466,24 +2446,24 @@ $root.internal = (function() {
                     message.Slice = reader.uint64();
                     break;
                 case 4:
-                    if (!(message.BitmapIDs && message.BitmapIDs.length))
-                        message.BitmapIDs = [];
+                    if (!(message.RowIDs && message.RowIDs.length))
+                        message.RowIDs = [];
                     if ((tag & 7) === 2) {
                         var end2 = reader.uint32() + reader.pos;
                         while (reader.pos < end2)
-                            message.BitmapIDs.push(reader.uint64());
+                            message.RowIDs.push(reader.uint64());
                     } else
-                        message.BitmapIDs.push(reader.uint64());
+                        message.RowIDs.push(reader.uint64());
                     break;
                 case 5:
-                    if (!(message.ProfileIDs && message.ProfileIDs.length))
-                        message.ProfileIDs = [];
+                    if (!(message.ColumnIDs && message.ColumnIDs.length))
+                        message.ColumnIDs = [];
                     if ((tag & 7) === 2) {
                         var end2 = reader.uint32() + reader.pos;
                         while (reader.pos < end2)
-                            message.ProfileIDs.push(reader.uint64());
+                            message.ColumnIDs.push(reader.uint64());
                     } else
-                        message.ProfileIDs.push(reader.uint64());
+                        message.ColumnIDs.push(reader.uint64());
                     break;
                 case 6:
                     if (!(message.Timestamps && message.Timestamps.length))
@@ -2524,28 +2504,28 @@ $root.internal = (function() {
         ImportRequest.verify = function verify(message) {
             if (typeof message !== "object" || message === null)
                 return "object expected";
-            if (message.DB != null && message.hasOwnProperty("DB"))
-                if (!$util.isString(message.DB))
-                    return "DB: string expected";
+            if (message.Index != null && message.hasOwnProperty("Index"))
+                if (!$util.isString(message.Index))
+                    return "Index: string expected";
             if (message.Frame != null && message.hasOwnProperty("Frame"))
                 if (!$util.isString(message.Frame))
                     return "Frame: string expected";
             if (message.Slice != null && message.hasOwnProperty("Slice"))
                 if (!$util.isInteger(message.Slice) && !(message.Slice && $util.isInteger(message.Slice.low) && $util.isInteger(message.Slice.high)))
                     return "Slice: integer|Long expected";
-            if (message.BitmapIDs != null && message.hasOwnProperty("BitmapIDs")) {
-                if (!Array.isArray(message.BitmapIDs))
-                    return "BitmapIDs: array expected";
-                for (var i = 0; i < message.BitmapIDs.length; ++i)
-                    if (!$util.isInteger(message.BitmapIDs[i]) && !(message.BitmapIDs[i] && $util.isInteger(message.BitmapIDs[i].low) && $util.isInteger(message.BitmapIDs[i].high)))
-                        return "BitmapIDs: integer|Long[] expected";
+            if (message.RowIDs != null && message.hasOwnProperty("RowIDs")) {
+                if (!Array.isArray(message.RowIDs))
+                    return "RowIDs: array expected";
+                for (var i = 0; i < message.RowIDs.length; ++i)
+                    if (!$util.isInteger(message.RowIDs[i]) && !(message.RowIDs[i] && $util.isInteger(message.RowIDs[i].low) && $util.isInteger(message.RowIDs[i].high)))
+                        return "RowIDs: integer|Long[] expected";
             }
-            if (message.ProfileIDs != null && message.hasOwnProperty("ProfileIDs")) {
-                if (!Array.isArray(message.ProfileIDs))
-                    return "ProfileIDs: array expected";
-                for (var i = 0; i < message.ProfileIDs.length; ++i)
-                    if (!$util.isInteger(message.ProfileIDs[i]) && !(message.ProfileIDs[i] && $util.isInteger(message.ProfileIDs[i].low) && $util.isInteger(message.ProfileIDs[i].high)))
-                        return "ProfileIDs: integer|Long[] expected";
+            if (message.ColumnIDs != null && message.hasOwnProperty("ColumnIDs")) {
+                if (!Array.isArray(message.ColumnIDs))
+                    return "ColumnIDs: array expected";
+                for (var i = 0; i < message.ColumnIDs.length; ++i)
+                    if (!$util.isInteger(message.ColumnIDs[i]) && !(message.ColumnIDs[i] && $util.isInteger(message.ColumnIDs[i].low) && $util.isInteger(message.ColumnIDs[i].high)))
+                        return "ColumnIDs: integer|Long[] expected";
             }
             if (message.Timestamps != null && message.hasOwnProperty("Timestamps")) {
                 if (!Array.isArray(message.Timestamps))
@@ -2566,8 +2546,8 @@ $root.internal = (function() {
             if (object instanceof $root.internal.ImportRequest)
                 return object;
             var message = new $root.internal.ImportRequest();
-            if (object.DB != null)
-                message.DB = String(object.DB);
+            if (object.Index != null)
+                message.Index = String(object.Index);
             if (object.Frame != null)
                 message.Frame = String(object.Frame);
             if (object.Slice != null)
@@ -2579,33 +2559,33 @@ $root.internal = (function() {
                     message.Slice = object.Slice;
                 else if (typeof object.Slice === "object")
                     message.Slice = new $util.LongBits(object.Slice.low >>> 0, object.Slice.high >>> 0).toNumber(true);
-            if (object.BitmapIDs) {
-                if (!Array.isArray(object.BitmapIDs))
-                    throw TypeError(".internal.ImportRequest.BitmapIDs: array expected");
-                message.BitmapIDs = [];
-                for (var i = 0; i < object.BitmapIDs.length; ++i)
+            if (object.RowIDs) {
+                if (!Array.isArray(object.RowIDs))
+                    throw TypeError(".internal.ImportRequest.RowIDs: array expected");
+                message.RowIDs = [];
+                for (var i = 0; i < object.RowIDs.length; ++i)
                     if ($util.Long)
-                        (message.BitmapIDs[i] = $util.Long.fromValue(object.BitmapIDs[i])).unsigned = true;
-                    else if (typeof object.BitmapIDs[i] === "string")
-                        message.BitmapIDs[i] = parseInt(object.BitmapIDs[i], 10);
-                    else if (typeof object.BitmapIDs[i] === "number")
-                        message.BitmapIDs[i] = object.BitmapIDs[i];
-                    else if (typeof object.BitmapIDs[i] === "object")
-                        message.BitmapIDs[i] = new $util.LongBits(object.BitmapIDs[i].low >>> 0, object.BitmapIDs[i].high >>> 0).toNumber(true);
+                        (message.RowIDs[i] = $util.Long.fromValue(object.RowIDs[i])).unsigned = true;
+                    else if (typeof object.RowIDs[i] === "string")
+                        message.RowIDs[i] = parseInt(object.RowIDs[i], 10);
+                    else if (typeof object.RowIDs[i] === "number")
+                        message.RowIDs[i] = object.RowIDs[i];
+                    else if (typeof object.RowIDs[i] === "object")
+                        message.RowIDs[i] = new $util.LongBits(object.RowIDs[i].low >>> 0, object.RowIDs[i].high >>> 0).toNumber(true);
             }
-            if (object.ProfileIDs) {
-                if (!Array.isArray(object.ProfileIDs))
-                    throw TypeError(".internal.ImportRequest.ProfileIDs: array expected");
-                message.ProfileIDs = [];
-                for (var i = 0; i < object.ProfileIDs.length; ++i)
+            if (object.ColumnIDs) {
+                if (!Array.isArray(object.ColumnIDs))
+                    throw TypeError(".internal.ImportRequest.ColumnIDs: array expected");
+                message.ColumnIDs = [];
+                for (var i = 0; i < object.ColumnIDs.length; ++i)
                     if ($util.Long)
-                        (message.ProfileIDs[i] = $util.Long.fromValue(object.ProfileIDs[i])).unsigned = true;
-                    else if (typeof object.ProfileIDs[i] === "string")
-                        message.ProfileIDs[i] = parseInt(object.ProfileIDs[i], 10);
-                    else if (typeof object.ProfileIDs[i] === "number")
-                        message.ProfileIDs[i] = object.ProfileIDs[i];
-                    else if (typeof object.ProfileIDs[i] === "object")
-                        message.ProfileIDs[i] = new $util.LongBits(object.ProfileIDs[i].low >>> 0, object.ProfileIDs[i].high >>> 0).toNumber(true);
+                        (message.ColumnIDs[i] = $util.Long.fromValue(object.ColumnIDs[i])).unsigned = true;
+                    else if (typeof object.ColumnIDs[i] === "string")
+                        message.ColumnIDs[i] = parseInt(object.ColumnIDs[i], 10);
+                    else if (typeof object.ColumnIDs[i] === "number")
+                        message.ColumnIDs[i] = object.ColumnIDs[i];
+                    else if (typeof object.ColumnIDs[i] === "object")
+                        message.ColumnIDs[i] = new $util.LongBits(object.ColumnIDs[i].low >>> 0, object.ColumnIDs[i].high >>> 0).toNumber(true);
             }
             if (object.Timestamps) {
                 if (!Array.isArray(object.Timestamps))
@@ -2644,12 +2624,12 @@ $root.internal = (function() {
                 options = {};
             var object = {};
             if (options.arrays || options.defaults) {
-                object.BitmapIDs = [];
-                object.ProfileIDs = [];
+                object.RowIDs = [];
+                object.ColumnIDs = [];
                 object.Timestamps = [];
             }
             if (options.defaults) {
-                object.DB = "";
+                object.Index = "";
                 object.Frame = "";
                 if ($util.Long) {
                     var long = new $util.Long(0, 0, true);
@@ -2657,8 +2637,8 @@ $root.internal = (function() {
                 } else
                     object.Slice = options.longs === String ? "0" : 0;
             }
-            if (message.DB != null && message.hasOwnProperty("DB"))
-                object.DB = message.DB;
+            if (message.Index != null && message.hasOwnProperty("Index"))
+                object.Index = message.Index;
             if (message.Frame != null && message.hasOwnProperty("Frame"))
                 object.Frame = message.Frame;
             if (message.Slice != null && message.hasOwnProperty("Slice"))
@@ -2666,21 +2646,21 @@ $root.internal = (function() {
                     object.Slice = options.longs === String ? String(message.Slice) : message.Slice;
                 else
                     object.Slice = options.longs === String ? $util.Long.prototype.toString.call(message.Slice) : options.longs === Number ? new $util.LongBits(message.Slice.low >>> 0, message.Slice.high >>> 0).toNumber(true) : message.Slice;
-            if (message.BitmapIDs && message.BitmapIDs.length) {
-                object.BitmapIDs = [];
-                for (var j = 0; j < message.BitmapIDs.length; ++j)
-                    if (typeof message.BitmapIDs[j] === "number")
-                        object.BitmapIDs[j] = options.longs === String ? String(message.BitmapIDs[j]) : message.BitmapIDs[j];
+            if (message.RowIDs && message.RowIDs.length) {
+                object.RowIDs = [];
+                for (var j = 0; j < message.RowIDs.length; ++j)
+                    if (typeof message.RowIDs[j] === "number")
+                        object.RowIDs[j] = options.longs === String ? String(message.RowIDs[j]) : message.RowIDs[j];
                     else
-                        object.BitmapIDs[j] = options.longs === String ? $util.Long.prototype.toString.call(message.BitmapIDs[j]) : options.longs === Number ? new $util.LongBits(message.BitmapIDs[j].low >>> 0, message.BitmapIDs[j].high >>> 0).toNumber(true) : message.BitmapIDs[j];
+                        object.RowIDs[j] = options.longs === String ? $util.Long.prototype.toString.call(message.RowIDs[j]) : options.longs === Number ? new $util.LongBits(message.RowIDs[j].low >>> 0, message.RowIDs[j].high >>> 0).toNumber(true) : message.RowIDs[j];
             }
-            if (message.ProfileIDs && message.ProfileIDs.length) {
-                object.ProfileIDs = [];
-                for (var j = 0; j < message.ProfileIDs.length; ++j)
-                    if (typeof message.ProfileIDs[j] === "number")
-                        object.ProfileIDs[j] = options.longs === String ? String(message.ProfileIDs[j]) : message.ProfileIDs[j];
+            if (message.ColumnIDs && message.ColumnIDs.length) {
+                object.ColumnIDs = [];
+                for (var j = 0; j < message.ColumnIDs.length; ++j)
+                    if (typeof message.ColumnIDs[j] === "number")
+                        object.ColumnIDs[j] = options.longs === String ? String(message.ColumnIDs[j]) : message.ColumnIDs[j];
                     else
-                        object.ProfileIDs[j] = options.longs === String ? $util.Long.prototype.toString.call(message.ProfileIDs[j]) : options.longs === Number ? new $util.LongBits(message.ProfileIDs[j].low >>> 0, message.ProfileIDs[j].high >>> 0).toNumber(true) : message.ProfileIDs[j];
+                        object.ColumnIDs[j] = options.longs === String ? $util.Long.prototype.toString.call(message.ColumnIDs[j]) : options.longs === Number ? new $util.LongBits(message.ColumnIDs[j].low >>> 0, message.ColumnIDs[j].high >>> 0).toNumber(true) : message.ColumnIDs[j];
             }
             if (message.Timestamps && message.Timestamps.length) {
                 object.Timestamps = [];
