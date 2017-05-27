@@ -4,3 +4,4 @@ coverage
 lib/
 .dockerignore
 Dockerfile*
+npm-debug.log

@@ -3,3 +3,4 @@ Dockerfile*
 .autosrc*
 coverage
 .nyc_output/
+npm-debug.log
