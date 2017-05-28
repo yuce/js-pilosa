@@ -55,6 +55,9 @@ describe('Index', () => {
 
         const qry3 = sampleDb.union(b1, b4);
         expect(qry3.serialize()).equal("Union(Bitmap(id=10, frame='sample-frame'), Bitmap(project=2, frame='collaboration'))");
+
+        const qry4 = sampleDb.union();
+        expect(qry4.serialize()).equal("Union()");
     });
 
     it('can create Intersect queries', () => {
@@ -66,6 +69,11 @@ describe('Index', () => {
 
         const qry3 = sampleDb.intersect(b1, b4);
         expect(qry3.serialize()).equal("Intersect(Bitmap(id=10, frame='sample-frame'), Bitmap(project=2, frame='collaboration'))");
+
+        const qry4 = sampleDb.intersect(b1);
+        expect(qry4.serialize()).equal("Intersect(Bitmap(id=10, frame='sample-frame'))");
+
+        expect(() => sampleDb.intersect()).throw();
     });
 
     it('can create Difference queries', () => {
@@ -77,6 +85,8 @@ describe('Index', () => {
 
         const qry3 = sampleDb.difference(b1, b4);
         expect(qry3.serialize()).equal("Difference(Bitmap(id=10, frame='sample-frame'), Bitmap(project=2, frame='collaboration'))");
+
+        expect(() => sampleDb.difference()).throw();
     });
 
     it('can create Count queries', () => {
@@ -95,12 +105,29 @@ describe('Frame', () => {
         expect(qry2.serialize()).equal("Bitmap(project=10, frame='collaboration')");
     });
 
+    it('can create inverse Bitmap queries', () => {
+        const options: FrameOptions = {
+            rowLabel: "row_label",
+            inverseEnabled: true
+        }
+        const f1 = projectDb.frame("f1-inversable", options);
+        const qry = f1.inverseBitmap(5);
+        expect(qry.serialize()).equal("Bitmap(user=5, frame='f1-inversable')");
+    });
+
     it('can create SetBit queries', () => {
         const qry1 = sampleFrame.setBit(5, 10);
         expect(qry1.serialize()).equal("SetBit(id=5, frame='sample-frame', col_id=10)");
 
         const qry2 = collabFrame.setBit(10, 20);
         expect(qry2.serialize()).equal("SetBit(project=10, frame='collaboration', user=20)");
+        
+    });
+
+    it('can create SetBit queries with a timestamp', () => {
+        const timestamp = new Date(2017, 3, 24, 12, 14);
+        const qry = collabFrame.setBit(10, 20, timestamp);
+        expect(qry.serialize()).equal("SetBit(project=10, frame='collaboration', user=20, timestamp='2017-04-24T12:14')");
     });
 
     it('can create ClearBit queries', () => {
@@ -120,6 +147,13 @@ describe('Frame', () => {
 
         const q3 = sampleFrame.topN(12, collabFrame.bitmap(7), "category", 80, 81);
         expect(q3.serialize()).equal("TopN(Bitmap(project=7, frame='collaboration'), frame='sample-frame', n=12, field='category', [80,81])");
+    });
+
+    it('can create Range queries', () => {
+        const start = new Date(1970, 0, 1, 0, 0);
+        const end = new Date(2000, 1, 2, 3, 4);
+        const q = collabFrame.range(10, start, end);
+        expect(q.serialize()).equal("Range(project=10, frame='collaboration', start='1970-01-01T00:00', end='2000-02-02T03:04')");
     });
 });
 

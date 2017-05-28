@@ -34,6 +34,7 @@ DAMAGE.
 
 import {Validator} from "./validator";
 import {AttributeMap} from "./common";
+import { PilosaError } from "./error";
 
 
 export class Index {
@@ -59,16 +60,22 @@ export class Index {
         return new PqlBatchQuery(queries, this);
     }
 
-    union(bitmap1: PqlBitmapQuery, bitmap2: PqlBitmapQuery, ...bitmaps: Array<PqlBitmapQuery>): PqlBitmapQuery {
-        return this.bitmapOperation("Union", [bitmap1, bitmap2, ...bitmaps]);
+    union(...bitmaps: Array<PqlBitmapQuery>): PqlBitmapQuery {
+        return this.bitmapOperation("Union", [...bitmaps]);
     }
 
-    intersect(bitmap1: PqlBitmapQuery, bitmap2: PqlBitmapQuery, ...bitmaps: Array<PqlBitmapQuery>): PqlBitmapQuery {
-        return this.bitmapOperation("Intersect", [bitmap1, bitmap2, ...bitmaps]);
+    intersect(...bitmaps: Array<PqlBitmapQuery>): PqlBitmapQuery {
+        if (bitmaps.length < 1) {
+            throw PilosaError.generic("Number of bitmap queries should be greater or equal to 1");
+        }
+        return this.bitmapOperation("Intersect", [...bitmaps]);
     }
 
-    difference(bitmap1: PqlBitmapQuery, bitmap2: PqlBitmapQuery, ...bitmaps: Array<PqlBitmapQuery>): PqlBitmapQuery {
-        return this.bitmapOperation("Difference", [bitmap1, bitmap2, ...bitmaps]);
+    difference(...bitmaps: Array<PqlBitmapQuery>): PqlBitmapQuery {
+        if (bitmaps.length < 1) {
+            throw PilosaError.generic("Number of bitmap queries should be greater or equal to 1");
+        }
+        return this.bitmapOperation("Difference", [...bitmaps]);
     }
 
     count(bitmap: PqlBitmapQuery): PqlQuery {
@@ -101,11 +108,20 @@ export class Frame {
     /**
      * Creates a Bitmap query.
      *
-     * @param rowID bitmap ID
+     * @param rowID row ID
      * @return a PQL query
      */
     bitmap(rowID: number): PqlBitmapQuery {
         return new PqlBitmapQuery(`Bitmap(${this.rowLabel}=${rowID}, frame='${this.name}')`, this.index);
+    }
+
+    /**
+     * Creates a Bitmap query.
+     * @param columnID
+     * @return a PQL query
+     */
+    inverseBitmap(columnID: number): PqlQuery {
+        return new PqlBitmapQuery(`Bitmap(${this.columnLabel}=${columnID}, frame='${this.name}')`, this.index);
     }
 
     /**
@@ -115,8 +131,9 @@ export class Frame {
      * @param columnID column ID
      * @return a PQL query
      */
-    setBit(rowID: number, columnID: number): PqlQuery {
-        return new PqlBaseQuery(`SetBit(${this.rowLabel}=${rowID}, frame='${this.name}', ${this.columnLabel}=${columnID})`, this.index);
+    setBit(rowID: number, columnID: number, timestamp?: Date): PqlQuery {
+        const ts = timestamp? `, timestamp='${formatDateTime(timestamp)}'` : "";
+        return new PqlBaseQuery(`SetBit(${this.rowLabel}=${rowID}, frame='${this.name}', ${this.columnLabel}=${columnID}${ts})`, this.index);
     }
 
     /**
@@ -150,6 +167,13 @@ export class Frame {
             }
         }
         return new PqlBitmapQuery(s, this.index);
+    }
+
+    range(rowID: number, start: Date, end: Date): PqlBitmapQuery {
+        const startStr = formatDateTime(start);
+        const endStr = formatDateTime(end);
+        return new PqlBitmapQuery(`Range(${this.rowLabel}=${rowID}, frame='${this.name}', start='${startStr}', end='${endStr}')`,
+            this.index);
     }
 
     setRowAttrs(rowID: number, attrs: AttributeMap): PqlBitmapQuery {
@@ -277,4 +301,14 @@ function createAttributesString(attrs: AttributeMap) {
         attrsList.push(`${k}=${v}`);
     }
     return attrsList.join(", ");
+}
+
+function formatDateTime(dt: Date): string {
+    // TIME_FORMAT = "%Y-%m-%dT%H:%M"
+    const pfx = (n: number) => {
+        return (n < 10)? "0" + n : "" + n;
+    }
+    const dateStr = [dt.getFullYear(), pfx(dt.getMonth() + 1), pfx(dt.getDate())].join("-");
+    const hourStr = [pfx(dt.getHours()), pfx(dt.getMinutes())].join(":");
+    return `${dateStr}T${hourStr}`;
 }

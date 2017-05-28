@@ -1,6 +1,6 @@
 {
   "name": "pilosa",
-  "version": "0.3.2",
+  "version": "0.3.3",
   "description": "Javascript/Typescript client for Pilosa high performance distributed bitmap index",
   "main": "./lib/index.js",
   "types": "./lib/index.d.ts",

@@ -60,6 +60,7 @@ export class PilosaError {
     static frameExists(msg?: string) {
         return PilosaError.error("FRAME_EXISTS", msg);
     }
+
     static equals(e1: Error, e2: Error) {
         return e1.name == e2.name;
     }
