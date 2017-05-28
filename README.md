@@ -202,7 +202,7 @@ Index:
 Frame:
 
 * `bitmap(rowID: number): PqlBitmapQuery`
-* `setBit(rowID: number, columnID: number): PqlQuery`
+* `setBit(rowID: number, columnID: number, timestamp?: Date): PqlQuery`
 * `inverseBitmap(columnID: number): PqlQuery`
 * `clearBit(rowID: number, columnID: number): PqlQuery`
 * `topN(n: number, bitmap?: PqlBitmapQuery, field?: string, ...values: Array<any>): PqlBitmapQuery`
