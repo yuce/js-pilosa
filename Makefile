@@ -21,3 +21,6 @@ test:
 
 test-all:
 	npm run test-all
+
+coveralls:
+	nyc npm test-all && nyc report --reporter=text-lcov | coveralls
