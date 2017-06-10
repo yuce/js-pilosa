@@ -213,11 +213,13 @@ Index:
 Frame:
 
 * `bitmap(rowID: number): PqlBitmapQuery`
-* `setBit(rowID: number, columnID: number, timestamp?: Date): PqlQuery`
 * `inverseBitmap(columnID: number): PqlQuery`
+* `setBit(rowID: number, columnID: number, timestamp?: Date): PqlQuery`
 * `clearBit(rowID: number, columnID: number): PqlQuery`
 * `topN(n: number, bitmap?: PqlBitmapQuery, field?: string, ...values: Array<any>): PqlBitmapQuery`
+* `inverseTopN(n: number, bitmap?: PqlBitmapQuery, field?: string, ...values: Array<any>): PqlBitmapQuery`
 * `range(rowID: number, start: Date, end: Date): PqlBitmapQuery`
+* `inverseRange(columnID: number, start: Date, end: Date): PqlBitmapQuery`
 * `setRowAttrs(rowID: number, attrs: AttributeMap): PqlBitmapQuery`
 
 ### Pilosa URI
