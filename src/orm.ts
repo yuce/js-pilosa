@@ -39,13 +39,13 @@ import { PilosaError } from "./error";
 
 export class Index {
     constructor(readonly name: string, options: IndexOptions={}) {
-        this.columnLabel = options.columnLabel || "col_id";
+        this.columnLabel = options.columnLabel || "columnID";
         this.timeQuantum = options.timeQuantum || TimeQuantum.NONE;
     }
 
     frame(name: string, options: FrameOptions={}) {
         return _Frame.create(this, name,
-            options.rowLabel || "id",
+            options.rowLabel || "rowID",
             options.timeQuantum || TimeQuantum.NONE,
             options.inverseEnabled || false,
             options.cacheType || CacheType.DEFAULT,
@@ -157,22 +157,47 @@ export class Frame {
      * @return a PQL query
      */
     topN(n: number, bitmap?: PqlBitmapQuery, field?: string, ...values: Array<any>): PqlBitmapQuery {
-        let s = `TopN(frame='${this.name}', n=${n})`;
+        return this._topN(n, false, bitmap, field, ...values);
+    }
+
+    /**
+     * Creates a TopN query.
+     * 
+     * This variant sets inverse=true.
+     *
+     * @param bitmap the bitmap query
+     * @param n      number of items to return
+     * @param field  field name
+     * @param values filter values to be matched against the field
+     * @return a PQL query
+     */
+    inverseTopN(n: number, bitmap?: PqlBitmapQuery, field?: string, ...values: Array<any>): PqlBitmapQuery {
+        return this._topN(n, true, bitmap, field, ...values);
+    }
+
+    private _topN(n: number, inverse: boolean, bitmap?: PqlBitmapQuery, field?: string, ...values: Array<any>): PqlBitmapQuery {
+        let s = `frame='${this.name}', n=${n}, inverse=${inverse}`;
+        // let s = `TopN(frame='${this.name}', n=${n})`;
         if (bitmap !== undefined) {
+            s = `${bitmap.serialize()}, ${s}`;
             if (values !== undefined && field !== undefined) {
-                s = `TopN(${bitmap.serialize()}, frame='${this.name}', n=${n}, field='${field}', ${JSON.stringify(values)})`;
-            }
-            else {
-                s = `TopN(${bitmap.serialize()}, frame='${this.name}', n=${n})`;
+                s = `${s}, field='${field}', ${JSON.stringify(values)}`;
             }
         }
-        return new PqlBitmapQuery(s, this.index);
+        return new PqlBitmapQuery(`TopN(${s})`, this.index);
     }
 
     range(rowID: number, start: Date, end: Date): PqlBitmapQuery {
         const startStr = formatDateTime(start);
         const endStr = formatDateTime(end);
         return new PqlBitmapQuery(`Range(${this.rowLabel}=${rowID}, frame='${this.name}', start='${startStr}', end='${endStr}')`,
+            this.index);
+    }
+
+    inverseRange(columnID: number, start: Date, end: Date): PqlBitmapQuery {
+        const startStr = formatDateTime(start);
+        const endStr = formatDateTime(end);
+        return new PqlBitmapQuery(`Range(${this.columnLabel}=${columnID}, frame='${this.name}', start='${startStr}', end='${endStr}')`,
             this.index);
     }
 

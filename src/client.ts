@@ -243,7 +243,7 @@ export class Client {
             this.currentHost = this.cluster.getHost();
         }
         const scheme = this.currentHost.scheme;
-        if (scheme != "http") {
+        if (scheme != "http" && scheme != "https") {
             throw PilosaError.generic("Unknown scheme: " + scheme);
         }
         return this.currentHost;
