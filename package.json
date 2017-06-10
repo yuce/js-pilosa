@@ -1,12 +1,12 @@
 {
   "name": "pilosa",
-  "version": "0.3.3",
+  "version": "0.4.0",
   "description": "Javascript/Typescript client for Pilosa high performance distributed bitmap index",
   "main": "./lib/index.js",
   "types": "./lib/index.d.ts",
   "scripts": {
     "test": "cross-env NODE_ENV=test mocha --recursive --compilers ts:ts-node/register --bail test/*.spec.ts",
-    "test-all": "cross-env NODE_ENV=test mocha --recursive --compilers ts:ts-node/register --bail --timeout 4000 test/*.spec.ts integration-test/*.it.ts",
+    "test-all": "cross-env NODE_ENV=test mocha --recursive --compilers ts:ts-node/register --bail --timeout 11000 test/*.spec.ts integration-test/*.it.ts",
     "cover": "cross-env NODE_ENV=test nyc npm run test-all",
     "generate-proto": "pbjs -t static-module -w commonjs -o internal/internal.js internal/public.proto && pbts -o internal/internal.d.ts internal/internal.js"
   },

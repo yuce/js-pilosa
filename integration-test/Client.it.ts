@@ -230,13 +230,20 @@ describe('Client', () => {
     });
 
     it('can query topn', done => {
-        let frame = db.frame("topn_test");``
+        const sleep = (ms: number) => {
+            return new Promise((resolve, _) => {
+                setTimeout(_ => resolve(), ms);
+            });
+        }
+        let frame = db.frame("topn_test");
         client.query(db.batchQuery(
             frame.setBit(10, 5),
             frame.setBit(10, 10),
             frame.setBit(10, 15),
             frame.setBit(20, 5),
             frame.setBit(30, 5))).then(_ =>
+        // XXX: The following is required to make this test pass. See: https://github.com/pilosa/pilosa/issues/625
+        sleep(10000)).then(() =>
         client.query(frame.topN(2))).then(r => {
             expect(r.result).not.null;
             if (r.result) {

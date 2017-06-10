@@ -1,15 +1,24 @@
 # Javascript/Typescript Client for Pilosa
 
-<a href="https://github.com/pilosa"><img src="https://img.shields.io/badge/pilosa-v0.3.2-blue.svg"></a>
+<a href="https://github.com/pilosa"><img src="https://img.shields.io/badge/pilosa-v0.4.0-blue.svg"></a>
 <a href="https://www.npmjs.com/package/pilosa"><img src="https://img.shields.io/npm/v/pilosa.svg"></a>
 <a href="https://travis-ci.org/yuce/js-pilosa"><img src="https://api.travis-ci.org/yuce/js-pilosa.svg?branch=master"></a>
-
+<a href="https://coveralls.io/github/yuce/js-pilosa?branch=master"><img src="https://coveralls.io/repos/github/yuce/js-pilosa/badge.svg?branch=master"></a>
 
 <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/a/a7/Cute_Sloth.jpg/320px-Cute_Sloth.jpg" style="float: right" align="right" height="180">
 
-Javascript/Typescript client for Pilosa high performance distributed bitmap index.
+Javascript/Typescript client for [Pilosa](https://www.pilosa.com/) high performance distributed bitmap index.
 
 ## Change Log
+
+* **v0.4.0** (2017-06-10):
+    * Supports Pilosa Server v0.4.0.
+    * *Breaking Change*: Changed default row ID label to `rowID` and default column ID to `column ID`.
+    * Updated the accepted values for index, frame names and labels to match with the Pilosa server.
+    * `Union` queries accept 0 or more arguments. `Intersect` and `Difference` queries accept 1 or more arguments.
+    * Added `inverse TopN` and `inverse Range` calls.
+    * Inverse enabled status of frames is not checked on the client side.
+    * `https` scheme is allowed.
 
 * **v0.3.3** (2017-05-28):
     * Initial version.
